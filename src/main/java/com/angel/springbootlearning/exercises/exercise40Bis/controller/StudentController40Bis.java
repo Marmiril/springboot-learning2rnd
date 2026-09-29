@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -90,6 +91,18 @@ public class StudentController40Bis {
             .body(response);
     }
 
+    @PutMapping("/id")
+    public ResponseEntity<StudentResponse40Bis> updateStudent(
+            @PathVariable int id,
+            @RequestBody StudentRequest40Bis request) {
+                Student40Bis updatedStudent = studentService.updateStudent(id, request);
+                StudentResponse40Bis response = new StudentResponse40Bis(
+                    "Student with id: " + id + " updated successfully",
+                    updatedStudent
+                );
 
+                return ResponseEntity.ok(response);
+            }
+    
 
 }

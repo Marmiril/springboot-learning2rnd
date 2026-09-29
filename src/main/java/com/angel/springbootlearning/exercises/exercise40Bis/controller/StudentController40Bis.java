@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.angel.springbootlearning.exercises.exercise09.StudentResponseEntityController;
+import com.angel.springbootlearning.exercises.exercise40Bis.dto.StudentDeletionResponse40Bis;
 import com.angel.springbootlearning.exercises.exercise40Bis.dto.StudentListResponse40Bis;
 import com.angel.springbootlearning.exercises.exercise40Bis.dto.StudentRequest40Bis;
 import com.angel.springbootlearning.exercises.exercise40Bis.dto.StudentResponse40Bis;
@@ -137,7 +138,16 @@ public class StudentController40Bis {
         return ResponseEntity.ok(response);
     }
 
-    
+    @DeleteMapping(params = {"role", "!name"})
+    public ResponseEntity<StudentDeletionResponse40Bis> deleteStudentsByRole(@RequestParam String role) { 
+        List<Student40Bis> deletedStudents = studentService.deleteStudentsByRole(role);
+        StudentDeletionResponse40Bis response = new StudentDeletionResponse40Bis(
+            "Students with role: " + role + " deleted successfully",
+            deletedStudents,
+            deletedStudents.size()
+        );
+        return ResponseEntity.ok(response);
+    }
 
 
     

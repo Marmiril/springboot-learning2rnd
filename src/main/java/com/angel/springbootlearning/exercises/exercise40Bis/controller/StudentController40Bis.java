@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -100,9 +102,44 @@ public class StudentController40Bis {
                     "Student with id: " + id + " updated successfully",
                     updatedStudent
                 );
-
                 return ResponseEntity.ok(response);
             }
+    
+    @PatchMapping("/id")
+    public ResponseEntity<StudentResponse40Bis> patchStudent(
+        @PathVariable int id,
+        @RequestBody StudentRequest40Bis request) {
+            Student40Bis patchedStudent = studentService.patchStudent(id, request);
+            StudentResponse40Bis response = new StudentResponse40Bis(
+                "Student with id: " + id + " partially updated successfully",
+                patchedStudent
+            );
+            return ResponseEntity.ok(response);        
+    }
+
+    @DeleteMapping("/id")
+    public ResponseEntity<StudentResponse40Bis> deleteStudentById(@PathVariable int id) {
+        Student40Bis deletedStudent = studentService.deleteStudentById(id);
+        StudentResponse40Bis response = new StudentResponse40Bis(
+            "Student with id: " + id + " deleted successfully",
+            deletedStudent
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping(params = {"name", "!role"})
+    public ResponseEntity<StudentResponse40Bis> deleteStudentByName(@RequestParam String name) {
+        Student40Bis deletedStudent = studentService.deleteStudentByName(name);
+        StudentResponse40Bis response = new StudentResponse40Bis(
+            "Student with name: " + name + " deleted successfully",
+            deletedStudent
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    
+
+
     
 
 }

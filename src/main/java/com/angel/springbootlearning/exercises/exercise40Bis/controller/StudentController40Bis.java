@@ -2,16 +2,21 @@ package com.angel.springbootlearning.exercises.exercise40Bis.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.angel.springbootlearning.exercises.exercise09.StudentResponseEntityController;
 import com.angel.springbootlearning.exercises.exercise40Bis.dto.StudentListResponse40Bis;
+import com.angel.springbootlearning.exercises.exercise40Bis.dto.StudentRequest40Bis;
 import com.angel.springbootlearning.exercises.exercise40Bis.dto.StudentResponse40Bis;
+import com.angel.springbootlearning.exercises.exercise40Bis.exception.InvalidStudentRequestException40Bis;
 import com.angel.springbootlearning.exercises.exercise40Bis.model.Student40Bis;
 import com.angel.springbootlearning.exercises.exercise40Bis.service.StudentService40Bis;
 
@@ -68,7 +73,23 @@ public class StudentController40Bis {
             students
         );
         return ResponseEntity.ok(response);
-
-
     }
+
+    @GetMapping(params = {"!name", "!role"})
+    public void rejectCombinedGetFilters() { throw new InvalidStudentRequestException40Bis("Name and role filters cannot be used simultaneously"); }
+
+    @PostMapping 
+    public ResponseEntity<StudentResponse40Bis> createStudent(@RequestBody(required = false) StudentRequest40Bis request) {
+        Student40Bis createdStudent = studentService.createStudent(request);
+        StudentResponse40Bis response = new StudentResponse40Bis(
+            "Student created successfully",
+            createdStudent
+        );
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(response);
+    }
+
+
+
 }

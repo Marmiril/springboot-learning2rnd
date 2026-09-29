@@ -99,6 +99,11 @@ public class StudentService40Bis {
         studentRepository.deleteByName(name);
         return student;
     }
+    public List<Student40Bis> deleteStudentsByRole(String role) {
+        validateRequestField(role, "Role");
+        
+
+    }
            
     ///////////////////////////////////////////////
     

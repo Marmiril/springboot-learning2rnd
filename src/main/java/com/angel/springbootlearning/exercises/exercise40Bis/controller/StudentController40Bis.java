@@ -57,7 +57,18 @@ public class StudentController40Bis {
             "Student with name: " + name + " retrieved successfully",
             student
         );
-        return ResponseEntity.response(ok);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(params = {"!name", "role"})
+    public ResponseEntity<StudentListResponse40Bis> getStudentsByRole(@RequestParam String role) {
+        List<Student40Bis> students = studentService.getStudentsByRole(role);
+        StudentListResponse40Bis response = new StudentListResponse40Bis(
+            "Students with role: " + role + " retrieved successfully",
+            students
+        );
+        return ResponseEntity.ok(response);
+
 
     }
 }

@@ -1852,3 +1852,45 @@ DONE
 
 
 
+
+## Exercise 40 - Architecture Review
+
+**Purpose:**
+Review and consolidate a complete in-memory student CRUD through a canonical layered architecture, using custom exceptions and centralized HTTP error handling.
+
+**URLs:**
+http://localhost:8080/exercise40/students  
+http://localhost:8080/exercise40/students/{id}  
+http://localhost:8080/exercise40/students?name={name}  
+http://localhost:8080/exercise40/students?role={role}
+
+**HTTP methods:**
+GET, POST, PUT, PATCH, DELETE
+
+**Main concepts:**
+
+* Canonical architecture: Controller → Service → Repository.
+* Constructor dependency injection.
+* Separation between HTTP handling, business rules and in-memory persistence.
+* Custom exceptions extending `RuntimeException`.
+* Centralized exception handling with `@RestControllerAdvice`.
+* Exception mapping with `@ExceptionHandler`.
+* Structured error responses for HTTP 400, 404 and 409.
+* Request and response DTOs.
+* Required-field and duplicate-name validation in the service.
+* Search and deletion by ID, name and role.
+* Full updates with PUT and partial updates with PATCH.
+* Automatic ID and registration date.
+
+**Files:**
+`src/main/java/com/angel/springbootlearning/exercises/exercise40/`
+
+**Pending verification:**
+
+* Correct the path mapping used to retrieve a student by ID.
+* Correct the mappings that reject simultaneous `name` and `role` filters.
+* Add and run the complete REST Client request file.
+* Verify successful CRUD operations and HTTP 400, 404 and 409 responses.
+
+**Status:**
+IN PROGRESS

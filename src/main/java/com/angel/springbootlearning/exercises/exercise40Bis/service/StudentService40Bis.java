@@ -100,9 +100,8 @@ public class StudentService40Bis {
         return student;
     }
     public List<Student40Bis> deleteStudentsByRole(String role) {
-        validateRequestField(role, "Role");
-        
-
+        requireStudentsByRole(role);
+        return studentRepository.deleteByRole(role);
     }
            
     ///////////////////////////////////////////////
@@ -112,14 +111,12 @@ public class StudentService40Bis {
             .findById(id)
             .orElseThrow(() -> studentNotFoundById(id));
     }
-
     private Student40Bis requireStudentByName(String name) {
         validateRequestField(name, "Name");
         return studentRepository
             .findByName(name)
             .orElseThrow(() -> new StudentNotFoundException40Bis(name));
     }
-
     private List<Student40Bis> requireStudentsByRole(String role) {
         validateRequestField(role, "Role");
         List<Student40Bis> students = studentRepository.findByRole(role);
@@ -138,7 +135,6 @@ public class StudentService40Bis {
             .isPresent();
         if (duplicated) { throw new DuplicateStudentNameException40Bis("There is already a student with such name: " + name); }
     }
-
     private void validateRequestField(String value, String fieldName) {
         if (value == null || value.isBlank()) { throw new InvalidStudentRequestException40Bis(fieldName + " is required!"); }
     }
@@ -147,5 +143,4 @@ public class StudentService40Bis {
         validateRequestField(request.name(), "Name");
         validateRequestField(request.role(), "Role");
     }
-
 }

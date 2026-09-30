@@ -1963,4 +1963,33 @@ GET, POST, PUT, PATCH, DELETE
 * Verify successful CRUD operations and HTTP 400, 404 and 409 responses.
 
 **Status:**
-IN PROGRESS
+DONE
+
+## Exercise 42 - Input DTO
+
+**Purpose:**
+Define the data accepted when creating a student, separating client-provided fields from application-assigned fields.
+
+**URLs:**
+None.
+
+**HTTP methods:**
+None.
+
+**Main concepts:**
+
+* Input DTO.
+* Immutable Java record.
+* Creation request containing name and role.
+* Exclusion of application-assigned ID and registration date.
+
+**File:**
+`src/main/java/com/angel/springbootlearning/exs2/ex42/dto/CreateStudentRequest.java`
+
+**Tested cases:**
+
+* The project compiles successfully with `.\mvnw.cmd compile`.
+
+**Status:**
+DONE
+

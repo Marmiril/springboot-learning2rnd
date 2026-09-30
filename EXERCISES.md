@@ -2044,13 +2044,44 @@ None.
 **File:**
 `src/main/java/com/angel/springbootlearning/exs2/ex44/dto/UpdateStudentRequest.java`
 
+**Tested cases:**
+
+* The project compiles successfully with `.\mvnw.cmd compile`.
+
+**Status:**
+DONE
+
+
+
+
+## Exercise 45 - Domain Model vs DTO
+
+**Purpose:**
+Demonstrate the difference between received data, the internal student model and returned data through a console example.
+
+**URLs:**
+None.
+
+**HTTP methods:**
+None.
+
+**Main concepts:**
+
+* Input DTO contains client-provided fields.
+* Domain model contains the complete internal student data.
+* Output DTO contains the fields selected for the client.
+* Reuse of previously created records.
+* Object creation and field access.
+
+**File:**
+`src/main/java/com/angel/springbootlearning/exs2/ex45/DomainVsDtoDemo.java`
+
 **Pending verification:**
 
-* Compile the project with `.\mvnw.cmd compile`.
+* Run the main method.
+* Check that the request contains only name and role.
+* Check that the internal model includes ID and registration date.
+* Check that the response excludes registration date.
 
 **Status:**
 IN PROGRESS
-
-
-
-

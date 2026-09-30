@@ -149,7 +149,8 @@ public class StudentController40Bis {
         return ResponseEntity.ok(response);
     }
 
-
+    @DeleteMapping(params = {"!name", "!role"})
+    public void rejectedCombinedFilters() { throw new InvalidStudentRequestException40Bis("Name and role filters cannot be used simultaneously!"); }
     
 
 }

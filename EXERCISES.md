@@ -1993,3 +1993,64 @@ None.
 **Status:**
 DONE
 
+## Exercise 43 - Output DTO
+
+**Purpose:**
+Define the student data returned to the client independently of the internal domain model.
+
+**URLs:**
+None.
+
+**HTTP methods:**
+None.
+
+**Main concepts:**
+
+* Output DTO.
+* Immutable Java record.
+* Response containing student ID, name and role.
+* Separation between internal data and public response.
+* Exclusion of registration date from the response.
+
+**File:**
+`src/main/java/com/angel/springbootlearning/exs2/ex43/dto/StudentResponse.java`
+
+**Tested cases:**
+
+* The project compiles successfully with `.\mvnw.cmd compile`.
+
+**Status:**
+DONE
+
+## Exercise 44 - Update DTO
+
+**Purpose:**
+Define the editable fields accepted when updating an existing student.
+
+**URLs:**
+None.
+
+**HTTP methods:**
+None.
+
+**Main concepts:**
+
+* Update DTO.
+* Immutable Java record.
+* Separate request types for creation and update.
+* Editable name and role.
+* Exclusion of ID and registration date from the request.
+
+**File:**
+`src/main/java/com/angel/springbootlearning/exs2/ex44/dto/UpdateStudentRequest.java`
+
+**Pending verification:**
+
+* Compile the project with `.\mvnw.cmd compile`.
+
+**Status:**
+IN PROGRESS
+
+
+
+

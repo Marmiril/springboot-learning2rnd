@@ -11,6 +11,11 @@
 
 package com.angel.springbootlearning.exs2.ex41;
 
-public class Student41 {
-    
-}
+import java.time.LocalDateTime;
+
+public record Student41 (
+    int id,
+    String name,
+    String role, 
+    LocalDateTime regDate
+) {}

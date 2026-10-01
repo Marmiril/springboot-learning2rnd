@@ -7,14 +7,14 @@
  * URLs:
  * None.
  */
-package com.angel.springbootlearning.exs2.es47;
+package com.angel.springbootlearning.exs2.ex47;
 
 import java.time.LocalDateTime;
 
-import com.angel.springbootlearning.exs2.es47.dto.Res47;
-import com.angel.springbootlearning.exs2.es47.dto.StuRes47;
-import com.angel.springbootlearning.exs2.es47.mapper.StudentMapper;
-import com.angel.springbootlearning.exs2.es47.model.Stud47;
+import com.angel.springbootlearning.exs2.ex47.dto.Res47;
+import com.angel.springbootlearning.exs2.ex47.dto.StuRes47;
+import com.angel.springbootlearning.exs2.ex47.mapper.StudentMapper;
+import com.angel.springbootlearning.exs2.ex47.model.Stud47;
 
 public class Demo47 {
 

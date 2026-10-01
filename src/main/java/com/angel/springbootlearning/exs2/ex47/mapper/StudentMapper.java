@@ -8,10 +8,10 @@
  * None.
  */
 
-package com.angel.springbootlearning.exs2.es47.mapper;
+package com.angel.springbootlearning.exs2.ex47.mapper;
 
-import com.angel.springbootlearning.exs2.es47.dto.StuRes47;
-import com.angel.springbootlearning.exs2.es47.model.Stud47;
+import com.angel.springbootlearning.exs2.ex47.dto.StuRes47;
+import com.angel.springbootlearning.exs2.ex47.model.Stud47;
 
 public class StudentMapper {
     public StuRes47 toResponse(Stud47 student) {

@@ -7,7 +7,7 @@
  * URLs:
  * None.
  */
-package com.angel.springbootlearning.exs2.es47.dto;
+package com.angel.springbootlearning.exs2.ex47.dto;
 
 public record Res47 (
     String message,

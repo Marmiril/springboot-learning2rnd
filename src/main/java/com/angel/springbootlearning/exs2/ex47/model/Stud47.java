@@ -8,7 +8,7 @@
  * None.
  */
 
-package com.angel.springbootlearning.exs2.es47.model;
+package com.angel.springbootlearning.exs2.ex47.model;
 
 import java.time.LocalDateTime;
 

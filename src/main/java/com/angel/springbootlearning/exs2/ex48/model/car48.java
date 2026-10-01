@@ -10,7 +10,7 @@
 
 package com.angel.springbootlearning.exs2.ex48.model;
 
-public record car48 (
+public record Car48 (
     int id,
     String brand,
     String model,

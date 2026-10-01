@@ -2056,6 +2056,7 @@ DONE
 
 ## Exercise 45 - Domain Model vs DTO
 
+
 **Purpose:**
 Demonstrate the difference between received data, the internal student model and returned data through a console example.
 
@@ -2084,4 +2085,24 @@ None.
 * Check that the response excludes registration date.
 
 **Status:**
-IN PROGRESS
+DONE
+
+## Exercise 46 – Manual Mapping
+
+### Purpose
+Convert a domain model into a response DTO by manually selecting the fields to return.
+
+### Implementation
+Completed in Exercise 45, in `DomainVsDtoDemo.java`:
+
+StudentResponse response = new StudentResponse(
+    student.id(),
+    student.name(),
+    student.role()
+);
+
+The response includes `id`, `name`, and `role`.
+The internal `registrationDate` field is not included.
+
+### Tested cases
+- Pending: run `DomainVsDtoDemo` and confirm that the response excludes `registrationDate`.

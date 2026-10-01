@@ -2106,3 +2106,36 @@ The internal `registrationDate` field is not included.
 
 ### Tested cases
 - Pending: run `DomainVsDtoDemo` and confirm that the response excludes `registrationDate`.
+
+## Exercise 48 - Hide Internal Fields
+
+**Purpose:**
+Hide internal car data by mapping the complete model into a public response DTO.
+
+**URLs:**
+None.
+
+**HTTP methods:**
+None.
+
+**Main concepts:**
+
+* Separation between internal and public data.
+* Dedicated mapper class.
+* Manual model-to-DTO conversion.
+* Exclusion of price and internal notes from the response.
+* Response containing a message and public car data.
+
+**Files:**
+`src/main/java/com/angel/springbootlearning/exs2/ex48/`
+
+**Tested cases:**
+
+* Run `Demo48.main()` successfully from VSCode.
+* The internal model contains ID, brand, model, year, price and notes.
+* The response contains a message and the mapped car data.
+* The public car DTO includes only ID, brand, model and year.
+* Price and internal notes remain outside the response.
+
+**Status:**
+DONE

@@ -11,6 +11,7 @@
 package com.angel.springbootlearning.exs2.ex49.mapper;
 
 import com.angel.springbootlearning.exs2.ex49.dto.CarRequest49;
+import com.angel.springbootlearning.exs2.ex49.dto.CarResponse49;
 import com.angel.springbootlearning.exs2.ex49.dto.CarUpdate49;
 import com.angel.springbootlearning.exs2.ex49.model.Car49;
 
@@ -35,6 +36,15 @@ public class CarMapper49 {
             car.year(),
             request.price(),
             request.notes()
+        );
+    }
+
+    public CarResponse49 toResponse(Car49 car) {
+        return new CarResponse49(
+            car.id(),
+            car.brand(),
+            car.model(),
+            car.year()
         );
     }
 }

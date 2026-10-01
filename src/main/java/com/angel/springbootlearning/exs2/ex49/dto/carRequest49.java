@@ -10,7 +10,6 @@
 package com.angel.springbootlearning.exs2.ex49.dto;
 
 public record CarRequest49 (
-    int id, 
     String brand,
     String model,
     int year,

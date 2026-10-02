@@ -2139,3 +2139,39 @@ None.
 
 **Status:**
 DONE
+
+## Exercise 49 - DTOs per Operation
+
+**Purpose:**
+Use separate DTOs for car creation, update and public responses.
+
+**URLs:**
+None.
+
+**HTTP methods:**
+None.
+
+**Main concepts:**
+
+* Different DTOs for different operations.
+* Creation request without an ID.
+* Update request containing only price and notes.
+* Mapping request data into the internal model.
+* Creating an updated model while preserving unchanged fields.
+* Public response excluding internal data.
+* Response containing a message and mapped car data.
+
+**Files:**
+`src/main/java/com/angel/springbootlearning/exs2/ex49/`
+
+**Tested cases:**
+
+* Run `Demo49.main()` successfully from VSCode.
+* Create a car from the request with a separately supplied ID.
+* Update price and notes while preserving ID, brand, model and year.
+* The original model retains its values.
+* The public response excludes price and notes.
+* The response includes a message and public car data.
+
+**Status:**
+DONE

@@ -8,7 +8,7 @@
  * None.
  */
 
-package com.angel.springbootlearning.exs2.ex50.model.dto;
+package com.angel.springbootlearning.exs2.ex50.dto;
 
 public record CarRequest50(
     String brand,

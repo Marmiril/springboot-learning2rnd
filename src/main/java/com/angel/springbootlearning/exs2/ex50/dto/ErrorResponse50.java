@@ -11,6 +11,6 @@
 package com.angel.springbootlearning.exs2.ex50.dto;
 
 public record ErrorResponse50(
-    int status, 
+    int status, // 400, 404 or 409
     String message
 ) {}

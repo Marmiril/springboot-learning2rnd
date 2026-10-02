@@ -9,7 +9,6 @@
 
 package com.angel.springbootlearning.exs2.ex50.repository;
 
-import java.lang.classfile.ClassFile.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +21,8 @@ import com.angel.springbootlearning.exs2.ex50.model.Car50;
 public class CarRepository50 {
     
     private final List<Car50> cars = new ArrayList<>();
+
+    public List<Car50> findAll(){ return List.copyOf(cars); }
 
     public Optional<Car50> findById(int id) {
         return cars.stream()

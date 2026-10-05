@@ -10,9 +10,12 @@
 
 package com.angel.springbootlearning.exs2.ex50.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.angel.springbootlearning.exs2.ex50.mapper.CarMapper50;
+import com.angel.springbootlearning.exs2.ex50.model.Car50;
 import com.angel.springbootlearning.exs2.ex50.repository.CarRepository50;
 
 @Service 
@@ -28,4 +31,6 @@ public class CarService50 {
         this.repository = repository;
         this.mapper = mapper;
     }
+
+    public List<Car50> getCars() { return repository.findAll(); }
 }

@@ -15,6 +15,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.angel.springbootlearning.exs2.ex50.exception.CarNotFound50;
+import com.angel.springbootlearning.exs2.ex50.exception.InvalidCar50;
 import com.angel.springbootlearning.exs2.ex50.mapper.CarMapper50;
 import com.angel.springbootlearning.exs2.ex50.model.Car50;
 import com.angel.springbootlearning.exs2.ex50.repository.CarRepository50;
@@ -37,12 +38,25 @@ public class CarService50 {
 
     public Car50 getCarById(int id) { return requireCarById(id); }
 
+    public List<Car50> getCarsByBrand(String brand) {        
+        validateFields(brand, "Brand");
 
+        List<Car50> cars = repository.findByBrand(brand);
 
+        if (cars.isEmpty()) { throw new CarNotFound50("There is no car with brand: " + brand); }
+        
+        return cars;
+    }
 
+    private void validateFields(String value, String field) {
+        if (value == null || value.isBlank()) { throw new InvalidCar50(field + " is required");}
+    }
+    
 
     private Car50 requireCarById(int id) {
         return repository.findById(id)
             .orElseThrow(() -> new CarNotFound50("There is no car with id: " + id));
     }
+
+
 }

@@ -62,6 +62,19 @@ public class CarService50 {
         return cars;
     }
 
+    public Car50 getCarByDetalis(String brand, String model, int year) {
+        validateFields(brand, "Brand");
+        validateFields(model, "Model");
+        validateYear(year);
+
+    return repository.findByDetails(brand, model, year)
+        .orElseThrow(() -> new CarNotFound50(
+            "There is no car with brand: " + brand.trim()
+                + ", model: " + model.trim()
+                + ", year: " + year
+        ));
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////
 /// 
     private void validateFields(String value, String field) {

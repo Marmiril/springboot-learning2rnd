@@ -67,12 +67,12 @@ public class CarService50 {
         validateFields(model, "Model");
         validateYear(year);
 
-    return repository.findByDetails(brand, model, year)
-        .orElseThrow(() -> new CarNotFound50(
-            "There is no car with brand: " + brand.trim()
-                + ", model: " + model.trim()
-                + ", year: " + year
-        ));
+        return repository.findByDetails(brand, model, year)
+            .orElseThrow(() -> new CarNotFound50(
+                "There is no car with brand: " + brand.trim()
+                    + ", model: " + model.trim()
+                    + ", year: " + year
+            ));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////

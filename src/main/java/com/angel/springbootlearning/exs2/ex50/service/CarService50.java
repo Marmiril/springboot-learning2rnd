@@ -48,6 +48,14 @@ public class CarService50 {
         return cars;
     }
 
+    public List<Car50> getCarsByModel(String model)     {
+        validateFields(model, "Model");
+        List<Car50> cars = repository.findByModel(model);
+        if(cars.isEmpty()) { throw new CarNotFound50("There is no car with model: " + model); }
+        return cars;
+    }
+
+
     private void validateFields(String value, String field) {
         if (value == null || value.isBlank()) { throw new InvalidCar50(field + " is required");}
     }

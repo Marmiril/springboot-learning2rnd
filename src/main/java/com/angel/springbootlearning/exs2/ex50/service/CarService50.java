@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.angel.springbootlearning.exs2.ex50.dto.CarRequest50;
 import com.angel.springbootlearning.exs2.ex50.exception.CarNotFound50;
 import com.angel.springbootlearning.exs2.ex50.exception.InvalidCar50;
 import com.angel.springbootlearning.exs2.ex50.mapper.CarMapper50;
@@ -85,6 +86,22 @@ public class CarService50 {
         int currentYear = java.time.Year.now().getValue();
         
         if (year < 1886 || year > currentYear) { throw new InvalidCar50 ("Year must be between 1886 and " + currentYear); }
+    }
+
+    private void validatePrice(double price) {
+        if (!Double.isFinite(price) || price <= 0) {
+            throw new InvalidCar50("Price must be a finite number greater than zero!");
+        }
+    }
+
+    private void validateRequest(CarRequest50 request) {
+        if (request == null) { throw new InvalidCar50("Car request is required..."); }
+
+        validateFields(request.brand(), "Brand");
+        validateFields(request.model(), "Model");
+        validateYear(request.year());
+        validatePrice(request.price());
+        validateFields(request.notes(), "Notes");
     }
 
     private Car50 requireCarById(int id) {

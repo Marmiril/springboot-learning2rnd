@@ -24,8 +24,8 @@ public class CarMapper50 {
     public Car50 toModel(int id, CarRequest50 request) {
         return new Car50(
             id,
-            request.brand(),
-            request.model(),
+            request.brand().trim(),
+            request.model().trim(),
             request.year(),
             request.price(),
             request.notes().trim()

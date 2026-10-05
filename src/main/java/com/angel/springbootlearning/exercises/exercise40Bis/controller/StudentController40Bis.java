@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.angel.springbootlearning.exercises.exercise09.StudentResponseEntityController;
 import com.angel.springbootlearning.exercises.exercise40Bis.dto.StudentDeletionResponse40Bis;
 import com.angel.springbootlearning.exercises.exercise40Bis.dto.StudentListResponse40Bis;
 import com.angel.springbootlearning.exercises.exercise40Bis.dto.StudentRequest40Bis;

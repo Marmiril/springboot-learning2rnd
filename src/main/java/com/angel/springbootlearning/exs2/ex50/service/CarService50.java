@@ -145,6 +145,13 @@ public class CarService50 {
         ));
     }   
 
+    public List<Car50> deleteCarByYear(int year) {
+        validateYear(year);
+        List<Car50> cars = repository.deleteByYear(year);
+        if (cars.isEmpty()) { throw new CarNotFound50("There is no car with year: " + year ); }
+        return cars;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////
 /// 
     private void validateFields(String value, String field) { if (value == null || value.isBlank()) { throw new InvalidCar50(field + " is required");} }

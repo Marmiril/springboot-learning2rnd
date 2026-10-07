@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.angel.springbootlearning.exs2.ex50.dto.CarRequest50;
 import com.angel.springbootlearning.exs2.ex50.exception.CarNotFound50;
+import com.angel.springbootlearning.exs2.ex50.exception.DuplicateCar50;
 import com.angel.springbootlearning.exs2.ex50.exception.InvalidCar50;
 import com.angel.springbootlearning.exs2.ex50.mapper.CarMapper50;
 import com.angel.springbootlearning.exs2.ex50.model.Car50;
@@ -26,6 +27,7 @@ public class CarService50 {
     
     private final CarRepository50 repository;
     private final CarMapper50 mapper;
+    private int nextID = 1;
 
     public CarService50(
         CarRepository50 repository,
@@ -76,6 +78,7 @@ public class CarService50 {
             ));
     }
 
+    public Car50 createCar()
     ////////////////////////////////////////////////////////////////////////////////////////
 /// 
     private void validateFields(String value, String field) {
@@ -102,6 +105,12 @@ public class CarService50 {
         validateYear(request.year());
         validatePrice(request.price());
         validateFields(request.notes(), "Notes");
+    }
+
+    private void validateUnique(String brand, String model, int year) {
+        if (repository.findByDetails(brand, model, year).isPresent()) {
+            throw new DuplicateCar50("There is a car with such details: " +brand +  (" - ") + model + (" - ") + year);
+        }
     }
 
     private Car50 requireCarById(int id) {

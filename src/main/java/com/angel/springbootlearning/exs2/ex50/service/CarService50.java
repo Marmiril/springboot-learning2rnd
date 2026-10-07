@@ -44,11 +44,8 @@ public class CarService50 {
 
     public List<Car50> getCarsByBrand(String brand) {        
         validateFields(brand, "Brand");
-
         List<Car50> cars = repository.findByBrand(brand);
-
-        if (cars.isEmpty()) { throw new CarNotFound50("There is no car with brand: " + brand); }
-        
+        if (cars.isEmpty()) { throw new CarNotFound50("There is no car with brand: " + brand); }        
         return cars;
     }
 
@@ -121,20 +118,36 @@ public class CarService50 {
     }
 
     public Car50 deleteCarById(int id) { return repository.deleteById(id).orElseThrow(() -> new CarNotFound50(id)); }
-    public List<Car50> deleteCarByBrand (String brand) {
+    
+    public List<Car50> deleteCarsByBrand (String brand) {
         validateFields(brand, "Brand");
         List<Car50> cars = getCarsByBrand(brand);
         if (cars.isEmpty()) {throw new CarNotFound50("There are no cars with brand: " + brand);}
         return cars;
     }
 
+    public List<Car50> deleteCarsByModel(String model) {
+        validateFields(model, "Model");
+        List<Car50> cars = getCarsByModel(model);
+        if (cars.isEmpty()) { throw new CarNotFound50("There is no car with model: " + model); }
+        return cars;
+    }
 
+    public Car50 deleteCarByDetails(String brand, String model, int year) {
+        validateFields(brand, "Brand");
+        validateFields(model, "Model");
+        validateYear(year);
+
+        return repository.deleteByDetails(brand, model, year).orElseThrow(() -> new CarNotFound50(
+                "There is no car with brand: " + brand
+                + ", model: " + model
+                + ", year: " + year
+        ));
+    }   
 
     ////////////////////////////////////////////////////////////////////////////////////////
 /// 
-    private void validateFields(String value, String field) {
-        if (value == null || value.isBlank()) { throw new InvalidCar50(field + " is required");}
-    }
+    private void validateFields(String value, String field) { if (value == null || value.isBlank()) { throw new InvalidCar50(field + " is required");} }
     
     private void validateYear(int year) {
         int currentYear = java.time.Year.now().getValue();

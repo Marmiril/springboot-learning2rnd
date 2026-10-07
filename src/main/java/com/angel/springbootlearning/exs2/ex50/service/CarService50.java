@@ -27,7 +27,7 @@ public class CarService50 {
     
     private final CarRepository50 repository;
     private final CarMapper50 mapper;
-    private int nextID = 1;
+    private int nextId = 1;
 
     public CarService50(
         CarRepository50 repository,
@@ -78,7 +78,29 @@ public class CarService50 {
             ));
     }
 
-    public Car50 createCar()
+    public Car50 createCar(CarRequest50 request) {
+        validateRequest(request);
+        validateUniqueCar(
+            request.brand(),
+            request.model(),
+            request.year()
+        );
+
+        Car50 car = mapper.toModel(nextId++, request);
+        return repository.create(car);
+    }
+
+    public Car50 updateCar(int id, CarRequest50 request) {
+        getCarById(id);
+
+        validateRequest(request);
+        validateUniqueCar(request.brand(), request.model(), request.year());
+
+        Car50 car = mapper.toUpdateCar50(car, request);
+        return repository.update(car)
+            .orElseThrow(() -> new CarNotFound50("There is no car with id: " + id));
+    }
+    
     ////////////////////////////////////////////////////////////////////////////////////////
 /// 
     private void validateFields(String value, String field) {
@@ -107,9 +129,9 @@ public class CarService50 {
         validateFields(request.notes(), "Notes");
     }
 
-    private void validateUnique(String brand, String model, int year) {
+    private void validateUniqueCar(String brand, String model, int year) {
         if (repository.findByDetails(brand, model, year).isPresent()) {
-            throw new DuplicateCar50("There is a car with such details: " +brand +  (" - ") + model + (" - ") + year);
+            throw new DuplicateCar50("There is a car with such details: " + brand.trim() +  (" - ") + model.trim() + (" - ") + year);
         }
     }
 

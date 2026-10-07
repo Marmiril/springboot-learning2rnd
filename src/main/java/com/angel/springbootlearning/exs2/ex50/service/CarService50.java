@@ -15,6 +15,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.angel.springbootlearning.exs2.ex50.dto.CarRequest50;
+import com.angel.springbootlearning.exs2.ex50.dto.CarUpdate50;
 import com.angel.springbootlearning.exs2.ex50.exception.CarNotFound50;
 import com.angel.springbootlearning.exs2.ex50.exception.DuplicateCar50;
 import com.angel.springbootlearning.exs2.ex50.exception.InvalidCar50;
@@ -90,14 +91,16 @@ public class CarService50 {
         return repository.create(car);
     }
 
-    public Car50 updateCar(int id, CarRequest50 request) {
-        getCarById(id);
+    public Car50 updateCar(int id, CarUpdate50 request) {
+        Car50 car = getCarById(id);
 
-        validateRequest(request);
-        validateUniqueCar(request.brand(), request.model(), request.year());
+        if (request == null) { throw new InvalidCar50 ("Car update request is required"); }
 
-        Car50 car = mapper.toUpdateCar50(car, request);
-        return repository.update(car)
+        validateFields(request.notes(), "Notes");
+        validatePrice(request.price());
+
+        Car50 updatedCar = mapper.toUpdateCar50(car, request);
+        return repository.update(updatedCar)
             .orElseThrow(() -> new CarNotFound50("There is no car with id: " + id));
     }
     
@@ -113,7 +116,8 @@ public class CarService50 {
         if (year < 1886 || year > currentYear) { throw new InvalidCar50 ("Year must be between 1886 and " + currentYear); }
     }
 
-    private void validatePrice(double price) {
+    private void validatePrice(Double price) {
+        if (price == null) { throw new InvalidCar50("Price is required"); }
         if (!Double.isFinite(price) || price <= 0) {
             throw new InvalidCar50("Price must be a finite number greater than zero!");
         }

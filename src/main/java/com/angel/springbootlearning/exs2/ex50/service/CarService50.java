@@ -101,7 +101,7 @@ public class CarService50 {
 
         Car50 updatedCar = mapper.toUpdateCar50(car, request);
         return repository.update(updatedCar)
-            .orElseThrow(() -> new CarNotFound50("There is no car with id: " + id));
+            .orElseThrow(() -> new CarNotFound50(id));
     }
     
     public Car50 patchCar(int id, CarUpdate50 request) {
@@ -109,22 +109,15 @@ public class CarService50 {
 
         if (request == null) { throw new InvalidCar50("Car patch request is required!");}
 
-        double patchedPrice = car.price();
-        String patchedNotes = car.notes();
+        if (request.price() == null && request.notes() == null) { throw new InvalidCar50("At least one field is required!"); }
 
-        if (request.price() != null) {
-            validatePrice(request.price());
-            patchedPrice = request.price();
-        }
+        if (request.price() != null) { validatePrice(request.price()); }
 
-        if (request.notes() != null) {
-            validateFields(request.notes(), "Notes");
-            patchedNotes = request.notes();
-        }
+        if (request.notes() != null) { validateFields(request.notes(), "Notes"); }
 
         Car50 patchedCar = mapper.toUpdateCar50(car, request);
         return repository.update(patchedCar)
-            .orElseThrow(() -> new CarNotFound50("There is no car with id: " + id));
+            .orElseThrow(() -> new CarNotFound50(id));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////
@@ -164,7 +157,7 @@ public class CarService50 {
 
     private Car50 requireCarById(int id) {
         return repository.findById(id)
-            .orElseThrow(() -> new CarNotFound50("There is no car with id: " + id));
+            .orElseThrow(() -> new CarNotFound50(id));
     }
 
 

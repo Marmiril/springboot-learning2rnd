@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.angel.springbootlearning.exs2.ex50.dto.ErrorResponse50;
 
-@RestControllerAdvice(basePackages = "com.angel,springbootlearning-exs2.ex50")
+@RestControllerAdvice(basePackages = "com.angel.springbootlearning.exs2.ex50")
 public class GlobalHandler50 {
 
     @ExceptionHandler(InvalidCar50.class)

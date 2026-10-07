@@ -63,7 +63,7 @@ public class CarService50 {
         return cars;
     }
 
-    public Car50 getCarByDetalis(String brand, String model, int year) {
+    public Car50 getCarByDetails(String brand, String model, int year) {
         validateFields(brand, "Brand");
         validateFields(model, "Model");
         validateYear(year);
@@ -121,14 +121,14 @@ public class CarService50 {
     
     public List<Car50> deleteCarsByBrand (String brand) {
         validateFields(brand, "Brand");
-        List<Car50> cars = getCarsByBrand(brand);
+        List<Car50> cars = repository.deleteByBrand(brand);
         if (cars.isEmpty()) {throw new CarNotFound50("There are no cars with brand: " + brand);}
         return cars;
     }
 
     public List<Car50> deleteCarsByModel(String model) {
         validateFields(model, "Model");
-        List<Car50> cars = getCarsByModel(model);
+        List<Car50> cars = repository.deleteByModel(model);
         if (cars.isEmpty()) { throw new CarNotFound50("There is no car with model: " + model); }
         return cars;
     }

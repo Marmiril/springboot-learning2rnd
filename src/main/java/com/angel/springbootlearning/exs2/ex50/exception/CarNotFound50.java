@@ -16,7 +16,5 @@ public class CarNotFound50 extends RuntimeException {
 
     public CarNotFound50(int id) { super("There is no car with id: " + id); }
 
-    public CarNotFound50(String message) {
-        super(message);
-    }    
+    public CarNotFound50(String message) { super(message); }    
 }

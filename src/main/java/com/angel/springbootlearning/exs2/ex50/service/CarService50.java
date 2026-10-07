@@ -120,6 +120,16 @@ public class CarService50 {
             .orElseThrow(() -> new CarNotFound50(id));
     }
 
+    public Car50 deleteCarById(int id) { return repository.deleteById(id).orElseThrow(() -> new CarNotFound50(id)); }
+    public List<Car50> deleteCarByBrand (String brand) {
+        validateFields(brand, "Brand");
+        List<Car50> cars = getCarsByBrand(brand);
+        if (cars.isEmpty()) {throw new CarNotFound50("There are no cars with brand: " + brand);}
+        return cars;
+    }
+
+
+
     ////////////////////////////////////////////////////////////////////////////////////////
 /// 
     private void validateFields(String value, String field) {

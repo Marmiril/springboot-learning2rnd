@@ -104,6 +104,29 @@ public class CarService50 {
             .orElseThrow(() -> new CarNotFound50("There is no car with id: " + id));
     }
     
+    public Car50 patchCar(int id, CarUpdate50 request) {
+        Car50 car = getCarById(id);
+
+        if (request == null) { throw new InvalidCar50("Car patch request is required!");}
+
+        double patchedPrice = car.price();
+        String patchedNotes = car.notes();
+
+        if (request.price() != null) {
+            validatePrice(request.price());
+            patchedPrice = request.price();
+        }
+
+        if (request.notes() != null) {
+            validateFields(request.notes(), "Notes");
+            patchedNotes = request.notes();
+        }
+
+        Car50 patchedCar = mapper.toUpdateCar50(car, request);
+        return repository.update(patchedCar)
+            .orElseThrow(() -> new CarNotFound50("There is no car with id: " + id));
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////
 /// 
     private void validateFields(String value, String field) {

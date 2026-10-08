@@ -16,6 +16,7 @@ package com.angel.springbootlearning.exs2.ex50.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,5 +51,11 @@ public class CarController50 {
             .toList();
 
         return new CarListResponse50("Cars retreived successfully!", responses);
+    }
+
+    @GetMapping("/{id}")
+    public CarResponse50 getCarById(@PathVariable int id) {
+        Car50 car = service.getCarById(id);
+        return mapper.toResponse(car);
     }
 }

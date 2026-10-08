@@ -18,6 +18,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -79,6 +80,16 @@ public class CarController50 {
         @RequestBody CarUpdate50 request 
     ) {
         Car50 car = service.updateCar(id, request);
+        CarResponse50 response = mapper.toResponse(car);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping ("/{id}")
+    public ResponseEntity<CarResponse50> patchCar(
+        @PathVariable int id,
+        @RequestBody CarUpdate50 request
+    ) {
+        Car50 car = service.patchCar(id, request);
         CarResponse50 response = mapper.toResponse(car);
         return ResponseEntity.ok(response);
     }

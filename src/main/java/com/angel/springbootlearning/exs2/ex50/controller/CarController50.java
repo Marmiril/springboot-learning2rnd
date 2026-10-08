@@ -15,13 +15,18 @@ package com.angel.springbootlearning.exs2.ex50.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.angel.springbootlearning.exs2.ex50.dto.CarListResponse50;
+import com.angel.springbootlearning.exs2.ex50.dto.CarRequest50;
 import com.angel.springbootlearning.exs2.ex50.dto.CarResponse50;
 import com.angel.springbootlearning.exs2.ex50.mapper.CarMapper50;
 import com.angel.springbootlearning.exs2.ex50.model.Car50;
@@ -57,5 +62,12 @@ public class CarController50 {
     public CarResponse50 getCarById(@PathVariable int id) {
         Car50 car = service.getCarById(id);
         return mapper.toResponse(car);
+    }
+
+    @PostMapping 
+    public ResponseEntity<CarResponse50> createCar(@RequestBody CarRequest50 request) {
+        Car50 car = service.createCar(request);
+        CarResponse50 response = mapper.toResponse(car);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

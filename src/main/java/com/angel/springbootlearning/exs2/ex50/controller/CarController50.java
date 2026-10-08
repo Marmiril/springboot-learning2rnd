@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -91,6 +92,27 @@ public class CarController50 {
     ) {
         Car50 car = service.patchCar(id, request);
         CarResponse50 response = mapper.toResponse(car);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping ("/{id}")
+    public ResponseEntity<CarResponse50> deleteById(@PathVariable int id) {
+        Car50 car = service.deleteCarById(id);
+        CarResponse50 response = mapper.toResponse(car);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping (params = "brand")
+    public ResponseEntity<CarListResponse50> deleteCarsByBrand(@RequestParam String brand) {
+        List<Car50> cars = service.deleteCarsByBrand(brand);
+        List<CarResponse50> responses = cars.stream()
+            .map(mapper::toResponse)
+            .toList();
+
+        CarListResponse50 response = new CarListResponse50(
+            "Cars deleted successfully!!",
+            responses);
+            
         return ResponseEntity.ok(response);
     }
 }

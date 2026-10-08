@@ -101,4 +101,12 @@ public class CarRepository50 {
         return carToDelete;
     }
 
+    public List<Car50> findByFilters(String brand, String model, Integer year) {
+        return cars.stream()
+            .filter(car -> brand == null || car.brand().equalsIgnoreCase(brand.trim()))
+            .filter(car -> model == null || car.model().equalsIgnoreCase(model.trim()))
+            .filter(car -> year == null || car.year() == year)
+            .toList();
+    }
+
 }

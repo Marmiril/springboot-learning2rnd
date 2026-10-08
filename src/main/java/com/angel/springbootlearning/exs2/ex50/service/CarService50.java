@@ -119,6 +119,19 @@ public class CarService50 {
 
     public Car50 deleteCarById(int id) { return repository.deleteById(id).orElseThrow(() -> new CarNotFound50(id)); }
     
+    public List<Car50> searchCars(String brand, String model, Integer year) {
+        if (brand != null) { validateFields(brand, "Brand"); }
+        if (model != null) { validateFields(model, "Model"); }
+        if (year != null) { validateYear(year); }
+
+        return repository.findAll().stream()
+            .filter(car -> brand == null || car.brand().equalsIgnoreCase(brand.trim()))
+            .filter(car -> model == null || car.model().equalsIgnoreCase(model.trim()))
+            .filter(car -> year == null || car.year() == year)
+            .toList();
+    }
+
+
     public List<Car50> deleteCarsByBrand (String brand) {
         validateFields(brand, "Brand");
         List<Car50> cars = repository.deleteByBrand(brand);

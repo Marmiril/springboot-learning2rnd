@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.angel.springbootlearning.exs2.ex50.dto.CarListResponse50;
 import com.angel.springbootlearning.exs2.ex50.dto.CarRequest50;
 import com.angel.springbootlearning.exs2.ex50.dto.CarResponse50;
+import com.angel.springbootlearning.exs2.ex50.dto.CarUpdate50;
 import com.angel.springbootlearning.exs2.ex50.mapper.CarMapper50;
 import com.angel.springbootlearning.exs2.ex50.model.Car50;
 import com.angel.springbootlearning.exs2.ex50.service.CarService50;
@@ -69,5 +71,15 @@ public class CarController50 {
         Car50 car = service.createCar(request);
         CarResponse50 response = mapper.toResponse(car);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PutMapping ("/{id}")
+    public ResponseEntity<CarResponse50> updateCar(
+        @PathVariable int id,
+        @RequestBody CarUpdate50 request 
+    ) {
+        Car50 car = service.updateCar(id, request);
+        CarResponse50 response = mapper.toResponse(car);
+        return ResponseEntity.ok(response);
     }
 }

@@ -102,7 +102,7 @@ public class CarController50 {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping (params = "brand")
+    @DeleteMapping (params = {"brand", "!model", "!year"})
     public ResponseEntity<CarListResponse50> deleteCarsByBrand(@RequestParam String brand) {
         List<Car50> cars = service.deleteCarsByBrand(brand);
         List<CarResponse50> responses = cars.stream()
@@ -115,4 +115,31 @@ public class CarController50 {
             
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping (params = { "model", "!brand","!year"})
+    public ResponseEntity<CarListResponse50> deleteCarsByModel(@RequestParam String model) {
+        List<Car50> cars = service.deleteCarsByModel(model);
+        List<CarResponse50> responses = cars.stream()
+            .map(mapper::toResponse)
+            .toList();
+        CarListResponse50 response = new CarListResponse50(
+            "Cars deleted by model: " + model + "  successfully!",
+            responses
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping (params = {"year", "!brand", "!model"})
+    public ResponseEntity<CarListResponse50> deleteCarsByYear(@PathVariable int year) {
+        List<Car50> cars = service.deleteCarByYear(year);
+        List<CarResponse50> responses = cars.stream()
+            .map(mapper::toResponse)
+            .toList();
+        CarListResponse50 response = new CarListResponse50(
+            "Cars of year: " + year + " deleted successfully!!",
+            responses
+        );
+        return ResponseEntity.ok(response);
+    }
+    
 }

@@ -10,10 +10,12 @@
 
 package com.angel.springbootlearning.exs2.ex51.dto;
 
+import com.angel.springbootlearning.exs2.ex51.model.BookTheme;
+
 public record BookRequest(
     String title,
     String author,
-    String theme,    
+    BookTheme theme,    
     int year,
     double price,
     String notes

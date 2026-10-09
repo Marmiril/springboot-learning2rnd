@@ -32,6 +32,7 @@ import com.angel.springbootlearning.exs2.ex50.dto.CarListResponse50;
 import com.angel.springbootlearning.exs2.ex50.dto.CarRequest50;
 import com.angel.springbootlearning.exs2.ex50.dto.CarResponse50;
 import com.angel.springbootlearning.exs2.ex50.dto.CarUpdate50;
+import com.angel.springbootlearning.exs2.ex50.dto.Response50;
 import com.angel.springbootlearning.exs2.ex50.mapper.CarMapper50;
 import com.angel.springbootlearning.exs2.ex50.model.Car50;
 import com.angel.springbootlearning.exs2.ex50.service.CarService50;
@@ -69,19 +70,28 @@ public class CarController50 {
     }
 
     @PostMapping 
-    public ResponseEntity<CarResponse50> createCar(@RequestBody CarRequest50 request) {
+    public ResponseEntity<Response50> createCar(@RequestBody CarRequest50 request) {
         Car50 car = service.createCar(request);
-        CarResponse50 response = mapper.toResponse(car);
+        CarResponse50 carResponse = mapper.toResponse(car);
+        Response50 response = new Response50(
+            "Car created successfully",
+            carResponse
+        );
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping ("/{id}")
-    public ResponseEntity<CarResponse50> updateCar(
+    public ResponseEntity<Response50> updateCar(
         @PathVariable int id,
         @RequestBody CarUpdate50 request 
     ) {
         Car50 car = service.updateCar(id, request);
-        CarResponse50 response = mapper.toResponse(car);
+        CarResponse50 carResponse = mapper.toResponse(car);
+
+        Response50 response = new Response50(
+            "Car updated successfully",
+            carResponse
+        );
         return ResponseEntity.ok(response);
     }
 
@@ -154,3 +164,4 @@ public class CarController50 {
     }
     
 }
+

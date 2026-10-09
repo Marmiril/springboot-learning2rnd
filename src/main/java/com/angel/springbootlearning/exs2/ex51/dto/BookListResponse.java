@@ -4,5 +4,5 @@ import java.util.List;
 
 public record BookListResponse(
     String message,
-    List<BookResponse> books
+    List<BookDataResponse> books
 ) {}

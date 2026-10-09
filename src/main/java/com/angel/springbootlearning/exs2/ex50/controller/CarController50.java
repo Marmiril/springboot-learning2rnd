@@ -169,13 +169,17 @@ public class CarController50 {
     }
 
     @DeleteMapping (params = {"brand", "model", "year"})
-    public ResponseEntity<CarResponse50> deleteCarByDetails(
+    public ResponseEntity<Response50> deleteCarByDetails(
         @RequestParam String brand,
         @RequestParam String model,
         @RequestParam int year        
     ) {
         Car50 car = service.getCarByDetails(brand, model, year);
-        CarResponse50 response = mapper.toResponse(car);
+        CarResponse50 carResponse = mapper.toResponse(car);
+        Response50 response = new Response50(
+            "Car deleted successfully",
+            carResponse
+        );
         return ResponseEntity.ok(response);
     }
     

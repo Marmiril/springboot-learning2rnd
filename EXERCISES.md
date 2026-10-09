@@ -2142,6 +2142,8 @@ DONE
 
 ## Exercise 49 - DTOs per Operation
 
+
+
 **Purpose:**
 Use separate DTOs for car creation, update and public responses.
 
@@ -2172,6 +2174,50 @@ None.
 * The original model retains its values.
 * The public response excludes price and notes.
 * The response includes a message and public car data.
+
+**Status:**
+DONE
+
+## Exercise 50 - CRUD with DTOs
+
+**Purpose:**
+Implement a complete in-memory car CRUD using layered architecture, DTOs, mappers, business validation and centralized exception handling.
+
+**URL:**
+http://localhost:8080/exercise50/cars
+
+**HTTP methods:**
+GET, POST, PUT, PATCH, DELETE
+
+**Main concepts:**
+
+- Layered architecture: Controller, Service, Repository.
+- Request, Update and Response DTOs.
+- Model-to-DTO mapping.
+- Optional and combined search filters.
+- Stream API and method references.
+- Full and partial updates.
+- Single and multiple resource deletion.
+- Business validation and duplicate prevention.
+- Global exception handling.
+- HTTP 200, 201, 400, 404 and 409.
+
+**Files:**
+`src/main/java/com/angel/springbootlearning/exs2/ex50/`
+
+**Request file:**
+`exs2/ex50/requests50.http`
+
+**Test cases:**
+
+- Successful creation returns HTTP 201 Created.
+- Duplicate car returns HTTP 409 Conflict.
+- Invalid or missing data returns HTTP 400 Bad Request.
+- Missing car returns HTTP 404 Not Found.
+- Successful searches and updates return HTTP 200 OK.
+- Combined filters return matching cars.
+- Successful deletions return HTTP 200 OK.
+- Response DTOs hide internal price and notes.
 
 **Status:**
 DONE

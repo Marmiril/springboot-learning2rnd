@@ -63,7 +63,7 @@ public class StudentController40 {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("id")
+    @GetMapping("/{id}")
     public ResponseEntity<StudentResponse40> getStudentById(@PathVariable int id) {
         Student40 student = studentService.getStudentById(id);
         StudentResponse40 response = new StudentResponse40(
@@ -102,7 +102,7 @@ public class StudentController40 {
      * This explicit mapping prevents Spring from silently choosing
      * one filter when both filters are present.
      */
-    @GetMapping(params = {"!name", "!role"})
+    @GetMapping(params = {"name", "role"})
     public void rejectCombinedGetFilters() { throw new InvalidStudentRequestException40("Name and role filters cannot be used simultaneously"); }
 
     @PostMapping
@@ -178,7 +178,7 @@ public class StudentController40 {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping(params = {"!name", "!role"})
+    @DeleteMapping(params = {"name", "role"})
     public void rejectedCombineDeleteFilters() { throw new InvalidStudentRequestException40("Name and role filters cannot be used simultaneously!"); }
 
 }

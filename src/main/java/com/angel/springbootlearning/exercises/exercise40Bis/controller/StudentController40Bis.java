@@ -78,7 +78,7 @@ public class StudentController40Bis {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping(params = {"!name", "!role"})
+    @GetMapping(params = {"name", "role"})
     public void rejectCombinedGetFilters() { throw new InvalidStudentRequestException40Bis("Name and role filters cannot be used simultaneously"); }
 
     @PostMapping 

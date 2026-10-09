@@ -1,0 +1,427 @@
+
+@baseUrl = http://localhost:8080/exercise50/cars
+
+############################################
+# EXERCISE 50 - COMPLETE REST API TESTS
+# Run requests in order after restarting Spring Boot.
+############################################
+
+
+############################################
+# 1. POST - CREATE CARS
+############################################
+
+### Create car 1 - 201 Created
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "brand": "Toyota",
+    "model": "Corolla",
+    "year": 2020,
+    "price": 15000,
+    "notes": "Good condition"
+}
+
+### Create car 2 - 201 Created
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "brand": "Toyota",
+    "model": "Yaris",
+    "year": 2021,
+    "price": 12000,
+    "notes": "Low mileage"
+}
+
+### Create car 3 - 201 Created
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "brand": "Ford",
+    "model": "Focus",
+    "year": 2020,
+    "price": 16000,
+    "notes": "Excellent condition"
+}
+
+### Create car 4 - 201 Created
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "brand": "Honda",
+    "model": "Civic",
+    "year": 2022,
+    "price": 21000,
+    "notes": "One owner"
+}
+
+### Create car 5 - 201 Created
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "brand": "Ford",
+    "model": "Fiesta",
+    "year": 2023,
+    "price": 17000,
+    "notes": "New tires"
+}
+
+### Create car 6 - 201 Created
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "brand": "Seat",
+    "model": "Ibiza",
+    "year": 2020,
+    "price": 11000,
+    "notes": "Good condition"
+}
+
+
+############################################
+# 2. POST - VALIDATION AND DUPLICATES
+############################################
+
+### Duplicate car - 409 Conflict
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "brand": "toyota",
+    "model": "COROLLA",
+    "year": 2020,
+    "price": 14000,
+    "notes": "Duplicate"
+}
+
+### Empty brand - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "brand": "",
+    "model": "Polo",
+    "year": 2021,
+    "price": 13000,
+    "notes": "Good condition"
+}
+
+### Empty model - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "brand": "Volkswagen",
+    "model": "",
+    "year": 2021,
+    "price": 13000,
+    "notes": "Good condition"
+}
+
+### Invalid year - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "brand": "BMW",
+    "model": "320i",
+    "year": 1800,
+    "price": 19000,
+    "notes": "Good condition"
+}
+
+### Future year - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "brand": "BMW",
+    "model": "320i",
+    "year": 2099,
+    "price": 19000,
+    "notes": "Good condition"
+}
+
+### Negative price - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "brand": "BMW",
+    "model": "320i",
+    "year": 2021,
+    "price": -100,
+    "notes": "Good condition"
+}
+
+### Empty notes - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "brand": "BMW",
+    "model": "320i",
+    "year": 2021,
+    "price": 19000,
+    "notes": ""
+}
+
+### Missing request body - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+
+############################################
+# 3. GET - LIST AND FILTER CARS
+############################################
+
+### Get all cars - 200 OK
+GET {{baseUrl}}
+
+### Find cars by brand - 200 OK
+GET {{baseUrl}}?brand=Toyota
+
+### Find cars by model - 200 OK
+GET {{baseUrl}}?model=Focus
+
+### Find cars by year - 200 OK
+GET {{baseUrl}}?year=2020
+
+### Filter by brand and model - 200 OK
+GET {{baseUrl}}?brand=Toyota&model=Corolla
+
+### Filter by brand and year - 200 OK
+GET {{baseUrl}}?brand=Ford&year=2020
+
+### Filter by model and year - 200 OK
+GET {{baseUrl}}?model=Ibiza&year=2020
+
+### Filter by all three fields - 200 OK
+GET {{baseUrl}}?brand=Toyota&model=Corolla&year=2020
+
+### No matching cars - 200 OK, empty list
+GET {{baseUrl}}?brand=Ferrari
+
+### Empty brand filter - 400 Bad Request
+GET {{baseUrl}}?brand=
+
+### Invalid year filter - 400 Bad Request
+GET {{baseUrl}}?year=1800
+
+
+############################################
+# 4. GET - FIND BY ID
+############################################
+
+### Find existing car - 200 OK
+GET {{baseUrl}}/1
+
+### Find another existing car - 200 OK
+GET {{baseUrl}}/3
+
+### Find missing car - 404 Not Found
+GET {{baseUrl}}/999
+
+
+############################################
+# 5. PUT - COMPLETE UPDATE
+############################################
+
+### Update car 1 - 200 OK
+PUT {{baseUrl}}/1
+Content-Type: application/json
+
+{
+    "price": 14500,
+    "notes": "Fully serviced"
+}
+
+### Missing car - 404 Not Found
+PUT {{baseUrl}}/999
+Content-Type: application/json
+
+{
+    "price": 15000,
+    "notes": "Updated notes"
+}
+
+### Invalid price - 400 Bad Request
+PUT {{baseUrl}}/1
+Content-Type: application/json
+
+{
+    "price": -500,
+    "notes": "Invalid price"
+}
+
+### Missing required notes - 400 Bad Request
+PUT {{baseUrl}}/1
+Content-Type: application/json
+
+{
+    "price": 15000
+}
+
+### Empty notes - 400 Bad Request
+PUT {{baseUrl}}/1
+Content-Type: application/json
+
+{
+    "price": 15000,
+    "notes": ""
+}
+
+
+############################################
+# 6. PATCH - PARTIAL UPDATE
+############################################
+
+### Update only price - 200 OK
+PATCH {{baseUrl}}/2
+Content-Type: application/json
+
+{
+    "price": 11500
+}
+
+### Update only notes - 200 OK
+PATCH {{baseUrl}}/2
+Content-Type: application/json
+
+{
+    "notes": "Recently serviced"
+}
+
+### Update price and notes - 200 OK
+PATCH {{baseUrl}}/2
+Content-Type: application/json
+
+{
+    "price": 11000,
+    "notes": "Price reduced"
+}
+
+### Empty patch - 400 Bad Request
+PATCH {{baseUrl}}/2
+Content-Type: application/json
+
+{}
+
+### Invalid price - 400 Bad Request
+PATCH {{baseUrl}}/2
+Content-Type: application/json
+
+{
+    "price": 0
+}
+
+### Blank notes - 400 Bad Request
+PATCH {{baseUrl}}/2
+Content-Type: application/json
+
+{
+    "notes": "   "
+}
+
+### Missing car - 404 Not Found
+PATCH {{baseUrl}}/999
+Content-Type: application/json
+
+{
+    "price": 10000
+}
+
+
+############################################
+# 7. DELETE - BY DETAILS
+############################################
+
+### Delete Toyota Corolla 2020 - 200 OK
+DELETE {{baseUrl}}?brand=Toyota&model=Corolla&year=2020
+
+### Delete same car again - 404 Not Found
+DELETE {{baseUrl}}?brand=Toyota&model=Corolla&year=2020
+
+
+############################################
+# 8. DELETE - BY BRAND
+############################################
+
+### Delete remaining Toyota cars - 200 OK
+DELETE {{baseUrl}}?brand=Toyota
+
+### Delete missing brand - 404 Not Found
+DELETE {{baseUrl}}?brand=Ferrari
+
+### Empty brand - 400 Bad Request
+DELETE {{baseUrl}}?brand=
+
+
+############################################
+# 9. DELETE - BY MODEL
+############################################
+
+### Delete Ford Focus - 200 OK
+DELETE {{baseUrl}}?model=Focus
+
+### Delete missing model - 404 Not Found
+DELETE {{baseUrl}}?model=UnknownModel
+
+
+############################################
+# 10. DELETE - BY YEAR
+############################################
+
+### Delete cars from 2020 - 200 OK
+DELETE {{baseUrl}}?year=2020
+
+### Delete missing year - 404 Not Found
+DELETE {{baseUrl}}?year=1990
+
+### Invalid year - 400 Bad Request
+DELETE {{baseUrl}}?year=1800
+
+
+############################################
+# 11. DELETE - BY ID
+############################################
+
+### Delete Honda Civic by ID - 200 OK
+DELETE {{baseUrl}}/4
+
+### Delete same car again - 404 Not Found
+DELETE {{baseUrl}}/4
+
+### Delete missing ID - 404 Not Found
+DELETE {{baseUrl}}/999
+
+
+############################################
+# 12. DELETE - INVALID FILTER COMBINATIONS
+############################################
+
+### Unsupported combination - 400 Bad Request
+DELETE {{baseUrl}}?brand=Ford&model=Fiesta
+
+### Missing deletion criteria - expected 400 Bad Request
+DELETE {{baseUrl}}
+
+
+############################################
+# 13. FINAL VERIFICATION
+############################################
+
+### Get remaining cars - 200 OK
+GET {{baseUrl}}
+
+### Verify deleted car - 404 Not Found
+GET {{baseUrl}}/1
+
+### Verify remaining Ford Fiesta - 200 OK
+GET {{baseUrl}}/5

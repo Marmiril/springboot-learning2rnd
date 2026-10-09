@@ -64,9 +64,16 @@ public class CarController50 {
     }
 
     @GetMapping("/{id}")
-    public CarResponse50 getCarById(@PathVariable int id) {
+    public ResponseEntity <Response50> getCarById(@PathVariable int id) {
         Car50 car = service.getCarById(id);
-        return mapper.toResponse(car);
+        
+        CarResponse50 carResponse = mapper.toResponse(car);
+
+        Response50 response = new Response50(
+            "Car retrieve successfully",
+            carResponse
+        );
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping 

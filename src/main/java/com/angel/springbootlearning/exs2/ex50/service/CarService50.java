@@ -124,11 +124,7 @@ public class CarService50 {
         if (model != null) { validateFields(model, "Model"); }
         if (year != null) { validateYear(year); }
 
-        return repository.findAll().stream()
-            .filter(car -> brand == null || car.brand().equalsIgnoreCase(brand.trim()))
-            .filter(car -> model == null || car.model().equalsIgnoreCase(model.trim()))
-            .filter(car -> year == null || car.year() == year)
-            .toList();
+        return repository.findByFilters(brand, model, year);
     }
 
 

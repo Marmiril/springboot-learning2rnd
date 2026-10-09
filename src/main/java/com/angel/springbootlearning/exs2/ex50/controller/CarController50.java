@@ -174,7 +174,7 @@ public class CarController50 {
         @RequestParam String model,
         @RequestParam int year        
     ) {
-        Car50 car = service.getCarByDetails(brand, model, year);
+        Car50 car = service.deleteCarByDetails(brand, model, year);
         CarResponse50 carResponse = mapper.toResponse(car);
         Response50 response = new Response50(
             "Car deleted successfully",

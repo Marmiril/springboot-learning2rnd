@@ -96,19 +96,28 @@ public class CarController50 {
     }
 
     @PatchMapping ("/{id}")
-    public ResponseEntity<CarResponse50> patchCar(
+    public ResponseEntity<Response50> patchCar(
         @PathVariable int id,
         @RequestBody CarUpdate50 request
     ) {
         Car50 car = service.patchCar(id, request);
-        CarResponse50 response = mapper.toResponse(car);
+        CarResponse50 carResponse = mapper.toResponse(car);
+
+        Response50 response = new Response50(
+            "Car partially updated successfully",
+            carResponse
+        );
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping ("/{id}")
-    public ResponseEntity<CarResponse50> deleteById(@PathVariable int id) {
+    public ResponseEntity<Response50> deleteById(@PathVariable int id) {
         Car50 car = service.deleteCarById(id);
-        CarResponse50 response = mapper.toResponse(car);
+        CarResponse50 carResponse = mapper.toResponse(car);
+        Response50 response = new Response50(
+            "Car with id: " + id + " deleted successfully",
+            carResponse
+        );
         return ResponseEntity.ok(response);
     }
 

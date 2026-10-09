@@ -16,8 +16,8 @@ public record Book (
     int id,
     String title, 
     String author,
+    String theme,
     int year,
     double price,
-    String theme,
     String notes
 ) {}

@@ -35,6 +35,15 @@ public class BookRepository {
             .findFirst();
     }
 
+    public List<Book> findByFilters(String title, String author, BookTheme theme, Integer year) {
+        return books.stream()
+            .filter(book -> title == null || book.title().equalsIgnoreCase(title.trim()))
+            .filter(book -> author == null || book.author().equalsIgnoreCase(author.trim()))
+            .filter(book -> theme == null || book.theme() == theme)
+            .filter(book -> year == null || book.year() == year)
+            .toList();
+    }
+
     public Book create(Book book) {
         books.add(book);
         return book;
@@ -85,6 +94,5 @@ public class BookRepository {
         bookToDelete.ifPresent(books::remove);
         return bookToDelete;
     }
-
 
 }

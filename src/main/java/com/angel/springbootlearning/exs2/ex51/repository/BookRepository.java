@@ -18,9 +18,9 @@ public class BookRepository {
 
     public Optional<Book> findById(int id) { return books.stream().filter(book -> book.id() == id ).findFirst(); }
 
-    public Optional<Book> findByTitle(String title) { return books.stream().filter(book -> book.title().equalsIgnoreCase(title)).findFirst(); }
+    public Optional<Book> findByTitle(String title) { return books.stream().filter(book -> book.title().equalsIgnoreCase(title.trim())).findFirst(); }
 
-    public List<Book> findByAuthor(String author) { return books.stream().filter(book -> book.author().equalsIgnoreCase(author)).toList(); }
+    public List<Book> findByAuthor(String author) { return books.stream().filter(book -> book.author().equalsIgnoreCase(author.trim())).toList(); }
 
     public List<Book> findByTheme(BookTheme theme) { return books.stream().filter(book -> book.theme() == theme).toList(); }
 

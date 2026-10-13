@@ -30,8 +30,8 @@ public class BookMapper {
             book.author(),
             book.theme(),
             book.year(),
-            request.price(),
-            request.notes()
+            request.price() != null ? request.price() : book.price(),
+            request.notes() != null ? request.notes() : book.notes()
         );
     }
 

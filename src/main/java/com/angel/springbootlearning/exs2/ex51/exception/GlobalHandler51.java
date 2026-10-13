@@ -25,7 +25,7 @@ public class GlobalHandler51 {
     @ExceptionHandler(InvalidBook.class) 
     public ResponseEntity<BookErrorResponse> handleInvalidBook(InvalidBook exception) { return buildError(HttpStatus.BAD_REQUEST, exception.getMessage()); }
 
-    @ExceptionHandler(BookNotFound.class) {
+    @ExceptionHandler(BookNotFound.class) 
     public ResponseEntity<BookErrorResponse> handleBookNotFound(BookNotFound exception) { return buildError(HttpStatus.NOT_FOUND, exception.getMessage()); }
 
     @ExceptionHandler(DuplicateBook.class)
@@ -41,6 +41,4 @@ public class GlobalHandler51 {
         );
         return ResponseEntity.status(status).body(response);
     }
-    
-
 }

@@ -26,4 +26,45 @@ public class BookRepository {
 
     public List<Book> findByYear(int year) { return books.stream().filter(book -> book.year() == year).toList(); }
 
+    public Optional<Book> findByDetails(String title, String author, BookTheme theme, int year) {
+        return books.stream()
+            .filter(book -> book.title().equalsIgnoreCase(title.trim()))
+            .filter(book -> book.author().equalsIgnoreCase(author.trim()))
+            .filter(book -> book.theme() == theme)
+            .filter(book -> book.year() == year)
+            .findFirst();
+    }
+
+    public Book create(Book book) {
+        books.add(book);
+        return book;
+    }
+
+    public Optional<Book> update(Book updatedBook) {
+        for (int index = 0; index < books.size(); index++) {
+            if(books.get(index).id() == updatedBook.id()) {
+                books.set(index, updatedBook);
+                return Optional.of(updatedBook);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Book> deleteById(int id) {
+        Optional<Book> book = findById(id);
+        book.ifPresent(books::remove);
+        return book;
+    }
+
+    public Optional<Book> deleteByTitle(String title){
+        Optional<Book> book = findByTitle(title);
+        book.ifPresent(books::remove);
+        return book;
+    }
+
+    public List<Book> deleteByAuthor(String author) {
+        List<Book> booksToRemove = findByAuthor(author);
+        books.removeAll(booksToRemove);
+        return booksToRemove;
+    }
 }

@@ -67,4 +67,24 @@ public class BookRepository {
         books.removeAll(booksToRemove);
         return booksToRemove;
     }
+
+    public List<Book> deleteByTheme(BookTheme theme) {
+        List<Book> booksToRemove = findByTheme(theme);
+        books.removeAll(booksToRemove);
+        return booksToRemove;
+    }
+
+    public List<Book> deleteByYear(int year) {
+        List<Book> booksToRemove = findByYear(year);
+        books.removeAll(booksToRemove);
+        return booksToRemove;
+    }
+
+    public Optional<Book> deleteByDetails(String title, String author, BookTheme theme, int year) {
+        Optional<Book> bookToDelete = findByDetails(title, author, theme, year);
+        bookToDelete.ifPresent(books::remove);
+        return bookToDelete;
+    }
+
+
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.angel.springbootlearning.exs2.ex51.exception.InvalidBook;
 import com.angel.springbootlearning.exs2.ex51.mapper.BookMapper;
+import com.angel.springbootlearning.exs2.ex51.model.Book;
 import com.angel.springbootlearning.exs2.ex51.repository.BookRepository;
 
 @Service 
@@ -24,6 +25,17 @@ public class BookService {
 
 /////////////////////////////////////////////////////////////////////////////
 
-private void ValidateFields(String value, String field) { if (value == null || value.isBlank()) { throw new InvalidBook(field + " is required"); }}
+private void validateFields(String value, String field) { if (value == null || value.isBlank()) { throw new InvalidBook(field + " is required"); }}
+
+private void validateYear(int year) { 
+    int currentYear = java.time.Year.now().getValue();
+    if (year > currentYear) { throw new InvalidBook("No books from future are allowed"); }
+}
     
+private void validatePrice(Double price) {
+    if (price == null) { throw new InvalidBook("Price is required"); }
+    if (!Double.isFinite(price) || price <= 0) { throw new InvalidBook("Price must be a finite number greater than zero!"); }
+}
+
+
 }

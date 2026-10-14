@@ -28,7 +28,11 @@ public class BookService {
 
     public Book getBookById(int id) { return requireBookById(id); }
 
-    public 
+    public Book getByTitle(String title) {
+        validateFields(title, "Title");
+        verifyUniqueTitle(title);
+        return repository.findByTitle(title).orElseThrow(() -> new BookNotFound("There is no book with title: " + title));
+    }
 
 
 /////////////////////////////////////////////////////////////////////////////

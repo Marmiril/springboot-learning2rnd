@@ -10,12 +10,13 @@ public class BookService {
 
     private final BookRepository repository;
     private final BookMapper mapper;
+    private int nextIdd = 1;
 
     public BookService(BookRepository repository, BookMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
 
-    
+
     
 }

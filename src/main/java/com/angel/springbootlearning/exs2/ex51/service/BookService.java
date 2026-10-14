@@ -34,6 +34,13 @@ public class BookService {
         return repository.findByTitle(title).orElseThrow(() -> new BookNotFound("There is no book with title: " + title));
     }
 
+    public List<Book> getBooksByTitle(String author) {
+        validateFields(author, "Author");
+        List<Book> books = repository.findByAuthor(author);
+        if(books.isEmpty()) { throw new BookNotFound("There are no books in the list written by: " + author); }
+        return books;
+    }
+
 
 /////////////////////////////////////////////////////////////////////////////
 

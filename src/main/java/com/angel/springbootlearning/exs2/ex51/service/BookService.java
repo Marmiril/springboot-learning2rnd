@@ -1,7 +1,10 @@
 package com.angel.springbootlearning.exs2.ex51.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.angel.springbootlearning.exs2.ex51.exception.InvalidBook;
 import com.angel.springbootlearning.exs2.ex51.mapper.BookMapper;
 import com.angel.springbootlearning.exs2.ex51.repository.BookRepository;
 
@@ -17,6 +20,10 @@ public class BookService {
         this.mapper = mapper;
     }
 
+    public List<Book> getBooks 
 
+/////////////////////////////////////////////////////////////////////////////
+
+private void ValidateFields(String value, String field) { if (value == null || value.isBlank()) { throw new InvalidBook(field + " is required"); }}
     
 }

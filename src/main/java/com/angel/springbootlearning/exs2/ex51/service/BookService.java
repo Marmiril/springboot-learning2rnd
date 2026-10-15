@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.angel.springbootlearning.exs2.ex51.dto.BookRequest;
+import com.angel.springbootlearning.exs2.ex51.dto.BookUpdate;
 import com.angel.springbootlearning.exs2.ex51.exception.BookNotFound;
 import com.angel.springbootlearning.exs2.ex51.exception.InvalidBook;
 import com.angel.springbootlearning.exs2.ex51.mapper.BookMapper;
@@ -17,7 +18,7 @@ public class BookService {
 
     private final BookRepository repository;
     private final BookMapper mapper;
-    private int nextIdd = 1;
+    private int nextId = 1;
 
     public BookService(BookRepository repository, BookMapper mapper) {
         this.repository = repository;
@@ -72,8 +73,18 @@ public class BookService {
 
     public Book createBook(BookRequest request) {
         validateRequest(request);
+        Book book = mapper.toModel(nextId++, request);
+        return repository.create(book);
     }
 
+    public Book updateBook(int id, BookUpdate request) {
+        Book book = getBookById(id);
+        if (request == null) { throw new InvalidBook("Book update request is required!"); }
+        validatePrice(request.price());
+        validateFields(request.notes(), "Notes");
+        Book updatedBook = mapper.toUpdateBook(book, request);
+        return updatedBook;
+    }
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -96,7 +107,7 @@ public class BookService {
     private void validateRequest(BookRequest request) {
     if(request == null) { throw new InvalidBook("Request is required..."); }
     validateFields(request.title(), "Title");
-    verifiyUniqueTitle(request.title());
+    verifyUniqueTitle(request.title());
     validateFields(request.author(), "Author");
     validateTheme(request.theme());
     validateYear(request.year());

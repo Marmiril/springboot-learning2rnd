@@ -35,7 +35,7 @@ public class BookService {
         return repository.findByTitle(title).orElseThrow(() -> new BookNotFound("There is no book with title: " + title));
     }
 
-    public List<Book> getBooksByTitle(String author) {
+    public List<Book> getBooksByAuthor(String author) {
         validateFields(author, "Author");
         List<Book> books = repository.findByAuthor(author);
         if(books.isEmpty()) { throw new BookNotFound("There are no books in the list written by: " + author); }
@@ -79,12 +79,72 @@ public class BookService {
 
     public Book updateBook(int id, BookUpdate request) {
         Book book = getBookById(id);
-        if (request == null) { throw new InvalidBook("Book update request is required!"); }
+       // if (request == null) { throw new InvalidBook("Book update request is required!"); }
         validatePrice(request.price());
         validateFields(request.notes(), "Notes");
         Book updatedBook = mapper.toUpdateBook(book, request);
-        return updatedBook;
+        return repository.update(updatedBook).orElseThrow(() -> new BookNotFound(id));
     }
+
+    public Book patchBook(int id, BookUpdate request) {
+        Book book = getBookById(id);
+        if (request == null) { throw new InvalidBook("Request is required..."); }
+        if (request.price() == null && request.notes() == null) { throw new InvalidBook("At least one field is required..."); }
+        if (request.price() != null) { validatePrice(request.price()); }
+        if (request.notes() != null) { validateFields(request.notes(), "Notes"); }
+        Book patchedBook = mapper.toUpdateBook(book, request);
+        return repository.update(patchedBook).orElseThrow(() -> new BookNotFound(id));
+    }
+
+    public List<Book> searchBooks (String title, String author, BookTheme theme, Integer year) {
+        if (title != null) { validateFields(title, "Title");}
+        if (author != null) { validateFields(author, "Author"); }
+        if (theme != null ) { validateTheme (theme); }
+        if (year != null) { validateYear(year);}
+
+        return repository.findByFilters(title, author, theme, year);            
+    }
+
+    public Book deleteBookById(int id) {
+        return repository.deleteById(id).orElseThrow(() -> new BookNotFound(id));
+    }
+
+    public Book deleteBookByTitle(String title) {
+        validateFields(title, "Title");
+        Book bookToDelete = repository.deleteByTitle(title).orElseThrow(() -> new BookNotFound("There is no book with title: " + title));
+        return bookToDelete;
+
+    }
+
+    public List<Book> deleteBooksByAuthor(String author) {
+        validateFields(author, "Author");
+        List<Book> booksToDelete = repository.deleteByAuthor(author);
+        if (booksToDelete.isEmpty()) { throw new BookNotFound("There are no books by author: " + author); }
+        return booksToDelete;      
+    }
+
+    public List<Book> deleteBooksByTheme(BookTheme theme) {
+        validateTheme(theme);
+        List<Book> booksToDelete = repository.deleteByTheme(theme);
+        if (booksToDelete.isEmpty()) { throw new BookNotFound("There are no books with theme: " + theme); }
+        return booksToDelete;
+    }
+
+    public List<Book> deleteBooksByYear(int year) {
+        validateYear(year);
+        List<Book> booksToDelete = repository.deleteByYear(year);
+        if (booksToDelete.isEmpty()) { throw new BookNotFound("There are no books from: " + year); }
+        return booksToDelete;
+    }
+
+    public Book deleteBookByDetails(String title, String author, BookTheme theme, int year) {
+        validateFields(title, "Title");
+        validateFields(author, "Author");
+        validateTheme(theme);
+        validateYear(year);
+        return repository.deleteByDetails(title, author, theme, year).orElseThrow(() -> new BookNotFound("There is no books with such details"));
+    }
+
 
 /////////////////////////////////////////////////////////////////////////////
 

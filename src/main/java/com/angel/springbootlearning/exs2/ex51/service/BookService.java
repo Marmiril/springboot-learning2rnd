@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.angel.springbootlearning.exs2.ex51.dto.BookRequest;
 import com.angel.springbootlearning.exs2.ex51.dto.BookUpdate;
 import com.angel.springbootlearning.exs2.ex51.exception.BookNotFound;
+import com.angel.springbootlearning.exs2.ex51.exception.DuplicateBook;
 import com.angel.springbootlearning.exs2.ex51.exception.InvalidBook;
 import com.angel.springbootlearning.exs2.ex51.mapper.BookMapper;
 import com.angel.springbootlearning.exs2.ex51.model.Book;
@@ -31,7 +32,6 @@ public class BookService {
 
     public Book getByTitle(String title) {
         validateFields(title, "Title");
-        verifyUniqueTitle(title);
         return repository.findByTitle(title).orElseThrow(() -> new BookNotFound("There is no book with title: " + title));
     }
 
@@ -79,7 +79,7 @@ public class BookService {
 
     public Book updateBook(int id, BookUpdate request) {
         Book book = getBookById(id);
-       // if (request == null) { throw new InvalidBook("Book update request is required!"); }
+        if (request == null) { throw new InvalidBook("Book update request is required!"); }
         validatePrice(request.price());
         validateFields(request.notes(), "Notes");
         Book updatedBook = mapper.toUpdateBook(book, request);
@@ -162,7 +162,7 @@ public class BookService {
 
     private void validateTheme(BookTheme theme) { if (theme == null) { throw new InvalidBook("Theme is required!"); }}
 
-    private void verifyUniqueTitle(String title) { if(repository.findByTitle(title.trim()).isPresent()) { throw new InvalidBook("Title already exists"); } }
+    private void verifyUniqueTitle(String title) { if(repository.findByTitle(title.trim()).isPresent()) { throw new DuplicateBook("Title already exists"); } }
 
     private void validateRequest(BookRequest request) {
     if(request == null) { throw new InvalidBook("Request is required..."); }

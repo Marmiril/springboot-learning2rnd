@@ -1,4 +1,4 @@
-package com.angel.springbootlearning.exs2.ex51.dto;
+package com.angel.springbootlearning.exs2.ex51.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

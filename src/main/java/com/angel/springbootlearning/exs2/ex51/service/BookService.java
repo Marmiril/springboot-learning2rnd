@@ -41,6 +41,39 @@ public class BookService {
         return books;
     }
 
+    public List<Book> getBooksByTheme(BookTheme theme) {
+        validateTheme(theme);
+        List<Book> books = repository.findByTheme(theme);
+        if(books.isEmpty()) { throw new BookNotFound("There are no books with theme: " + theme); }
+        return books;
+    }
+
+    public List<Book> getBooksByYear(int year) {
+        validateYear(year);
+        List<Book> books = repository.findByYear(year);
+        if (books.isEmpty()) { throw new BookNotFound("There are no books from year " + year); }
+        return books;
+    }
+
+    public Book getBookByDetails(String title, String author, BookTheme theme, int year) {
+        validateFields(title, "Title");
+        validateFields(author, "Author");
+        validateTheme(theme);
+        validateYear(year);
+
+        return repository.findByDetails(title, author, theme, year)
+            .orElseThrow(() -> new BookNotFound(
+                "There is no book with title: " + title.trim()
+                + ", author: " + author.trim()
+                + ", of " + theme
+                + " from " + year)
+            );
+    }
+
+    public Book createBook(BookRequest request) {
+        validateRequest(request);
+    }
+
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -63,6 +96,7 @@ public class BookService {
     private void validateRequest(BookRequest request) {
     if(request == null) { throw new InvalidBook("Request is required..."); }
     validateFields(request.title(), "Title");
+    verifiyUniqueTitle(request.title());
     validateFields(request.author(), "Author");
     validateTheme(request.theme());
     validateYear(request.year());

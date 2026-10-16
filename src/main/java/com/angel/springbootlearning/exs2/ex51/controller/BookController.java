@@ -2,9 +2,11 @@ package com.angel.springbootlearning.exs2.ex51.controller;
 
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -90,5 +92,19 @@ public class BookController {
         );
         return ResponseEntity.ok(response);
 
+    }
+
+    @PatchMapping ("/{id}")
+    public ResponseEntity<BookResponse> patchBook(
+        @PathVariable int id,
+        @RequestBody BookUpdate request 
+    ) {
+        Book book = service.patchBook(id, request);
+        BookDataResponse bookData = mapper.toResponse(book);
+        BookResponse response = new BookResponse(
+            "Book updated successfully",
+            bookData
+        );
+        return ResponseEntity.ok(response);
     }
 }

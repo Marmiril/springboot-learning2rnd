@@ -2,15 +2,19 @@ package com.angel.springbootlearning.exs2.ex51.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.angel.springbootlearning.exs2.ex51.dto.BookDataResponse;
 import com.angel.springbootlearning.exs2.ex51.dto.BookListResponse;
+import com.angel.springbootlearning.exs2.ex51.dto.BookRequest;
 import com.angel.springbootlearning.exs2.ex51.dto.BookResponse;
 import com.angel.springbootlearning.exs2.ex51.mapper.BookMapper;
 import com.angel.springbootlearning.exs2.ex51.model.Book;
@@ -58,6 +62,17 @@ public class BookController {
             bookData
         );
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping 
+    public ResponseEntity<BookResponse> createBook(@RequestBody BookRequest request) {
+        Book book = service.createBook(request);
+        BookDataResponse bookData = mapper.toResponse(book);
+        BookResponse response = new BookResponse( 
+            "Book created successfully",
+            bookData
+        );
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     

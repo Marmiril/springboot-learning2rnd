@@ -144,4 +144,17 @@ public class BookController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping(params = {"theme", "!title", "!author","!year"})
+    public ResponseEntity<BookListResponse> deleteBooksByTheme(@RequestParam BookTheme theme) {
+        List<Book> books = service.deleteBooksByTheme(theme);
+        List<BookDataResponse> bookData = books.stream()
+            .map(mapper::toResponse)
+            .toList();
+        BookListResponse response = new BookListResponse(
+            "Books with theme: " + theme + " deleted successfully!",
+            bookData
+        );
+        return ResponseEntity.ok(response);
+    }
+
 }

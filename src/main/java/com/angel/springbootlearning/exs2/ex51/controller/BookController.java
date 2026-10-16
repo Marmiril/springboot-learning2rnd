@@ -1,9 +1,20 @@
 package com.angel.springbootlearning.exs2.ex51.controller;
 
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.angel.springbootlearning.exs2.ex51.dto.BookDataResponse;
+import com.angel.springbootlearning.exs2.ex51.dto.BookListResponse;
+import com.angel.springbootlearning.exs2.ex51.dto.BookResponse;
 import com.angel.springbootlearning.exs2.ex51.mapper.BookMapper;
+import com.angel.springbootlearning.exs2.ex51.model.Book;
+import com.angel.springbootlearning.exs2.ex51.model.BookTheme;
 import com.angel.springbootlearning.exs2.ex51.service.BookService;
 
 @RestController 
@@ -17,5 +28,37 @@ public class BookController {
         this.service = service;
         this.mapper = mapper;
     }
+
+    @GetMapping 
+    public ResponseEntity<BookListResponse> getBooks(
+        @RequestParam(required = false) String title,
+        @RequestParam(required = false) String author,
+        @RequestParam(required = false) BookTheme theme,
+        @RequestParam(required = false) Integer year
+    ) {
+        List<Book> books = service.searchBooks(title, author, theme, year);
+
+        List<BookDataResponse> responses = books.stream()
+            .map(mapper::toResponse)
+            .toList();
+
+        BookListResponse response = new BookListResponse(
+            "Books retrieved successfully",
+            responses
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping ("/{id}")
+    public ResponseEntity<BookResponse> getBookById(@PathVariable int id) {
+        Book book = service.getBookById(id);
+        BookDataResponse bookData = mapper.toResponse(book);
+        BookResponse response = new BookResponse(
+            "Book retrieved successfully",
+            bookData
+        );
+        return ResponseEntity.ok(response);
+    }
+
     
 }

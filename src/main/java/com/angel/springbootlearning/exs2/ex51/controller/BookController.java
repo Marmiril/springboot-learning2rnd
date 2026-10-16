@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -107,4 +108,40 @@ public class BookController {
         );
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping ("/{id}")
+    public ResponseEntity<BookResponse> deleteBookById(@PathVariable int id) {
+        Book book = service.deleteBookById(id);
+        BookDataResponse bookData = mapper.toResponse(book);
+        BookResponse response = new BookResponse(
+            "Book deleted successfully",
+            bookData
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping(params = { "title", "!author", "!theme", "!year"})
+    public ResponseEntity<BookResponse> deleteBookByTitle(@RequestParam String title) {
+        Book book = service.deleteBookByTitle(title);
+        BookDataResponse bookData = mapper.toResponse(book);
+        BookResponse response = new BookResponse(
+            "Book with title " + title + " deleted successfully",
+            bookData
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping(params = {"author", "!title", "!theme", "!year"})
+    public ResponseEntity<BookListResponse> deleteBooksByAuthor(@RequestParam String author) {
+        List<Book> books = service.deleteBooksByAuthor(author);
+        List<BookDataResponse> bookData = books.stream()
+            .map(mapper::toResponse)
+            .toList();
+        BookListResponse response = new BookListResponse(
+            "Books by author: " + author + " deleted successfully!",
+            bookData
+        );
+        return ResponseEntity.ok(response);
+    }
+
 }

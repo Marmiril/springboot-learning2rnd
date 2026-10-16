@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,7 @@ import com.angel.springbootlearning.exs2.ex51.dto.BookDataResponse;
 import com.angel.springbootlearning.exs2.ex51.dto.BookListResponse;
 import com.angel.springbootlearning.exs2.ex51.dto.BookRequest;
 import com.angel.springbootlearning.exs2.ex51.dto.BookResponse;
+import com.angel.springbootlearning.exs2.ex51.dto.BookUpdate;
 import com.angel.springbootlearning.exs2.ex51.mapper.BookMapper;
 import com.angel.springbootlearning.exs2.ex51.model.Book;
 import com.angel.springbootlearning.exs2.ex51.model.BookTheme;
@@ -75,5 +77,18 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    
+    @PutMapping ("/{id}")
+    public ResponseEntity<BookResponse> updateBook(
+        @PathVariable int id,
+        @RequestBody BookUpdate request 
+    ) {
+        Book book = service.updateBook(id, request);
+        BookDataResponse bookData = mapper.toResponse(book);
+        BookResponse response = new BookResponse(
+            "Book updated successfully!",
+            bookData
+        );
+        return ResponseEntity.ok(response);
+
+    }
 }

@@ -157,4 +157,16 @@ public class BookController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping(params = {"year", "!title", "!author", "!theme"})
+    public ResponseEntity<BookListResponse> deleteBooksByYear(@RequestParam int year) {
+        List<Book> books = service.deleteBooksByYear(year);
+        List<BookDataResponse> bookData = books.stream()
+            .map(mapper::toResponse)
+            .toList();
+        BookListResponse response = new BookListResponse(
+            "Books from year: " + year + " deleted successfully!",
+            bookData
+        );
+        return ResponseEntity.ok(response);
+    }
 }

@@ -1,0 +1,492 @@
+
+### ============================================================
+### EXERCISE 51 - BOOK CRUD
+### Base URL: http://localhost:8080/ex51/books
+### ============================================================
+
+@baseUrl = http://localhost:8080/ex51/books
+
+
+### 01 - Create book: Dune - 201 Created
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "title": "Dune",
+    "author": "Frank Herbert",
+    "theme": "SCIENCE_FICTION",
+    "year": 1965,
+    "price": 19.99,
+    "notes": "Science fiction classic."
+}
+
+
+### 02 - Create book: Foundation - 201 Created
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "title": "Foundation",
+    "author": "Isaac Asimov",
+    "theme": "SCIENCE_FICTION",
+    "year": 1951,
+    "price": 15.50,
+    "notes": "First book of the Foundation series."
+}
+
+
+### 03 - Create book: I, Robot - 201 Created
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "title": "I, Robot",
+    "author": "Isaac Asimov",
+    "theme": "SCIENCE_FICTION",
+    "year": 1950,
+    "price": 12.99,
+    "notes": "Collection of robot stories."
+}
+
+
+### 04 - Create book: Dracula - 201 Created
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "title": "Dracula",
+    "author": "Bram Stoker",
+    "theme": "HORROR",
+    "year": 1897,
+    "price": 10.99,
+    "notes": "Gothic horror novel."
+}
+
+
+### 05 - Create book: The Hobbit - 201 Created
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "title": "The Hobbit",
+    "author": "J. R. R. Tolkien",
+    "theme": "FANTASY",
+    "year": 1937,
+    "price": 17.99,
+    "notes": "Fantasy adventure novel."
+}
+
+
+### ============================================================
+### POST - ERROR CASES
+### ============================================================
+
+
+### 06 - Duplicate title - 409 Conflict
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "title": "Dune",
+    "author": "Another Author",
+    "theme": "FANTASY",
+    "year": 2000,
+    "price": 20.00,
+    "notes": "Duplicate title test."
+}
+
+
+### 07 - Empty title - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "title": "",
+    "author": "Frank Herbert",
+    "theme": "SCIENCE_FICTION",
+    "year": 1965,
+    "price": 19.99,
+    "notes": "Invalid title."
+}
+
+
+### 08 - Empty author - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "title": "Invalid Author Book",
+    "author": "",
+    "theme": "OTHER",
+    "year": 2020,
+    "price": 10.00,
+    "notes": "Invalid author."
+}
+
+
+### 09 - Invalid enum value - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "title": "Invalid Theme Book",
+    "author": "Test Author",
+    "theme": "COMEDY",
+    "year": 2020,
+    "price": 10.00,
+    "notes": "Invalid genre."
+}
+
+
+### 10 - Future publication year - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "title": "Future Book",
+    "author": "Test Author",
+    "theme": "OTHER",
+    "year": 2099,
+    "price": 10.00,
+    "notes": "Invalid publication year."
+}
+
+
+### 11 - Negative price - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "title": "Negative Price Book",
+    "author": "Test Author",
+    "theme": "OTHER",
+    "year": 2020,
+    "price": -5.00,
+    "notes": "Invalid price."
+}
+
+
+### 12 - Empty notes - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "title": "Empty Notes Book",
+    "author": "Test Author",
+    "theme": "OTHER",
+    "year": 2020,
+    "price": 12.00,
+    "notes": ""
+}
+
+
+### 13 - Missing theme - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "title": "Missing Theme Book",
+    "author": "Test Author",
+    "year": 2020,
+    "price": 12.00,
+    "notes": "Missing enum value."
+}
+
+
+### 14 - Empty JSON object - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{}
+
+
+### ============================================================
+### GET - SUCCESSFUL REQUESTS
+### ============================================================
+
+
+### 15 - Get all books - 200 OK
+GET {{baseUrl}}
+
+
+### 16 - Get book by ID - 200 OK
+GET {{baseUrl}}/1
+
+
+### 17 - Get books by title - 200 OK
+GET {{baseUrl}}?title=Dune
+
+
+### 18 - Get books by author - 200 OK
+GET {{baseUrl}}?author=Isaac%20Asimov
+
+
+### 19 - Get books by theme - 200 OK
+GET {{baseUrl}}?theme=SCIENCE_FICTION
+
+
+### 20 - Get books by year - 200 OK
+GET {{baseUrl}}?year=1951
+
+
+### 21 - Get books by multiple filters - 200 OK
+GET {{baseUrl}}?author=Isaac%20Asimov&theme=SCIENCE_FICTION
+
+
+### 22 - Get book by all details - 200 OK
+GET {{baseUrl}}?title=Dune&author=Frank%20Herbert&theme=SCIENCE_FICTION&year=1965
+
+
+### ============================================================
+### GET - ERROR AND EMPTY RESULT CASES
+### ============================================================
+
+
+### 23 - Missing book by ID - 404 Not Found
+GET {{baseUrl}}/9999
+
+
+### 24 - No books match title - 200 OK (empty list)
+GET {{baseUrl}}?title=UnknownBook
+
+
+### 25 - Empty title filter - 400 Bad Request
+GET {{baseUrl}}?title=
+
+
+### 26 - Invalid enum filter - 400 Bad Request
+GET {{baseUrl}}?theme=COMEDY
+
+
+### 27 - Future year filter - 400 Bad Request
+GET {{baseUrl}}?year=2099
+
+
+### 28 - Multiple filters with no matches - 200 OK (empty list)
+GET {{baseUrl}}?author=Isaac%20Asimov&theme=HORROR
+
+
+### ============================================================
+### PUT - FULL UPDATE OF EDITABLE FIELDS
+### ============================================================
+
+
+### 29 - Update book by ID - 200 OK
+PUT {{baseUrl}}/1
+Content-Type: application/json
+
+{
+    "price": 24.99,
+    "notes": "Updated edition of Dune."
+}
+
+
+### 30 - Update nonexistent book - 404 Not Found
+PUT {{baseUrl}}/9999
+Content-Type: application/json
+
+{
+    "price": 20.00,
+    "notes": "Missing book test."
+}
+
+
+### 31 - PUT without price - 400 Bad Request
+PUT {{baseUrl}}/1
+Content-Type: application/json
+
+{
+    "notes": "Missing price."
+}
+
+
+### 32 - PUT without notes - 400 Bad Request
+PUT {{baseUrl}}/1
+Content-Type: application/json
+
+{
+    "price": 20.00
+}
+
+
+### 33 - PUT with negative price - 400 Bad Request
+PUT {{baseUrl}}/1
+Content-Type: application/json
+
+{
+    "price": -10.00,
+    "notes": "Invalid price."
+}
+
+
+### ============================================================
+### PATCH - PARTIAL UPDATE
+### ============================================================
+
+
+### 34 - PATCH price only - 200 OK
+PATCH {{baseUrl}}/1
+Content-Type: application/json
+
+{
+    "price": 29.99
+}
+
+
+### 35 - PATCH notes only - 200 OK
+PATCH {{baseUrl}}/1
+Content-Type: application/json
+
+{
+    "notes": "Updated notes using PATCH."
+}
+
+
+### 36 - PATCH both fields - 200 OK
+PATCH {{baseUrl}}/1
+Content-Type: application/json
+
+{
+    "price": 21.50,
+    "notes": "Both fields updated."
+}
+
+
+### 37 - PATCH nonexistent book - 404 Not Found
+PATCH {{baseUrl}}/9999
+Content-Type: application/json
+
+{
+    "price": 15.00
+}
+
+
+### 38 - PATCH empty JSON - 400 Bad Request
+PATCH {{baseUrl}}/1
+Content-Type: application/json
+
+{}
+
+
+### 39 - PATCH invalid price - 400 Bad Request
+PATCH {{baseUrl}}/1
+Content-Type: application/json
+
+{
+    "price": 0
+}
+
+
+### 40 - PATCH empty notes - 400 Bad Request
+PATCH {{baseUrl}}/1
+Content-Type: application/json
+
+{
+    "notes": ""
+}
+
+
+### ============================================================
+### DELETE - ERROR CASES
+### Execute these before successful deletions.
+### ============================================================
+
+
+### 41 - Delete nonexistent book by ID - 404 Not Found
+DELETE {{baseUrl}}/9999
+
+
+### 42 - Delete nonexistent book by title - 404 Not Found
+DELETE {{baseUrl}}?title=UnknownBook
+
+
+### 43 - Delete by empty title - 400 Bad Request
+DELETE {{baseUrl}}?title=
+
+
+### 44 - Delete books by nonexistent author - 404 Not Found
+DELETE {{baseUrl}}?author=UnknownAuthor
+
+
+### 45 - Delete books by invalid theme - 400 Bad Request
+DELETE {{baseUrl}}?theme=COMEDY
+
+
+### 46 - Delete books from future year - 400 Bad Request
+DELETE {{baseUrl}}?year=2099
+
+
+### 47 - Delete book with mismatched details - 404 Not Found
+DELETE {{baseUrl}}?title=Dune&author=Wrong%20Author&theme=SCIENCE_FICTION&year=1965
+
+
+### ============================================================
+### DELETE - SUCCESSFUL REQUESTS
+### Execute these LAST and in the order shown.
+### ============================================================
+
+
+### 48 - Delete Dune by title - 200 OK
+DELETE {{baseUrl}}?title=Dune
+
+
+### 49 - Delete books by author - 200 OK
+### Removes Foundation and I, Robot.
+DELETE {{baseUrl}}?author=Isaac%20Asimov
+
+
+### 50 - Delete books by theme - 200 OK
+### Removes Dracula.
+DELETE {{baseUrl}}?theme=HORROR
+
+
+### 51 - Delete books by year - 200 OK
+### Removes The Hobbit.
+DELETE {{baseUrl}}?year=1937
+
+
+### ============================================================
+### ADDITIONAL DELETE TESTS
+### Create the books below before testing DELETE by ID/details.
+### ============================================================
+
+
+### 52 - Create book for DELETE by ID - 201 Created
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "title": "Neuromancer",
+    "author": "William Gibson",
+    "theme": "SCIENCE_FICTION",
+    "year": 1984,
+    "price": 18.50,
+    "notes": "Book for deletion by ID."
+}
+
+
+### 53 - Delete Neuromancer by ID - 200 OK
+### Assumes requests 01-05 and 52 were the only successful creations.
+DELETE {{baseUrl}}/6
+
+
+### 54 - Create book for DELETE by details - 201 Created
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "title": "Frankenstein",
+    "author": "Mary Shelley",
+    "theme": "HORROR",
+    "year": 1818,
+    "price": 13.99,
+    "notes": "Book for deletion by details."
+}
+
+
+### 55 - Delete book by all details - 200 OK
+DELETE {{baseUrl}}?title=Frankenstein&author=Mary%20Shelley&theme=HORROR&year=1818
+
+
+### 56 - Final list - 200 OK (empty list)
+GET {{baseUrl}}

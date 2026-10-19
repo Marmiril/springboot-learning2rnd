@@ -49,11 +49,10 @@ public class BookController {
         List<BookDataResponse> responses = books.stream()
             .map(mapper::toResponse)
             .toList();
-/*         BookListResponse response = new BookListResponse(
-            "Books retrieved successfully",
-            responses
-        );
-*/
+
+        // Check whether the repository containd any books
+        boolean emptyRespository = service.getBooks().isEmpty();            
+
         // Determine whether the request contains search criteria
         boolean hasFilters = 
             title  != null  ||
@@ -61,10 +60,13 @@ public class BookController {
             theme  != null  ||
             year   != null;
 
+
+
         // Select the response message based on the search result
-        String message = responses.isEmpty()
-            ? (hasFilters ? "No books match the specified filters" : "The book list is empty")
-            : "Books retreived successfully";
+        String message;
+        if (emptyRespository) { message = "The book list is empty"; }
+        else if (responses.isEmpty() && hasFilters) { message = "No books match the specific filters"; }
+        else { message = "Books retrieved successfully"; }
 
         BookListResponse response = new BookListResponse(
             message,

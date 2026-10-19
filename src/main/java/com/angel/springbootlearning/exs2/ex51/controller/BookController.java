@@ -169,4 +169,20 @@ public class BookController {
         );
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping(params = {"title", "author", "theme", "year"})
+    public ResponseEntity<BookResponse> deleteBooksByDetails(
+        @RequestParam String title,
+        @RequestParam String author,
+        @RequestParam BookTheme theme,
+        @RequestParam int year
+    ) {
+        Book book = service.deleteBookByDetails(title, author, theme, year);
+        BookDataResponse bookData = mapper.toResponse(book);
+        BookResponse response = new BookResponse(
+            "Book deleted successfully",
+            bookData
+        );
+        return ResponseEntity.ok(response);
+    }
 }

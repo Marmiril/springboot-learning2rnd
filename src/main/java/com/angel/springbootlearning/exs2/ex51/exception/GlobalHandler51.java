@@ -14,6 +14,7 @@ package com.angel.springbootlearning.exs2.ex51.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -31,6 +32,14 @@ public class GlobalHandler51 {
     @ExceptionHandler(DuplicateBook.class)
     public ResponseEntity<BookErrorResponse> handleDuplicateBook(DuplicateBook exception) { return buildError(HttpStatus.CONFLICT, exception.getMessage()); }
     
+    // Handle malformed JSON or values that cannot be deserialized.
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<BookErrorResponse> handleInvalidJson(HttpMessageNotReadableException exception) {
+        return buildError(
+            HttpStatus.BAD_REQUEST,
+            "Invalid JSON or missing required fields"
+        );
+    }
     private ResponseEntity<BookErrorResponse> buildError(
         HttpStatus status,
         String message

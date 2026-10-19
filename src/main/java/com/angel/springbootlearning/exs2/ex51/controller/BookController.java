@@ -49,11 +49,27 @@ public class BookController {
         List<BookDataResponse> responses = books.stream()
             .map(mapper::toResponse)
             .toList();
-
-        BookListResponse response = new BookListResponse(
+/*         BookListResponse response = new BookListResponse(
             "Books retrieved successfully",
             responses
         );
+*/
+        // Determine whether the request contains search criteria
+        boolean hasFilters = 
+            title  != null  ||
+            author != null  ||
+            theme  != null  ||
+            year   != null;
+
+        // Select the response message based on the search result
+        String message = responses.isEmpty()
+            ? (hasFilters ? "No books match the specified filters" : "The book list is empty")
+            : "Books retreived successfully";
+
+        BookListResponse response = new BookListResponse(
+            message,
+            responses
+        );    
         return ResponseEntity.ok(response);
     }
 

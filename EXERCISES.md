@@ -2221,3 +2221,54 @@ GET, POST, PUT, PATCH, DELETE
 
 **Status:**
 DONE
+
+## Exercise 51 - Book Management CRUD
+
+**Purpose:**  
+Implement an in-memory book management REST API, reinforcing CRUD operations, DTOs, mappers, enums, combined search filters, and HTTP response handling.
+
+**URL:**  
+`http://localhost:8080/ex51/books`
+
+**HTTP methods:**  
+GET, POST, PUT, PATCH, DELETE
+
+**Main concepts:**
+
+- CRUD operations using an in-memory `ArrayList`.
+- `BookTheme` enum.
+- DTOs and mapper for data encapsulation.
+- Search using optional and combined filters.
+- `Stream`, `filter()`, `map()`, and `Optional`.
+- `ResponseEntity` and HTTP status codes.
+- Custom exceptions and global exception handling.
+- Distinguishing empty repositories from searches without matches.
+- Limitations of in-memory storage.
+
+**Files:**  
+`src/main/java/com/angel/springbootlearning/exs2/ex51/`
+
+- `controller/BookController.java`
+- `service/BookService.java`
+- `repository/BookRepository.java`
+- `model/`
+- `dto/`
+- `mapper/`
+- `exception/`
+
+**Request file:**  
+`requests/exercise51.http`
+
+**Tested cases:**
+
+- Successful compilation.
+- Successful book creation.
+- Duplicate titles: HTTP 409 Conflict.
+- Missing books: HTTP 404 Not Found.
+- Invalid data: HTTP 400 Bad Request.
+- Empty JSON: HTTP 400 Bad Request.
+- Book searching and filtering.
+- Empty repository and searches without matches.
+
+**Status:**  
+Completed — H2 persistence pending (Exercise 52).

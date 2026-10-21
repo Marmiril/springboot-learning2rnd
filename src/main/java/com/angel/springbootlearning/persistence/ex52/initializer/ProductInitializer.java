@@ -83,6 +83,8 @@ public class ProductInitializer implements CommandLineRunner{
         // Counts the products remaining in the database
         long totalProducts = repository.count();
         logger.info("Total products in inventory: {}", totalProducts);
+
+        //
     }
 
     // LOGGER

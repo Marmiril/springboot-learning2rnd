@@ -6,6 +6,8 @@
 
 package com.angel.springbootlearning.persistence.ex52.initializer;
 
+import java.util.List;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +29,13 @@ public class ProductInitializer implements CommandLineRunner{
         Product product = new Product("Mouse", "Electronics", 24.99, 20);
 
         repository.save(product);
+        
+        // Retrieve all products stored in H2
+        List<Product> products = repository.findAll();
+        products.forEach(p ->
+            System.out.println("Product found: " + p.getName())
+        );
+
 
         System.out.println("Product saved successfully!");
     }

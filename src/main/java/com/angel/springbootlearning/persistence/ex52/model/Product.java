@@ -33,4 +33,5 @@ public class Product {
         this.stock = stock;
     }
     
+    public String getName() { return name; }
 }

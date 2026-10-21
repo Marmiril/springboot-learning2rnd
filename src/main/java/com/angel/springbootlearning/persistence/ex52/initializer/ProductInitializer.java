@@ -79,6 +79,10 @@ public class ProductInitializer implements CommandLineRunner{
             "Does the deleted product still exist? {}",
             productExists
         );
+
+        // Counts the products remaining in the database
+        long totalProducts = repository.count();
+        logger.info("Total products in inventory: {}", totalProducts);
     }
 
     // LOGGER

@@ -9,22 +9,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequestMapping("/exercise18/projects")
 @RestController
 public class ProjectHttpStatusController {
 
-    @GetMapping("/exercise18/projects")
+    @GetMapping
     public ResponseEntity<List<?>> getProjects() {return new ResponseEntity<>(getExistingProjects(), HttpStatus.OK); }
 
-    @GetMapping("/exercise18/projects/{id}") 
+    @GetMapping("/{id}") 
     public ResponseEntity<?>getProjectsById(@PathVariable int id) {
         ProjectResponse project = findProjectById(id);
         if (project == null) {return notFound("Project with id: " + id + " was not found!"); }
         return new ResponseEntity<>(project, HttpStatus.OK);
     }
 
-    @PostMapping("/exercise18/projects")
+    @PostMapping
     public ResponseEntity<?> createProject(@RequestBody CreateProjectRequest request) {
 
         if (isBlank(request.title())) { return badRequest ("Project must be titled"); }
@@ -39,7 +41,7 @@ public class ProjectHttpStatusController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/exercise18/projects/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProject(@PathVariable int id) {
         if (findProjectById(id) == null) { return notFound("There is no project with such id " + id); }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

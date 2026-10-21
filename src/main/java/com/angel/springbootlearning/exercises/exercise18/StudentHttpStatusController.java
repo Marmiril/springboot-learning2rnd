@@ -21,17 +21,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequestMapping("/exercise18/students")
 @RestController
 public class StudentHttpStatusController {
 
     // Will return all simulatees students with HTTP 200 OK
-    @GetMapping("/exercise18/students")
+    @GetMapping
     public ResponseEntity<List<StudentResponse>> getStudents() { return new ResponseEntity<>(getExistingStudents(), HttpStatus.OK); }
 
     // Searchs for one student by id and returns 200 OK or 404 Not Found
-    @GetMapping("/exercise18/students/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getStudentById(@PathVariable int id)  {
         StudentResponse student = findStudentById(id);
         if (student == null) { return notFound("Student with id " + id + " was not found!"); }
@@ -39,7 +41,7 @@ public class StudentHttpStatusController {
     }
 
     // Creates a sutdent and returns 201 Created, 400 Bad Requiest or 409 Conflict
-    @PostMapping("/exercise18/students")
+    @PostMapping
     public ResponseEntity<?> createStudent(@RequestBody CreateStudentRequest request) {
         if (isBlank(request.name())) { return badRequest("Student name is mandatory!"); }
         if (isBlank(request.role())) { return badRequest("Student role must exist!"); }
@@ -54,7 +56,7 @@ public class StudentHttpStatusController {
     }
 
     // Simulates deleting a sutdent and returns 204 No Content or 404 Not Found
-    @DeleteMapping("/exercise18/students/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteStudentById(@PathVariable int id) {
         if(findStudentById(id) == null) { return notFound("Student with id " + id + " was not found..."); }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

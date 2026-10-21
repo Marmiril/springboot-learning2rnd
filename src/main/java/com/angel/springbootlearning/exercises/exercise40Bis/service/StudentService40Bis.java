@@ -1,6 +1,5 @@
 package com.angel.springbootlearning.exercises.exercise40Bis.service;
 
-import java.security.PublicKey;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -103,9 +102,7 @@ public class StudentService40Bis {
         requireStudentsByRole(role);
         return studentRepository.deleteByRole(role);
     }
-           
-    ///////////////////////////////////////////////
-    
+              
     private Student40Bis requireStudentById(int id) {
         return studentRepository
             .findById(id)

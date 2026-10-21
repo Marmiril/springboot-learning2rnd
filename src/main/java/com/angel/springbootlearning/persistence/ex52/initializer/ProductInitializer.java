@@ -42,14 +42,14 @@ public class ProductInitializer implements CommandLineRunner{
 
         // Retrieve a product by its database-generated ID
         Optional<Product> foundProduct = repository.findById(product.getId());        
-        foundProduct.ifPresent(p -> logger.info("Product found by ID: " + p.getName()));
+        foundProduct.ifPresent(p -> logger.info("Product found by ID: {}", p.getName()));
 
         // Check how JPA nadles a nonexistent product.
         Optional<Product> missingProduct = repository.findById(99999L);
-        if (missingProduct.isEmpty()) { System.out.println("Product with IS 9999 does not exist"); }
+        if (missingProduct.isEmpty()) { logger.info("Product with IS 9999 does not exist"); }
       
     }
-    
+
     // LOGGER
     private static final Logger logger = LoggerFactory.getLogger(ProductInitializer.class);    
 }

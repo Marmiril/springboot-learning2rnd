@@ -6,8 +6,6 @@ import com.angel.springbootlearning.exs2.ex51.dto.BookDataResponse;
 import com.angel.springbootlearning.exs2.ex51.dto.BookRequest;
 import com.angel.springbootlearning.exs2.ex51.dto.BookUpdate;
 import com.angel.springbootlearning.exs2.ex51.model.Book;
-import com.angel.springbootlearning.exs2.ex51.model.BookTheme;
-
 @Component 
 public class BookMapper {
     

@@ -48,6 +48,15 @@ public class ProductInitializer implements CommandLineRunner{
         Optional<Product> missingProduct = repository.findById(99999L);
         if (missingProduct.isEmpty()) { logger.info("Product with IS 9999 does not exist"); }
       
+        // Update the product price an d presist the changes
+        product.setPrice(29.99);
+        Product updatedProduct = repository.save(product);
+
+        logger.info(
+            "Product updated. ID: {}, new price: {}",
+            updatedProduct.getId(),
+            updatedProduct.getPrice()
+        );
     }
 
     // LOGGER

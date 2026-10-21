@@ -4,7 +4,7 @@
  * URLs: Not available yet.
  */
 
-package com.angel.springbootlearning.persistence.model;
+package com.angel.springbootlearning.persistence.ex52.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

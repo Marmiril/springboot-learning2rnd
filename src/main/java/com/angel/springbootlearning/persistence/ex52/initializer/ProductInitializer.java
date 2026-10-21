@@ -66,6 +66,14 @@ public class ProductInitializer implements CommandLineRunner{
             renamedProduct.getId(),
             renamedProduct.getName()
         );
+
+        // Delete the product using its database-generated ID
+        repository.deleteById(product00.getId());
+
+        logger.info(
+            "Product deleted. ID: {}",
+            product00.getId()
+        );
     }
 
     // LOGGER

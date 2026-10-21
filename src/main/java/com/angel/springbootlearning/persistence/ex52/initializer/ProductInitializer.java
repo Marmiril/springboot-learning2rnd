@@ -51,7 +51,6 @@ public class ProductInitializer implements CommandLineRunner{
         // Update the product price and presist the changes
         product.setPrice(29.99);
         Product updatedProduct = repository.save(product);
-
         logger.info(
             "Product updated. ID: {}, new price: {}",
             updatedProduct.getId(),
@@ -69,10 +68,16 @@ public class ProductInitializer implements CommandLineRunner{
 
         // Delete the product using its database-generated ID
         repository.deleteById(product00.getId());
-
         logger.info(
             "Product deleted. ID: {}",
             product00.getId()
+        );
+
+        // Verify that the deleted product no longer exists in the database. existsById is inherited by JpaRepository
+        boolean productExists = repository.existsById(product00.getId());
+        logger.info(
+            "Does the deleted product still exist? {}",
+            productExists
         );
     }
 

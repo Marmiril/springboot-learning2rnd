@@ -84,7 +84,13 @@ public class ProductInitializer implements CommandLineRunner{
         long totalProducts = repository.count();
         logger.info("Total products in inventory: {}", totalProducts);
 
-        //
+        // Search for a product without case sensitivity
+        Optional<Product> productByName = repository.findByNameIgnoreCase("MOUSE");
+        productByName.ifPresentOrElse(
+            p -> logger.info("Product found by name: {}", p.getName()),
+            () -> logger.warn("No product found with the specific name")
+        );
+
     }
 
     // LOGGER

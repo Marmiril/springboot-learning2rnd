@@ -93,7 +93,8 @@ public class ProductInitializer implements CommandLineRunner{
 
         // Retrieve all produtcs belonging to the Electric category
         List<Product> electronicProducts = repository.findByCategoryIgnoreCase("ELECTRONICS");
-        electronicProducts.forEach(p -> logger.info("Product in category Electronics: ", p.getName()));
+        logger.info("Products found in Electronics: {}", electronicProducts.size());
+        electronicProducts.forEach(p -> logger.info("Product in category Electronics: {}", p.getName()));
 
     }
 

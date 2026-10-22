@@ -108,6 +108,13 @@ public class ProductInitializer implements CommandLineRunner{
         List<Product> productsInRange = repository.findByPriceBetween(20.00, 50.00);
         productsInRange.forEach(p -> logger.info("Product: {} - price: {}", p.getName(), p.getPrice()));
 
+        // Retrieve products by category and max price
+        List<Product> productsCategoryPrice = repository.findByCategoryIgnoreCaseAndPriceLessThan("Electronics", 100.00);
+        productsCategoryPrice.forEach(p -> logger.info("Product: {} -- Price: {}", p.getName(), p.getPrice()));
+
+        // Retrieve products with stock above a specified quantity
+        List<Product> productsByStock = repository.findByStockGreaterThan(10);
+        productsByStock.forEach(p -> logger.info("Product: {} -- Stock: {}", p.getName(), p.getStock()));
     }
 
     // LOGGER

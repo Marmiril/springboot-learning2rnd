@@ -115,6 +115,12 @@ public class ProductInitializer implements CommandLineRunner{
         // Retrieve products with stock above a specified quantity
         List<Product> productsByStock = repository.findByStockGreaterThan(10);
         productsByStock.forEach(p -> logger.info("Product: {} -- Stock: {}", p.getName(), p.getStock()));
+
+        // Retrieve products by price asc
+        List<Product> productsCategoryOrderAsc = repository.findByCategoryIgnoreCaseOrderByPriceAsc("Electrinics");
+        productsCategoryOrderAsc.forEach(p -> logger.info("Product: {} -- Price: {}", p.getName(), p.getPrice()));
+
+
     }
 
     // LOGGER

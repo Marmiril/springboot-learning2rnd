@@ -29,8 +29,8 @@ public class ProductInitializer implements CommandLineRunner{
     @Override 
     public void run(String... args) {
         // Persists a product when the applications starts.
-        Product product = new Product("Mouse", "Electronics", 24.99, 20);
-        Product product00 = new Product("Keyboard", "Electronics", 49.99, 10);
+        Product product = new Product("Mouse", "Electronics", 24.99, 30);
+        Product product00 = new Product("Keyboard", "Electronics", 49.99, 20);
         Product product01 = new Product("Monitor", "Electronics", 250.00, 10);
 
         repository.save(product);
@@ -76,14 +76,14 @@ public class ProductInitializer implements CommandLineRunner{
             "Product deleted. ID: {}",
             product00.getId()
         );
-*/
+
         // Verify that the deleted product no longer exists in the database. existsById is inherited by JpaRepository
         boolean productExists = repository.existsById(product00.getId());
         logger.info(
             "Does the deleted product still exist? {}",
             productExists
         );
-
+*/
         // Counts the products remaining in the database
         long totalProducts = repository.count();
         logger.info("Total products in inventory: {}", totalProducts);
@@ -117,9 +117,12 @@ public class ProductInitializer implements CommandLineRunner{
         productsByStock.forEach(p -> logger.info("Product: {} -- Stock: {}", p.getName(), p.getStock()));
 
         // Retrieve products by price asc
-        List<Product> productsCategoryOrderAsc = repository.findByCategoryIgnoreCaseOrderByPriceAsc("Electrinics");
+        List<Product> productsCategoryOrderAsc = repository.findByCategoryIgnoreCaseOrderByPriceAsc("Electronics");
         productsCategoryOrderAsc.forEach(p -> logger.info("Product: {} -- Price: {}", p.getName(), p.getPrice()));
 
+        // Find products with stock below the specified amount
+        List<Product> productsWithLowStock = repository.findProductsWithLowStock(12);
+        productsWithLowStock.forEach(p -> logger.info("Product: {} -- Stock: {} -- Price: {}", p.getName(), p.getStock(), p.getPrice()));
 
     }
 

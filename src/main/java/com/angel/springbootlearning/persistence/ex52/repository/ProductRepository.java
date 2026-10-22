@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.angel.springbootlearning.persistence.ex52.model.Product;
 
@@ -32,6 +34,13 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
     // Find products by category, ordered by asecending price
     List<Product> findByCategoryIgnoreCaseOrderByPriceAsc(String category);
 
+
+    /*
+    JPQL (Jakarta Persistence Query Language).
+    */
+    // Find products with stock below the specified quantity
+    @Query ("SELECT p FROM Product p WHERE p.stock < :stock")
+    List<Product> findProductsWithLowStock(@Param("stock") int stock);
 }
 
 

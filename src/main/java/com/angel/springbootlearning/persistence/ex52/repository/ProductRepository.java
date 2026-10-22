@@ -6,6 +6,7 @@
 
 package com.angel.springbootlearning.persistence.ex52.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +16,8 @@ import com.angel.springbootlearning.persistence.ex52.model.Product;
 public interface ProductRepository extends JpaRepository<Product, Long>{    
 
     Optional<Product> findByNameIgnoreCase(String name);
+
+    List<Product> findByCategoryIgnoreCase(String category);
 
 }
 

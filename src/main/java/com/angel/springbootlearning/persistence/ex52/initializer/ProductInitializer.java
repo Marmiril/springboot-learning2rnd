@@ -31,10 +31,13 @@ public class ProductInitializer implements CommandLineRunner{
         // Persists a product when the applications starts.
         Product product = new Product("Mouse", "Electronics", 24.99, 20);
         Product product00 = new Product("Keyboard", "Electronics", 49.99, 10);
-        logger.info("Product saved successfully!");
+        Product product01 = new Product("Monitor", "Electronics", 250.00, 10);
 
         repository.save(product);
         repository.save(product00);
+        repository.save(product01);
+
+        logger.info("Product saved successfully!");        
         
         // Retrieve all products stored in H2
         List<Product> products = repository.findAll();
@@ -66,13 +69,14 @@ public class ProductInitializer implements CommandLineRunner{
             renamedProduct.getName()
         );
 
+/*
         // Delete the product using its database-generated ID
         repository.deleteById(product00.getId());
         logger.info(
             "Product deleted. ID: {}",
             product00.getId()
         );
-
+*/
         // Verify that the deleted product no longer exists in the database. existsById is inherited by JpaRepository
         boolean productExists = repository.existsById(product00.getId());
         logger.info(
@@ -99,6 +103,10 @@ public class ProductInitializer implements CommandLineRunner{
         // Retrieve products with a price lower than the specified amount
         List<Product> affordableProducts = repository.findByPriceLessThan(30.00);
         affordableProducts.forEach(p -> logger.info("Product: {}, price: {}", p.getName(), p.getPrice()));
+
+        // Retrieve products between prices
+        List<Product> productsInRange = repository.findByPriceBetween(20.00, 50.00);
+        productsInRange.forEach(p -> logger.info("Product: {} - price: {}", p.getName(), p.getPrice()));
 
     }
 

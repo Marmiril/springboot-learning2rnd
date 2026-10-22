@@ -91,6 +91,10 @@ public class ProductInitializer implements CommandLineRunner{
             () -> logger.warn("No product found with the specific name")
         );
 
+        // Retrieve all produtcs belonging to the Electric category
+        List<Product> electronicProducts = repository.findByCategoryIgnoreCase("ELECTRONICS");
+        electronicProducts.forEach(p -> logger.info("Product in category Electronics: ", p.getName()));
+
     }
 
     // LOGGER

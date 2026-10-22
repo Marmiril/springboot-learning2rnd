@@ -57,6 +57,10 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
         @Param("maxPrice") double maxPrice
     );
 
+    // Calculate the average price of all products
+    @Query("SELECT AVG(p.price) FROM Product p")
+    Double findAverageProductPrice();
+
 }
 
 

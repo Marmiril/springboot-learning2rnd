@@ -32,10 +32,12 @@ public class ProductInitializer implements CommandLineRunner{
         Product product = new Product("Mouse", "Electronics", 24.99, 30);
         Product product00 = new Product("Keyboard", "Electronics", 49.99, 20);
         Product product01 = new Product("Monitor", "Electronics", 250.00, 10);
+        Product product02 = new Product("Paddle", "Sports", 35.00, 12);
 
         repository.save(product);
         repository.save(product00);
         repository.save(product01);
+        repository.save(product02);
 
         logger.info("Product saved successfully!");        
         
@@ -130,7 +132,7 @@ public class ProductInitializer implements CommandLineRunner{
 
         // Calculate and display average product price in a specific category
         String averageCategory = "Sports";
-        Double averagePrice = repository.findAverageProductPrice(averageCategory);
+        Double averagePrice = repository.findAverageCategoryPrice(averageCategory);
         if (averagePrice != null) {logger.info("Average price for category: {} -- {}", averageCategory, averagePrice); }
         else { logger.info("No products found in category: {}", averageCategory); }
 
@@ -139,6 +141,11 @@ public class ProductInitializer implements CommandLineRunner{
         Double totalCategoryPrice = repository.findTotalCategoryValue(inventoryCategory);
         if (totalCategoryPrice != null) {logger.info ("Category products: {} -- Total value: {}", inventoryCategory, totalCategoryPrice); }
         else { logger.info ("No products found in category: {}", inventoryCategory); }
+
+        // Calculate and display the average products price
+        Double averageTotal = repository.findAverageTotalPrice();
+        if (averageTotal != null) { logger.info("The total value of all products is: {}", averageTotal); }
+        else { logger.info("Cannot calculate average price: inventory is empty!"); }
 
     }
 

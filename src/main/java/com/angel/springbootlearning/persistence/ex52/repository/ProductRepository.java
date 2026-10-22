@@ -57,21 +57,27 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
         @Param("maxPrice") double maxPrice
     );
 
-    // Calculate the average price of all products
+    // Calculate the average price of all products of a specified category
     @Query("""
         SELECT AVG(p.price)
         FROM Product p
         WHERE LOWER(p.category) = LOWER(:category)
         """)
-    Double findAverageProductPrice(@Param("category") String category);
+    Double findAverageCategoryPrice(@Param("category") String category);
 
-    // Calculate the total inventory value for a specific category
+    // Calculate the total inventory value for a specified category
     @Query("""
         SELECT SUM(p.price * p.stock)
         FROM Product p
         WHERE LOWER(p.category) = LOWER(:category)
         """)
     Double findTotalCategoryValue(@Param("category") String category);
+
+    // Calculate the average price of all products
+    @Query("SELECT AVG(p.price) FROM Product p")
+    Double findAverageTotalPrice();
+
+    
 
 }
 

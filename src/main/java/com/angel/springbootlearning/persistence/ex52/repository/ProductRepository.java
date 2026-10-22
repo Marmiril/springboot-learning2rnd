@@ -81,6 +81,14 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
     @Query("SELECT SUM(p.price * p.stock) FROM Product p")
     Double findTotalProductValue();
 
+    // Calculate the total inventory value grouped by category
+    @Query("""
+        SELECT p.category, SUM(p.price * stock)
+        FROM Product p
+        GROUP BY p.category
+        """)
+    List<Object[]> findInventoryValueByCategory();
+
 }
 
 

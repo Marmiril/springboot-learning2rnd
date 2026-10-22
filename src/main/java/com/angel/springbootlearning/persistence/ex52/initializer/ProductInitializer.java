@@ -1,6 +1,6 @@
 /*
  * Exercise 52 - Product Initializer
- * Purpose: Insert an inventory product into H2 using Spring Data JPA.
+ * Purpose: Demonstrate JPA CRUD operations and repository queries using H2.
  * URLs: Not available.
  */
 
@@ -151,6 +151,15 @@ public class ProductInitializer implements CommandLineRunner{
         Double totalProductValue = repository.findTotalProductValue();
         if (totalProductValue != null) { logger.info("Total value of all products: {}", totalProductValue);}
         else { logger.info("Cannot calculate the total value as the inventory is empty"); }
+
+        // Retrieve the total inventory value for each category
+        List<Object[]> inventoryByCategory = repository.findInventoryValueByCategory();
+        inventoryByCategory.forEach(result -> {
+            String category = (String) result[0];
+            Double totalValue = (Double) result[1];
+
+            logger.info("Category: {} -- Total inventory value: {}", category, totalValue);
+        });
 
     }
 

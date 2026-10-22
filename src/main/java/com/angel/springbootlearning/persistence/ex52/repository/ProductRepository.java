@@ -75,9 +75,11 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 
     // Calculate the average price of all products
     @Query("SELECT AVG(p.price) FROM Product p")
-    Double findAverageTotalPrice();
+    Double findAverageProductPrice();
 
-    
+    // Calculate the total inventory value of all categories
+    @Query("SELECT SUM(p.price * p.stock) FROM Product p")
+    Double findTotalProductValue();
 
 }
 

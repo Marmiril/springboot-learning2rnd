@@ -96,6 +96,10 @@ public class ProductInitializer implements CommandLineRunner{
         logger.info("Products found in Electronics: {}", electronicProducts.size());
         electronicProducts.forEach(p -> logger.info("Product in category Electronics: {}", p.getName()));
 
+        // Retrieve products with a price lower than the specified amount
+        List<Product> affordableProducts = repository.findByPriceLessThan(30.00);
+        affordableProducts.forEach(p -> logger.info("Product: {}, price: {}", p.getName(), p.getPrice()));
+
     }
 
     // LOGGER

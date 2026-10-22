@@ -124,6 +124,10 @@ public class ProductInitializer implements CommandLineRunner{
         List<Product> productsWithLowStock = repository.findProductsWithLowStock(12);
         productsWithLowStock.forEach(p -> logger.info("Product: {} -- Stock: {} -- Price: {}", p.getName(), p.getStock(), p.getPrice()));
 
+        // Retrieve electronic products priced at 100 or less
+        List<Product> filteredProducts = repository.findProductsByCategoryAndMaxPrice("Electronics", 100);
+        filteredProducts.forEach(p -> logger.info("Filtered product: {} -- Price: {}", p.getName(), p.getPrice()));
+
     }
 
     // LOGGER

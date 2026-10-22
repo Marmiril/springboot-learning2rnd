@@ -17,6 +17,9 @@ import com.angel.springbootlearning.persistence.ex52.model.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long>{    
 
+    /*
+    JPA - Jakarta Persistence API
+     */
     Optional<Product> findByNameIgnoreCase(String name);
 
     List<Product> findByCategoryIgnoreCase(String category);
@@ -41,6 +44,19 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
     // Find products with stock below the specified quantity
     @Query ("SELECT p FROM Product p WHERE p.stock < :stock")
     List<Product> findProductsWithLowStock(@Param("stock") int stock);
+
+    // Find products by category & max price, ordered by descending price
+    @Query("""
+        SELECT p FROM Product p
+        WHERE LOWER(p.category) = LOWER(:category)
+        AND p.price <= :maxPrice
+        ORDER BY p.price DESC
+        """)
+    List<Product> findProductsByCategoryAndMaxPrice(
+        @Param("category") String category,
+        @Param("maxPrice") double maxPrice
+    );
+
 }
 
 

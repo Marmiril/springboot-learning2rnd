@@ -65,6 +65,14 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
         """)
     Double findAverageProductPrice(@Param("category") String category);
 
+    // Calculate the total inventory value for a specific category
+    @Query("""
+        SELECT SUM(p.price * p.stock)
+        FROM Product p
+        WHERE LOWER(p.category) = LOWER(:category)
+        """)
+    Double findTotalCategoryValue(@Param("category") String category);
+
 }
 
 

@@ -129,10 +129,16 @@ public class ProductInitializer implements CommandLineRunner{
         filteredProducts.forEach(p -> logger.info("Filtered product: {} -- Price: {}", p.getName(), p.getPrice()));
 
         // Calculate and display average product price in a specific category
-        String category = "Sports";
-        Double averagePrice = repository.findAverageProductPrice(category);
-        if (averagePrice != null) {logger.info("Average price for category: {} -- {}", category, averagePrice); }
-        else { logger.info("No products found in category: {}", category); }
+        String averageCategory = "Sports";
+        Double averagePrice = repository.findAverageProductPrice(averageCategory);
+        if (averagePrice != null) {logger.info("Average price for category: {} -- {}", averageCategory, averagePrice); }
+        else { logger.info("No products found in category: {}", averageCategory); }
+
+        // Calculate and display total inventory value for a specific category
+        String inventoryCategory = "Electronics";
+        Double totalCategoryPrice = repository.findTotalCategoryValue(inventoryCategory);
+        if (totalCategoryPrice != null) {logger.info ("Category products: {} -- Total value: {}", inventoryCategory, totalCategoryPrice); }
+        else { logger.info ("No products found in category: {}", inventoryCategory); }
 
     }
 

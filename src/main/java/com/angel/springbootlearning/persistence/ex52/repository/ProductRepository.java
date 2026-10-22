@@ -58,8 +58,12 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
     );
 
     // Calculate the average price of all products
-    @Query("SELECT AVG(p.price) FROM Product p")
-    Double findAverageProductPrice();
+    @Query("""
+        SELECT AVG(p.price)
+        FROM Product p
+        WHERE LOWER(p.category) = LOWER(:category)
+        """)
+    Double findAverageProductPrice(@Param("category") String category);
 
 }
 

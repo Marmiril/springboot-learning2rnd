@@ -128,6 +128,12 @@ public class ProductInitializer implements CommandLineRunner{
         List<Product> filteredProducts = repository.findProductsByCategoryAndMaxPrice("Electronics", 100);
         filteredProducts.forEach(p -> logger.info("Filtered product: {} -- Price: {}", p.getName(), p.getPrice()));
 
+        // Calculate and display average product price in a specific category
+        String category = "Sports";
+        Double averagePrice = repository.findAverageProductPrice(category);
+        if (averagePrice != null) {logger.info("Average price for category: {} -- {}", category, averagePrice); }
+        else { logger.info("No products found in category: {}", category); }
+
     }
 
     // LOGGER

@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import com.angel.springbootlearning.persistence.ex52.dto.CategorySummary;
 import com.angel.springbootlearning.persistence.ex52.model.Product;
 import com.angel.springbootlearning.persistence.ex52.repository.ProductRepository;
 
@@ -153,13 +154,10 @@ public class ProductInitializer implements CommandLineRunner{
         else { logger.info("Cannot calculate the total value as the inventory is empty"); }
 
         // Retrieve the total inventory value for each category
-        List<Object[]> inventoryByCategory = repository.findInventoryValueByCategory();
-        inventoryByCategory.forEach(result -> {
-            String category = (String) result[0];
-            Double totalValue = (Double) result[1];
+        List<CategorySummary> inventoryByCategory = repository.findInventoryValueByCategory();
+        inventoryByCategory.forEach(summary -> { logger.info("Category: {} -- Total inventory value: {}", summary.category(), summary.totalValue()); });
 
-            logger.info("Category: {} -- Total inventory value: {}", category, totalValue);
-        });
+        // 
 
     }
 

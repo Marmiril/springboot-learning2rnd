@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.angel.springbootlearning.persistence.ex52.dto.CategorySummary;
 import com.angel.springbootlearning.persistence.ex52.model.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long>{    
@@ -81,13 +82,17 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
     @Query("SELECT SUM(p.price * p.stock) FROM Product p")
     Double findTotalProductValue();
 
-    // Calculate the total inventory value grouped by category
+
+    // Project aggregated results directly into a DTO.
     @Query("""
-        SELECT p.category, SUM(p.price * stock)
+        SELECT new com.angel.springbootlearning.persistence.ex52.dto.CategorySummary(
+            p.category,
+            SUM(p.price * p.stock)
+        )
         FROM Product p
         GROUP BY p.category
         """)
-    List<Object[]> findInventoryValueByCategory();
+    List<CategorySummary> findInventoryValueByCategory();
 
 }
 

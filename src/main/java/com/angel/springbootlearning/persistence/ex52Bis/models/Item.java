@@ -5,6 +5,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Column;
 @Entity 
 public class Item {
 
@@ -13,7 +16,9 @@ public class Item {
     private Long id;
 
     private String name;
+    @Enumerated(EnumType.STRING)
     private ItemType type;
+    @Column(name = "item_value")
     private double value;
     private int inventary;
 
@@ -30,5 +35,10 @@ public class Item {
     public ItemType getType() { return type; }
     public double getValue() { return value; }
     public int getInventary() { return inventary; }
+
+    public void setName(String name) { this.name = name; }
+    public void setType(ItemType type) { this.type = type; }
+    public void setValue(double value) { this.value = value; }
+    public void setInventary (int inventary) { this.inventary = inventary; }
     
 }

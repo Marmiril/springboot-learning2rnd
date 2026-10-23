@@ -1,3 +1,3 @@
 package com.angel.springbootlearning.persistence.ex52Bis.dto;
 
-public record ItemsInInvetary(int inventary) {}
+public record ItemsInventary(int inventary) {}

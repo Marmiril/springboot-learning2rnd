@@ -7,9 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsInInventary;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsName;
+import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsNameInventary;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsNameType;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsNameValue;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsType;
+import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsTypeInventary;
+import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsTypeValue;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsValue;
 import com.angel.springbootlearning.persistence.ex52Bis.models.Item;
 
@@ -35,5 +38,16 @@ public interface ItemRepository extends JpaRepository<Item, Long>{
 
     @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsNameValue(i.name, i.value) FROM Item i")
     List<ItemsNameValue> findItemsNameValue();
+
+    @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsNameInventary(i.name, i.inventary) FROM Item i")
+    List<ItemsNameInventary> findItemsNameInventary();
+
+    @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsTypeValue(i.type, i.value) FROM Item i")
+    List<ItemsTypeValue> findItemsTypeValue();
+
+    @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.ItemsTypeInventory(i.type, i.inventary) FROM Item i")
+    List<ItemsTypeInventary> findItemsTypeInventary();
+
+
 }
  

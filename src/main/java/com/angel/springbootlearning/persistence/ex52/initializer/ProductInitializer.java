@@ -52,7 +52,7 @@ public class ProductInitializer implements CommandLineRunner{
 
         // Check how JPA nadles a nonexistent product.
         Optional<Product> missingProduct = repository.findById(99999L);
-        if (missingProduct.isEmpty()) { logger.info("Product with IS 9999 does not exist"); }
+        if (missingProduct.isEmpty()) { logger.info("Product with ID 9999 does not exist"); }
       
         // Update the product price and presist the changes
         product.setPrice(29.99);
@@ -157,7 +157,6 @@ public class ProductInitializer implements CommandLineRunner{
         List<CategorySummary> inventoryByCategory = repository.findInventoryValueByCategory();
         inventoryByCategory.forEach(summary -> { logger.info("Category: {} -- Total inventory value: {}", summary.category(), summary.totalValue()); });
 
-        // 
 
     }
 

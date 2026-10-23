@@ -37,6 +37,7 @@ public class Product {
     public Long getId() { return id; }
     public double getPrice() { return price; }
     public int getStock() { return stock; }
+    public String getCategory() { return category; }
 
     public void setPrice(double price) { this.price = price; }
     public void setName(String name) { this.name = name; }

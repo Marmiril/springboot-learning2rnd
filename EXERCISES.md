@@ -2271,4 +2271,72 @@ GET, POST, PUT, PATCH, DELETE
 - Empty repository and searches without matches.
 
 **Status:**  
-Completed — H2 persistence pending (Exercise 52).
+DONE
+
+## Exercise 52 - H2 Database and Spring Data JPA
+
+**Purpose:**  
+Introduction to relational database persistence using H2, Hibernate and Spring Data JPA through an inventory management system.
+
+**URL:**  
+http://localhost:8080/h2-console
+
+
+**H2 connection settings:**
+
+- **Console:** http://localhost:8080/h2-console
+- **Driver Class:** `org.h2.Driver`
+- **JDBC URL:** `jdbc:h2:mem:inventorydb`
+- **Username:** `sa`
+- **Password:** Empty
+- **Database mode:** In-memory (data is lost when the application stops).
+
+**HTTP methods:**  
+Not applicable. Database operations executed through `ProductInitializer`.
+
+**Main concepts:**
+
+- H2 in-memory database.
+- Spring Data JPA and Hibernate.
+- `@Entity`, `@Id`, `@GeneratedValue`.
+- `JpaRepository<Product, Long>`.
+- `CommandLineRunner`.
+- CRUD operations: `save()`, `findAll()`, `findById()`, `deleteById()`.
+- `existsById()`, `count()`, `Optional`.
+- Derived query methods.
+- `@Query`, JPQL and `@Param`.
+- Filtering, sorting and combined conditions.
+- Aggregation functions: `AVG()`, `SUM()`.
+- `GROUP BY`.
+- DTO projections using Java records.
+- SLF4J Logger.
+
+**Files:**  
+`src/main/java/com/angel/springbootlearning/persistence/PersistenceApplication.java`
+
+`src/main/java/com/angel/springbootlearning/persistence/ex52/model/Product.java`
+
+`src/main/java/com/angel/springbootlearning/persistence/ex52/repository/ProductRepository.java`
+
+`src/main/java/com/angel/springbootlearning/persistence/ex52/initializer/ProductInitializer.java`
+
+`src/main/java/com/angel/springbootlearning/persistence/ex52/dto/CategorySummary.java`
+
+**Request file:**  
+Not applicable.
+
+**Tested cases:**
+
+- H2 database connection established successfully.
+- Product table generated automatically.
+- Products inserted and retrieved using JPA.
+- Products updated and deleted.
+- Existing and missing product IDs handled.
+- Products filtered by name, category, price and stock.
+- Products sorted by price.
+- JPQL queries with combined conditions.
+- Average prices and total inventory values calculated.
+- Inventory values grouped by category using DTO projections.
+
+**Status:**  
+Done

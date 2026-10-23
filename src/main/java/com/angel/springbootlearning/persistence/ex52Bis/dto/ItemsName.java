@@ -1,3 +1,3 @@
 package com.angel.springbootlearning.persistence.ex52Bis.dto;
 
-public record ItemsByName(String name) {}
+public record ItemsName(String name) {}

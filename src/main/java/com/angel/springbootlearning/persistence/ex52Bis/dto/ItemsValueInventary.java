@@ -1,5 +1,5 @@
 package com.angel.springbootlearning.persistence.ex52Bis.dto;
 
-public record ItemsByValueInInventary(
+public record ItemsValueInventary(
     double value,
     int inventary) {}

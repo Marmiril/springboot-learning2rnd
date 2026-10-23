@@ -2,7 +2,7 @@ package com.angel.springbootlearning.persistence.ex52Bis.dto;
 
 import com.angel.springbootlearning.persistence.ex52Bis.models.ItemType;
 
-public record ItemsByTypeInInventar(
+public record ItemsTypeValue(
     ItemType type,
-    int inventary
+    double value
 ) {}

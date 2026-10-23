@@ -13,20 +13,22 @@ public class Item {
     private Long id;
 
     private String name;
-    private String type;
-    private double price;
-    private int stock;
+    private ItemType type;
+    private double value;
+    private int inventary;
 
     protected Item() {}
 
-    public Item(String name, String type, double price, int stock){
+    public Item(String name, ItemType type, double value, int inventary){
         this.name = name;
         this.type = type;
-        this.price = price;
-        this.stock = stock;
+        this.value = value;
+        this.inventary = inventary;
     }
 
     public String getName() { return name; }
-    public String type() { return type; }
+    public ItemType getType() { return type; }
+    public double getValue() { return value; }
+    public int getInventary() { return inventary; }
     
 }

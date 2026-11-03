@@ -46,7 +46,7 @@ public interface ItemRepository extends JpaRepository<Item, Long>{
     @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsTypeValue(i.type, i.value) FROM Item i")
     List<ItemsTypeValue> findItemsTypeValue();
 
-    @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsTypeInventory(i.type, i.inventary) FROM Item i")
+    @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsTypeInventary(i.type, i.inventary) FROM Item i")
     List<ItemsTypeInventary> findItemsTypeInventary();
 
     @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsValueInventary(i.value, i.inventary) FROM Item i")

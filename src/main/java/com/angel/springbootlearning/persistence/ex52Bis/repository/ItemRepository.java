@@ -11,6 +11,7 @@ import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsNameInventary;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsNameType;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsNameValue;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsTotalInventory;
+import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsTotalValue;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsType;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsTypeInventary;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsTypeValue;
@@ -31,6 +32,10 @@ public interface ItemRepository extends JpaRepository<Item, Long>{
 
     @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsValue(i.value) FROM Item i")
     List<ItemsValue> findAllItemsValue();
+
+    // Calculate the total value of all inventory units
+    @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsTotalValue(COALESCE(SUM(i.value * i.inventary), 0,0)) FROM Item i")
+    ItemsTotalValue getTotalValue();
 
     // Calculate the total number of units in the inventory
     @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsTotalInventory(COALESCE(SUM(i.inventary), 0L)) FROM Item i")

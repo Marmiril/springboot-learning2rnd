@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsInventary;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsName;
+import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsSummaryByType;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsTotalInventory;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsType;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsValue;
@@ -59,6 +60,10 @@ public class ItemInitializer implements CommandLineRunner {
         itemsInventary.forEach(item -> logger.info("Item inventary: {}", item.inventary()));
 
         logger.info("Total inventory: {}", repository.getTotalInventary().total());
+
+        // Get total value and inventary of all types
+        List<ItemsSummaryByType> itemsTypeValueInventory = repository.getSummaryByType();
+        itemsTypeValueInventory.forEach(item -> logger.info("Type: {} | Total inventory: {} || Total value: {}", item.type(), item.totalInventory(), item.totalValue()));
 
         // Test the JPQL projection for the item names and types
         repository.findItemsNameType().forEach(item -> logger.info("Name: {} | Type: {}", item.name(), item.type()));

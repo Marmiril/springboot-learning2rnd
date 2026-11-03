@@ -25,11 +25,15 @@ public interface ItemRepository extends JpaRepository<Item, Long>{
     @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsName(i.name) FROM Item i")
     List<ItemsName> findAllItemsName();
 
-    @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsType(i.type) FROM Item i")
+    @Query("SELECT DISTINCT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsType(i.type) FROM Item i")
     List<ItemsType> findAllItemsType();
 
     @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsValue(i.value) FROM Item i")
     List<ItemsValue> findAllItemsValue();
+
+    // Calculate the total number of units in the inventory
+    @Query("SELECT SUM(i.inventary) FROM Item i")
+    Long getTotalInventary();
 
     @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsInventary(i.inventary) FROM Item i")
     List<ItemsInventary> findItemsInventary();

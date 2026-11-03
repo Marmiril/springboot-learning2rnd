@@ -2340,3 +2340,44 @@ Not applicable.
 
 **Status:**  
 Done
+
+## Exercise 52 Bis - Item Inventory with JPA and JPQL
+
+**Purpose:**  
+Manage a fantasy item inventory using Spring Data JPA and an H2 in-memory database. Practice DTO projections, aggregate queries, and grouping by item type.
+
+**URL:**  
+http://localhost:8080/h2-console
+
+**HTTP methods:**  
+Not applicable. This exercise uses `CommandLineRunner`.
+
+**Main concepts:**
+
+- JPA entities and `JpaRepository`.
+- JPQL queries with `@Query`.
+- DTO projections using `SELECT new`.
+- `DISTINCT` to avoid duplicate item types.
+- `SUM()` to calculate total units and inventory value.
+- `COALESCE()` to handle empty inventories.
+- `GROUP BY` to aggregate inventory units and values by item type.
+- `CommandLineRunner` for inserting sample data and testing queries.
+
+**Files:**
+- `src/main/java/com/angel/springbootlearning/persistence/ex52Bis/models/`
+- `src/main/java/com/angel/springbootlearning/persistence/ex52Bis/dto/`
+- `src/main/java/com/angel/springbootlearning/persistence/ex52Bis/repository/ItemRepository.java`
+- `src/main/java/com/angel/springbootlearning/persistence/ex52Bis/initializer/ItemInitializer.java`
+
+**Request file:**  
+Not applicable.
+
+**Tested cases:**
+
+- Item insertion into H2 confirmed.
+- Basic DTO projections confirmed.
+- Queries combining two attributes confirmed.
+- Aggregate and grouped queries implemented; final numerical results pending confirmation.
+
+**Status:**  
+DONE

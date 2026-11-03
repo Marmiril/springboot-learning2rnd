@@ -57,6 +57,6 @@ public class ItemInitializer implements CommandLineRunner {
         repository.findItemsTypeInventary().forEach(item -> logger.info("Type: {} | Inventary: {}", item.type(), item.inventary()));
 
         // Value & inventary
-        
+        repository.findItemsValueInventary().forEach(item -> logger.info("Value: {} | Inventar: {}", item.value(), item.inventary()));
     }
 }

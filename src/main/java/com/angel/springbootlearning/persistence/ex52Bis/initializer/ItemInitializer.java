@@ -50,7 +50,7 @@ public class ItemInitializer implements CommandLineRunner {
         List<ItemsInventary> itemsInventary = repository.findItemsInventary();
         itemsInventary.forEach(item -> logger.info("Item inventary: {}", item.inventary()));
 
-
+        logger.info("Total inventory: {}", repository.getTotalInventary());
 
         // Test the JPQL projection for the item names and types
         repository.findItemsNameType().forEach(item -> logger.info("Name: {} | Type: {}", item.name(), item.type()));

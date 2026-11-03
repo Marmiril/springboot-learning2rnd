@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsInventary;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsName;
+import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsTotalInventory;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsType;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsValue;
 import com.angel.springbootlearning.persistence.ex52Bis.models.Item;
@@ -43,9 +44,11 @@ public class ItemInitializer implements CommandLineRunner {
 
         List<ItemsType> itemsType = repository.findAllItemsType();
         itemsType.forEach(item -> logger.info("Item type: {}", item.type()));
-
+/*
         List<ItemsValue> itemsValue = repository.findAllItemsValue();
         itemsValue.forEach(item -> logger.info("Item value: {}", item.value()));
+*/
+        logger.info("Total value: {}", repository.getTotalValue());
 
         List<ItemsInventary> itemsInventary = repository.findItemsInventary();
         itemsInventary.forEach(item -> logger.info("Item inventary: {}", item.inventary()));

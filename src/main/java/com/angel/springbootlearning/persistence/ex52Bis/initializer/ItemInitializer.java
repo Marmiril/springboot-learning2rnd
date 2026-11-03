@@ -13,7 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsInventary;
 import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsName;
+import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsType;
+import com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsValue;
 import com.angel.springbootlearning.persistence.ex52Bis.models.Item;
 import com.angel.springbootlearning.persistence.ex52Bis.models.ItemType;
 import com.angel.springbootlearning.persistence.ex52Bis.repository.ItemRepository;
@@ -38,6 +41,17 @@ public class ItemInitializer implements CommandLineRunner {
         // Test the JPQL projection for item names.
         items.forEach(item -> logger.info("Item name: {}", item.name()));
 
+        List<ItemsType> itemsType = repository.findAllItemsType();
+        itemsType.forEach(item -> logger.info("Item type: {}", item.type()));
+
+        List<ItemsValue> itemsValue = repository.findAllItemsValue();
+        itemsValue.forEach(item -> logger.info("Item value: {}", item.value()));
+
+        List<ItemsInventary> itemsInventary = repository.findItemsInventary();
+        itemsInventary.forEach(item -> logger.info("Item inventary: {}", item.inventary()));
+
+
+
         // Test the JPQL projection for the item names and types
         repository.findItemsNameType().forEach(item -> logger.info("Name: {} | Type: {}", item.name(), item.type()));
 
@@ -50,13 +64,10 @@ public class ItemInitializer implements CommandLineRunner {
         // Test the JPQL projection for name & inventary 
         repository.findItemsNameInventary().forEach(item -> logger.info(" Name: {} | Inventary: {}", item.name(), item.inventary()));
 
-        // Test JPQL for type & value
-        repository.findItemsTypeValue().forEach(item -> logger.info("Type: {} | Value: {}", item.type(), item.value()));
-
         // Type & inventary
         repository.findItemsTypeInventary().forEach(item -> logger.info("Type: {} | Inventary: {}", item.type(), item.inventary()));
 
         // Value & inventary
-        repository.findItemsValueInventary().forEach(item -> logger.info("Value: {} | Inventar: {}", item.value(), item.inventary()));
+        repository.findItemsValueInventary().forEach(item -> logger.info("Value: {} | Inventary: {}", item.value(), item.inventary()));
     }
 }

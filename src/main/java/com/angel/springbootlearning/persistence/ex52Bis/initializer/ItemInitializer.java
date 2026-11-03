@@ -46,5 +46,8 @@ public class ItemInitializer implements CommandLineRunner {
 
         // Test the JPQL projection for name & value
         repository.findItemsNameValue().forEach(item -> logger.info("Name: {} | Value: {}", item.name(), item.value()));
+
+        // Test the JPQL projection for name & inventary 
+        repository.findItemsNameInventary().forEach(item -> logger.info(" Name: {} | Inventary: {}", item.name(), item.inventary()));
     }
 }

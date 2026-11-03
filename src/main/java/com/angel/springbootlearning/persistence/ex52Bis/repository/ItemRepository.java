@@ -22,16 +22,16 @@ public interface ItemRepository extends JpaRepository<Item, Long>{
     /*
     JPQL (Jakarta Persistence Query Language).
     */
-    @Query("SELECT new com.angel.srpingbootlearning.persistence.ex52Bis.dto.ItemsName(i.name) FROM Item i")
+    @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsName(i.name) FROM Item i")
     List<ItemsName> findAllItemsName();
 
-    @Query("SELECT new com.angel.srpingbootlearning.persistence.ex52Bis.dto.ItemsType(i.type) FROM Item i")
+    @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsType(i.type) FROM Item i")
     List<ItemsType> findAllItemsType();
 
-    @Query("SELECT new com.angel.srpingbootlearning.persistence.ex52Bis.dto.ItemsValue(i.value) FROM Item i")
+    @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsValue(i.value) FROM Item i")
     List<ItemsValue> findAllItemsValue();
 
-    @Query("SELECT new com.angel.srpingbootlearning.persistence.ex52Bis.dto.ItemsInventary(i.inventary) FROM Item i")
+    @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsInventary(i.inventary) FROM Item i")
     List<ItemsInventary> findItemsInventary();
 
     @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsNameType(i.name, i.type) FROM Item i")
@@ -46,10 +46,10 @@ public interface ItemRepository extends JpaRepository<Item, Long>{
     @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsTypeValue(i.type, i.value) FROM Item i")
     List<ItemsTypeValue> findItemsTypeValue();
 
-    @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.ItemsTypeInventory(i.type, i.inventary) FROM Item i")
+    @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsTypeInventory(i.type, i.inventary) FROM Item i")
     List<ItemsTypeInventary> findItemsTypeInventary();
 
-    @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.ItemsValueInventary(i.value, i.inventary) FROM Item i")
+    @Query("SELECT new com.angel.springbootlearning.persistence.ex52Bis.dto.ItemsValueInventary(i.value, i.inventary) FROM Item i")
     List<ItemsValueInventary> findItemsValueInventary();
 }
  

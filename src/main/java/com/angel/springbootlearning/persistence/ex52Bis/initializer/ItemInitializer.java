@@ -37,6 +37,11 @@ public class ItemInitializer implements CommandLineRunner {
         repository.save(new Item("Iron Sword", ItemType.WEAPON, 120.0, 5));
         repository.save(new Item("Magic Wand", ItemType.MAGIC, 350.0, 3));
         repository.save(new Item("Pickaxe", ItemType.TOOL, 45.0, 10));
+        repository.save(new Item("Battleaxe", ItemType.WEAPON, 200.0, 3));
+        repository.save(new Item("Mana Potion", ItemType.POTION, 40.0, 12));
+        repository.save(new Item("Enchanted Ring", ItemType.MAGIC, 500.0, 2));
+        repository.save(new Item("Steel Hammer", ItemType.TOOL, 75.0, 8));
+        repository.save(new Item("Wooden Shield", ItemType.WEAPON, 90.0, 6));        
 
         List<ItemsName> items = repository.findAllItemsName();
         // Test the JPQL projection for item names.
@@ -48,12 +53,12 @@ public class ItemInitializer implements CommandLineRunner {
         List<ItemsValue> itemsValue = repository.findAllItemsValue();
         itemsValue.forEach(item -> logger.info("Item value: {}", item.value()));
 */
-        logger.info("Total value: {}", repository.getTotalValue());
+        logger.info("Total value: {}", repository.getTotalValue().total());
 
         List<ItemsInventary> itemsInventary = repository.findItemsInventary();
         itemsInventary.forEach(item -> logger.info("Item inventary: {}", item.inventary()));
 
-        logger.info("Total inventory: {}", repository.getTotalInventary());
+        logger.info("Total inventory: {}", repository.getTotalInventary().total());
 
         // Test the JPQL projection for the item names and types
         repository.findItemsNameType().forEach(item -> logger.info("Name: {} | Type: {}", item.name(), item.type()));

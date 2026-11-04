@@ -22,7 +22,7 @@ public class GlobalHandler53 {
 
     // Handles a malforme JSON or values that cannot be deserialized
     @ExceptionHandler (HttpMessageNotReadableException.class)
-    public ResponseEntity<ProductErrorResponse> handleInvalidJson(HttpMessageNotReadableException exception) { return buildError(HttpStatus.BAD_REQUEST, exception.getMessage()); }
+    public ResponseEntity<ProductErrorResponse> handleInvalidJson(HttpMessageNotReadableException exception) { return buildError(HttpStatus.BAD_REQUEST, "Invalid JSON request body."); }
 
     private ResponseEntity<ProductErrorResponse> buildError(HttpStatus status, String message) {
         ProductErrorResponse response = new ProductErrorResponse(status.value(), message);

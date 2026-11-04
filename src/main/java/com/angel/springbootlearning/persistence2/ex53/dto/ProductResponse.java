@@ -1,6 +1,6 @@
 package com.angel.springbootlearning.persistence2.ex53.dto;
 
-public record ProductResponse53(
-    ProductDataResponse53 response,
+public record ProductResponse(
+    ProductDataResponse response,
     String message
 ) {}

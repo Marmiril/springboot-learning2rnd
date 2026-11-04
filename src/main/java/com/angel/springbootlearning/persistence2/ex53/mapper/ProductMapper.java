@@ -1,10 +1,13 @@
 package com.angel.springbootlearning.persistence2.ex53.mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.angel.springbootlearning.persistence2.ex53.dto.ProductDataResponse;
 import com.angel.springbootlearning.persistence2.ex53.dto.ProductRequest;
 import com.angel.springbootlearning.persistence2.ex53.dto.ProductUpdate;
 import com.angel.springbootlearning.persistence2.ex53.model.Product53;
 
+@Component 
 public class ProductMapper {
 
     public Product53 toModel(ProductRequest request) {

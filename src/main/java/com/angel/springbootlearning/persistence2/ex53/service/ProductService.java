@@ -26,6 +26,9 @@ public class ProductService {
 
     public Product53 getById(Long id) { return repository.findById(id).orElseThrow(() -> new ProductNotFound(id)); }
 
+    public Product53 getByName(String name) { return repository.findByNameIgnoreCase(name).orElseThrow(() -> new ProductNotFound(name)); }
+    
+
     public Product53 createProduct(ProductRequest request) {
         Product53 product = mapper.toModel(request);
         return repository.save(product); }
@@ -36,8 +39,9 @@ public class ProductService {
         return repository.save(product);
     }
 
-    public void deleteById(Long id) {
+    public Product53 deleteById(Long id) {
         Product53 product = getById(id);
         repository.delete(product);
+        return product;
     }
 }

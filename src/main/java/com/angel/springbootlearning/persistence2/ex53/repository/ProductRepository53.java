@@ -4,7 +4,7 @@
  * URLs: None. Internal repository component.
  */
 
-package com.angel.springbootlearning.persistence2.ex53.ProductRepository53;
+package com.angel.springbootlearning.persistence2.ex53.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

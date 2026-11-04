@@ -1,3 +1,10 @@
+/*
+ * Exercise 53 - Persistent REST CRUD
+ * Purpose: Start an independent Spring Boot application
+ *          for the exercises inside persistence2.
+ * URLs: To be defined.
+ */ 
+
 package com.angel.springbootlearning.persistence2;
 
 import org.springframework.boot.SpringApplication;

@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.angel.springbootlearning.persistence2.ex53.dto.ProductRequest;
+import com.angel.springbootlearning.persistence2.ex53.dto.ProductUpdate;
 import com.angel.springbootlearning.persistence2.ex53.exception.ProductNotFound;
 import com.angel.springbootlearning.persistence2.ex53.mapper.ProductMapper;
 import com.angel.springbootlearning.persistence2.ex53.model.Product53;
@@ -28,4 +29,15 @@ public class ProductService {
     public Product53 createProduct(ProductRequest request) {
         Product53 product = mapper.toModel(request);
         return repository.save(product); }
+
+    public Product53 updateProduct(Long id, ProductUpdate request) {
+        Product53 product =getById(id);
+        mapper.toUpdate(product, request);
+        return repository.save(product);
+    }
+
+    public void deleteById(Long id) {
+        Product53 product = getById(id);
+        repository.delete(product);
+    }
 }

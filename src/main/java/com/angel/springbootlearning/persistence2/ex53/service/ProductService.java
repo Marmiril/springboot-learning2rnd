@@ -5,7 +5,10 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.angel.springbootlearning.persistence2.ex53.dto.ListProductResponse;
+import com.angel.springbootlearning.persistence2.ex53.dto.ProductDataResponse;
 import com.angel.springbootlearning.persistence2.ex53.dto.ProductRequest;
+import com.angel.springbootlearning.persistence2.ex53.dto.ProductResponse;
 import com.angel.springbootlearning.persistence2.ex53.dto.ProductUpdate;
 import com.angel.springbootlearning.persistence2.ex53.exception.ProductNotFound;
 import com.angel.springbootlearning.persistence2.ex53.mapper.ProductMapper;
@@ -24,10 +27,37 @@ public class ProductService {
 
     public List<Product53> getAllProducts() { return repository.findAll(); }
 
+    public ProductDataResponse getProductResponse(Long id) { Product53 product = getById(id); return mapper.toResponse(product); }
+
     public Product53 getById(Long id) { return repository.findById(id).orElseThrow(() -> new ProductNotFound(id)); }
 
-    public Product53 getByName(String name) { return repository.findByNameIgnoreCase(name).orElseThrow(() -> new ProductNotFound(name)); }
-    
+    public ProductResponse getProductById(Long id) {
+        Product53 product = getById(id);
+        return new ProductResponse(
+            mapper.toResponse(product),
+            "Product found by id: " + id
+        );
+    }
+
+    public ProductResponse getByName(String name) { 
+        Product53 product = repository.findByNameIgnoreCase(name).orElseThrow(() -> new ProductNotFound(name));        
+        return new ProductResponse(
+            mapper.toResponse(product),
+            "Product found by name: " + name
+        );
+    }
+
+    public ListProductResponse getByStock(Integer stock) {
+        List<Product53> products = repository.findByStock(stock);
+        if(products.isEmpty()) { throw new ProductNotFound(stock); }
+        List<ProductResponse> responses = products.stream()
+        .map(product -> new ProductResponse(
+            mapper.toResponse(product),
+            "Product found successfully"
+        ))
+        .toList();
+        return new ListProductResponse(responses);
+    }
 
     public Product53 createProduct(ProductRequest request) {
         Product53 product = mapper.toModel(request);

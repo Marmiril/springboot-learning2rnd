@@ -8,4 +8,5 @@ public class ProductNotFound extends RuntimeException{
     public ProductNotFound(Long id) { super("There is no product with id: " + id); }
     public ProductNotFound(String name) { super("There is no product with name: " + name); }
     public ProductNotFound(BigDecimal price) { super("There is no product with price: " + price); }
+    public ProductNotFound(Integer stock) { super("There is no product with stock: " + stock); }
 }

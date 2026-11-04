@@ -6,6 +6,7 @@
 
 package com.angel.springbootlearning.persistence2.ex53.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,6 @@ import com.angel.springbootlearning.persistence2.ex53.model.Product53;
 public interface ProductRepository53 extends JpaRepository<Product53, Long> {
 
     Optional<Product53>findByNameIgnoreCase(String name);
+
+    List<Product53>findByStock(Integer stock);
 }

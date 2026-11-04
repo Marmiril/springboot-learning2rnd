@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.angel.springbootlearning.persistence2.ex53.model.Product53;
 
-public interface ProductRepository53 extends JpaRepository {
+public interface ProductRepository53 extends JpaRepository<Product53, Long> {
 
 }

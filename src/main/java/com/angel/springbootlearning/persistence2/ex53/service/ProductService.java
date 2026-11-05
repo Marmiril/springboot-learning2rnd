@@ -105,7 +105,7 @@ public class ProductService {
         return product;
     }
 
-    public ListProductResponse getByPricwBetween(BigDecimal minPrice, BigDecimal maxPrice) {
+    public ListProductResponse getByPriceBetween(BigDecimal minPrice, BigDecimal maxPrice) {
         if(minPrice == null || maxPrice == null
                 || minPrice.signum() < 0
                 || maxPrice.compareTo(minPrice) < 0) {

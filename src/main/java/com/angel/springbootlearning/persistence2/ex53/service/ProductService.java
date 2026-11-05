@@ -1,5 +1,6 @@
 package com.angel.springbootlearning.persistence2.ex53.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,6 +67,7 @@ public class ProductService {
 
     public Product53 updateProduct(Long id, ProductUpdate request) {
         Product53 product =getById(id);
+        validateUniqueName(request.name());
         mapper.toUpdate(product, request);
         return repository.save(product);
     }
@@ -80,4 +82,19 @@ public class ProductService {
         if (value == null || value.isBlank()) { throw new InvalidProduct(field + " is required"); }
     }
 
+    private void validateUniqueName(String name) {
+        if (repository.findByNameIgnoreCase(name.trim()).isPresent()) { throw new InvalidProduct("Product already exists"); }
+    }
+
+    private void validatePrice(BigDecimal price) { 
+        if (price == null || price.signum() < 0) { throw new InvalidProduct("Price cannot be negative or null"); }
+    }
+
+    private void validateStock(Integer stock) { if (stock == null || stock < 0) { throw new InvalidProduct("Stock cannot be negative"); } }
+
+    private void validateRequest(ProductRequest request) {
+        if (request == null) { throw new InvalidProduct("Request cannot be empty"); }
+        validateFields(request.name(), "Name");
+        validatePrice(request.price());
+    }
 }

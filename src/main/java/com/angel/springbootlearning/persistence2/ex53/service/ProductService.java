@@ -67,6 +67,7 @@ public class ProductService {
 
     public Product53 updateProduct(Long id, ProductUpdate request) {
         Product53 product =getById(id);
+        validateRequest(request);
         validateUniqueName(request.name());
         mapper.toUpdate(product, request);
         return repository.save(product);
@@ -92,7 +93,7 @@ public class ProductService {
 
     private void validateStock(Integer stock) { if (stock == null || stock < 0) { throw new InvalidProduct("Stock cannot be negative"); } }
 
-    private void validateRequest(ProductRequest request) {
+    private void validateRequest(ProductUpdate request) {
         if (request == null) { throw new InvalidProduct("Request cannot be empty"); }
         validateFields(request.name(), "Name");
         validatePrice(request.price());

@@ -97,5 +97,6 @@ public class ProductService {
         if (request == null) { throw new InvalidProduct("Request cannot be empty"); }
         validateFields(request.name(), "Name");
         validatePrice(request.price());
+        validateStock(request.stock());
     }
 }

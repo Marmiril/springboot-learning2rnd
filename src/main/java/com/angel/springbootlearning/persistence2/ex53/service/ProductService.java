@@ -78,13 +78,9 @@ public class ProductService {
         repository.delete(product);
         return product;
     }
-
+/* 
     private void validateFields(String value, String field) {
         if (value == null || value.isBlank()) { throw new InvalidProduct(field + " is required"); }
-    }
-
-    private void validateUniqueName(String name) {
-        if (repository.findByNameIgnoreCase(name.trim()).isPresent()) { throw new InvalidProduct("Product already exists"); }
     }
 
     private void validatePrice(BigDecimal price) { 
@@ -92,19 +88,45 @@ public class ProductService {
     }
 
     private void validateStock(Integer stock) { if (stock == null || stock < 0) { throw new InvalidProduct("Stock cannot be negative"); } }
-
+*/
     private void validateUpdateRequest(ProductUpdate request) {
         if (request == null) { throw new InvalidProduct("Request cannot be empty"); }
         validateFields(request.name(), "Name");
         validateUniqueName(request.name());
-        validatePrice(request.price());
-        validateStock(request.stock());
     }
 
     private void validateCreateRequest(ProductRequest request) {
         if (request == null) { throw new InvalidProduct("Request cannot be empty"); }
         validateFields(request.name(), "Name");
-        validatePrice(request.price());
-        validateStock(request.stock());
     }
+
+    private void validateFields(Object value, String field) {
+        if (value == null) { throw new InvalidProduct(field + " is required"); }
+        
+        switch (field) {
+            case "name" -> { if(!(value instanceof String name) || name.isBlank()) { throw new InvalidProduct("Invalid product name"); } }
+            case "price" -> { if(!(value instanceof BigDecimal price) || price.signum() <= 0) { throw new InvalidProduct("Price cannot be negative or null"); } }
+            case "stock" -> { if(!(value instanceof Integer stock) || stock < 0) { throw new InvalidProduct("Stock cannot be negative"); } }
+        }
+    }
+
+    private void validateUniqueName(String name) {
+        if (repository.findByNameIgnoreCase(name.trim()).isPresent()) { throw new InvalidProduct("Product already exists"); }
+    }
+
+    private void validateRequest(Object request) {
+        if (request == null) { throw new InvalidProduct("Request cannot be empty"); }
+        if (request instanceof ProductRequest create) { 
+            validateFields(create.name(),"name");
+            validateFields(create.price(),"price");
+            validateFields(create.stock(),"stock");
+        }
+        if (request instanceof ProductUpdate update) {
+            validateFields(update.name(), "name");
+            validateUniqueName(update.name());
+            validateFields(update.price(), "price");
+            validateFields(update.stock(), "stock")
+        }
+    } 
+
 }

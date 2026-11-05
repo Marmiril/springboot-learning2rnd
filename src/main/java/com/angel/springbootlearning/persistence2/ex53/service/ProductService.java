@@ -44,6 +44,7 @@ public class ProductService {
     }
 
     public ProductResponse getByName(String name) { 
+        validateFields(name, "name");        
         Product53 product = repository.findByNameIgnoreCase(name).orElseThrow(() -> new ProductNotFound(name));        
         return new ProductResponse(
             mapper.toResponse(product),
@@ -93,6 +94,13 @@ public class ProductService {
 
     public Product53 deleteById(Long id) {
         Product53 product = getById(id);
+        repository.delete(product);
+        return product;
+    }
+
+    public Product53 deleteByName(String name) {
+        validateFields(name, "name");
+        Product53 product = repository.findByNameIgnoreCase(name).orElseThrow(() -> new ProductNotFound(name));
         repository.delete(product);
         return product;
     }

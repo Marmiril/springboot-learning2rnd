@@ -63,6 +63,19 @@ public class ProductService {
         return new ListProductResponse(responses);
     }
 
+    public ListProductResponse getByPrice(BigDecimal price) {
+        List<Product53> products = repository.findByPrice(price);
+        if(products.isEmpty()) { throw new ProductNotFound(price); }
+        
+        List<ProductResponse> responses = products.stream()
+            .map(product -> new ProductResponse(
+                mapper.toResponse(product),
+                "Product found successfully"
+            ))
+            .toList();
+            return new ListProductResponse(responses);
+    }
+
     public Product53 createProduct(ProductRequest request) {
         Product53 product = mapper.toModel(request);
         validateRequest(request);
@@ -84,18 +97,20 @@ public class ProductService {
         return product;
     }
 
-    public ListProductResponse getByPrice(BigDecimal price) {
-        List<Product53> products = repository.findByPrice(price);
-        if(products.isEmpty()) { throw new ProductNotFound(price); }
-        
-        List<ProductResponse> responses = products.stream()
-            .map(product -> new ProductResponse(
-                mapper.toResponse(product),
-                "Product found successfully"
-            ))
-            .toList();
-            return new ListProductResponse(responses);
+    public ListProductResponse getByPricwBetween(BigDecimal minPrice, BigDecimal maxPrice) {
+        if(minPrice == null || maxPrice == null
+                || minPrice.signum() < 0
+                || maxPrice.compareTo(minPrice) < 0) {
+            throw new InvalidProduct("Invalid price range"); }
 
+        List<Product53> products = repository.findByPriceBetween(minPrice, maxPrice);
+        List<ProductResponse> responses = products.stream()
+                .map(product -> new ProductResponse(
+                    mapper.toResponse(product),
+                    "Product found successfully"
+                ))
+                .toList();
+            return new ListProductResponse(responses);
     }
 
     ////////////////////////////////////////////////////////

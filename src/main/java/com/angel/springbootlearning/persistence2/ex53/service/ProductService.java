@@ -63,12 +63,12 @@ public class ProductService {
 
     public Product53 createProduct(ProductRequest request) {
         Product53 product = mapper.toModel(request);
+        validateCreateRequest(request);
         return repository.save(product); }
 
     public Product53 updateProduct(Long id, ProductUpdate request) {
         Product53 product =getById(id);
-        validateRequest(request);
-        validateUniqueName(request.name());
+        validateUpdateRequest(request);
         mapper.toUpdate(product, request);
         return repository.save(product);
     }
@@ -93,7 +93,15 @@ public class ProductService {
 
     private void validateStock(Integer stock) { if (stock == null || stock < 0) { throw new InvalidProduct("Stock cannot be negative"); } }
 
-    private void validateRequest(ProductUpdate request) {
+    private void validateUpdateRequest(ProductUpdate request) {
+        if (request == null) { throw new InvalidProduct("Request cannot be empty"); }
+        validateFields(request.name(), "Name");
+        validateUniqueName(request.name());
+        validatePrice(request.price());
+        validateStock(request.stock());
+    }
+
+    private void validateCreateRequest(ProductRequest request) {
         if (request == null) { throw new InvalidProduct("Request cannot be empty"); }
         validateFields(request.name(), "Name");
         validatePrice(request.price());

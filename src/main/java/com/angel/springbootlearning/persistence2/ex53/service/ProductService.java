@@ -10,6 +10,7 @@ import com.angel.springbootlearning.persistence2.ex53.dto.ProductDataResponse;
 import com.angel.springbootlearning.persistence2.ex53.dto.ProductRequest;
 import com.angel.springbootlearning.persistence2.ex53.dto.ProductResponse;
 import com.angel.springbootlearning.persistence2.ex53.dto.ProductUpdate;
+import com.angel.springbootlearning.persistence2.ex53.exception.InvalidProduct;
 import com.angel.springbootlearning.persistence2.ex53.exception.ProductNotFound;
 import com.angel.springbootlearning.persistence2.ex53.mapper.ProductMapper;
 import com.angel.springbootlearning.persistence2.ex53.model.Product53;
@@ -74,4 +75,9 @@ public class ProductService {
         repository.delete(product);
         return product;
     }
+
+    private void validateFields(String value, String field) {
+        if (value == null || value.isBlank()) { throw new InvalidProduct(field + " is required"); }
+    }
+
 }

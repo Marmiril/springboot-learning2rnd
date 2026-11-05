@@ -83,6 +83,23 @@ public class ProductService {
         repository.delete(product);
         return product;
     }
+
+    public ListProductResponse getByPrice(BigDecimal price) {
+        List<Product53> products = repository.findByPrice(price);
+        if(products.isEmpty()) { throw new ProductNotFound(price); }
+        
+        List<ProductResponse> responses = products.stream()
+            .map(product -> new ProductResponse(
+                mapper.toResponse(product),
+                "Product found successfully"
+            ))
+            .toList();
+            return new ListProductResponse(responses);
+
+    }
+
+    ////////////////////////////////////////////////////////
+    /// 
 /* 
     private void validateFields(String value, String field) {
         if (value == null || value.isBlank()) { throw new InvalidProduct(field + " is required"); }

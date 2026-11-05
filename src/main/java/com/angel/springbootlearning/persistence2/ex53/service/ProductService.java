@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.angel.springbootlearning.persistence2.ex53.dto.ListProductResponse;
 import com.angel.springbootlearning.persistence2.ex53.dto.ProductDataResponse;
+import com.angel.springbootlearning.persistence2.ex53.dto.ProductFields;
 import com.angel.springbootlearning.persistence2.ex53.dto.ProductRequest;
 import com.angel.springbootlearning.persistence2.ex53.dto.ProductResponse;
 import com.angel.springbootlearning.persistence2.ex53.dto.ProductUpdate;
+import com.angel.springbootlearning.persistence2.ex53.exception.DuplicateProduct;
 import com.angel.springbootlearning.persistence2.ex53.exception.InvalidProduct;
 import com.angel.springbootlearning.persistence2.ex53.exception.ProductNotFound;
 import com.angel.springbootlearning.persistence2.ex53.mapper.ProductMapper;
@@ -63,12 +65,15 @@ public class ProductService {
 
     public Product53 createProduct(ProductRequest request) {
         Product53 product = mapper.toModel(request);
-        validateCreateRequest(request);
+        validateRequest(request);
+        validateUniqueName(request.name(), null);
         return repository.save(product); }
 
     public Product53 updateProduct(Long id, ProductUpdate request) {
+        validateRequest(request);
+        validateUniqueName(request.name(), id);
+        
         Product53 product =getById(id);
-        validateUpdateRequest(request);
         mapper.toUpdate(product, request);
         return repository.save(product);
     }
@@ -88,7 +93,7 @@ public class ProductService {
     }
 
     private void validateStock(Integer stock) { if (stock == null || stock < 0) { throw new InvalidProduct("Stock cannot be negative"); } }
-*/
+
     private void validateUpdateRequest(ProductUpdate request) {
         if (request == null) { throw new InvalidProduct("Request cannot be empty"); }
         validateFields(request.name(), "Name");
@@ -99,10 +104,10 @@ public class ProductService {
         if (request == null) { throw new InvalidProduct("Request cannot be empty"); }
         validateFields(request.name(), "Name");
     }
-
+*/
     private void validateFields(Object value, String field) {
         if (value == null) { throw new InvalidProduct(field + " is required"); }
-        
+ 
         switch (field) {
             case "name" -> { if(!(value instanceof String name) || name.isBlank()) { throw new InvalidProduct("Invalid product name"); } }
             case "price" -> { if(!(value instanceof BigDecimal price) || price.signum() <= 0) { throw new InvalidProduct("Price cannot be negative or null"); } }
@@ -110,23 +115,26 @@ public class ProductService {
         }
     }
 
-    private void validateUniqueName(String name) {
-        if (repository.findByNameIgnoreCase(name.trim()).isPresent()) { throw new InvalidProduct("Product already exists"); }
+    private void validateUniqueName(String name, Long currentId) {
+/*        for (Product53 product : repository.findAll()) {
+            if (product.getName().equalsIgnoreCase(name)
+                && !product.getId().equals(currentId)) {
+            throw new DuplicateProduct("Product name already exists!"); }
+        } 
+*/
+        repository.findByNameIgnoreCase(name.trim())
+            .ifPresent(product -> { 
+            if (!product.getId().equals(currentId)) {
+                throw new DuplicateProduct("Product name already exists!"); 
+            }
+        });
     }
 
-    private void validateRequest(Object request) {
+    private void validateRequest(ProductFields request) {
         if (request == null) { throw new InvalidProduct("Request cannot be empty"); }
-        if (request instanceof ProductRequest create) { 
-            validateFields(create.name(),"name");
-            validateFields(create.price(),"price");
-            validateFields(create.stock(),"stock");
-        }
-        if (request instanceof ProductUpdate update) {
-            validateFields(update.name(), "name");
-            validateUniqueName(update.name());
-            validateFields(update.price(), "price");
-            validateFields(update.stock(), "stock")
-        }
+        validateFields(request.name(),"name");
+        validateFields(request.price(),"price");
+        validateFields(request.stock(),"stock");
     } 
 
 }

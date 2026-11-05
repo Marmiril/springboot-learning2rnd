@@ -12,4 +12,4 @@ public record ProductRequest(
     String name,
     BigDecimal price,
     Integer stock
-) {}
+) implements ProductFields {}

@@ -6,4 +6,4 @@ public record ProductUpdate(
     String name,
     BigDecimal price,
     Integer stock
-) {}
+)implements ProductFields {}

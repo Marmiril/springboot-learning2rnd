@@ -116,7 +116,8 @@ public class ProductService {
     }
 
     private void validateUniqueName(String name, Long currentId) {
-/*        for (Product53 product : repository.findAll()) {
+/* 
+               for (Product53 product : repository.findAll()) {
             if (product.getName().equalsIgnoreCase(name)
                 && !product.getId().equals(currentId)) {
             throw new DuplicateProduct("Product name already exists!"); }

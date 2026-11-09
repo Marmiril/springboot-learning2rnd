@@ -105,6 +105,7 @@ public class ProductService {
         
         Product53 product =getById(id);
         mapper.toUpdate(product, request);
+        repository.save(product);
         return new ProductResponse(
             mapper.toResponse(product),
             "Product updated successfully!"

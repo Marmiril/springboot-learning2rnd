@@ -29,7 +29,17 @@ public class ProductService {
         this.mapper = mapper;
     }
 
-    public List<Product53> getAllProducts() { return repository.findAll(); }
+    public ListProductResponse getAllProducts() {
+        
+        List<ProductResponse> responses = repository.findAll()
+            .stream()
+            .map(product -> new ProductResponse(
+                mapper.toResponse(product),
+                "Product found successfully"
+            ))
+            .toList();
+        
+        return new ListProductResponse(responses); }
 
     public ProductDataResponse getProductResponse(Long id) { Product53 product = getById(id); return mapper.toResponse(product); }
 
@@ -78,10 +88,12 @@ public class ProductService {
     }
 
     public Product53 createProduct(ProductRequest request) {
-        Product53 product = mapper.toModel(request);
+
         validateRequest(request);
         validateUniqueName(request.name(), null);
-        return repository.save(product); }
+        Product53 product = mapper.toModel(request);
+        return repository.save(product);
+     }
 
     public Product53 updateProduct(Long id, ProductUpdate request) {
         validateRequest(request);
@@ -121,8 +133,8 @@ public class ProductService {
             return new ListProductResponse(responses);
     }
 
-    ////////////////////////////////////////////////////////
-    /// 
+    // PRIVATE
+     
 /* 
     private void validateFields(String value, String field) {
         if (value == null || value.isBlank()) { throw new InvalidProduct(field + " is required"); }

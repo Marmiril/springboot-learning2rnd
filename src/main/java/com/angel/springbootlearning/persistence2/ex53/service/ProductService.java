@@ -53,6 +53,24 @@ public class ProductService {
         if (stock != null) { validateFields(stock, "Stock"); }
         if (minPrice != null) { validateFields(minPrice, "Minimum price"); }
         if (maxPrice != null) { validateFields(maxPrice, "Maximum price"); }
+
+        if (minPrice != null && maxPrice != null && minPrice.compareTo(maxPrice) > 0) { throw new InvalidProduct("Invalid price range!"); }
+
+        List<ProductResponse> responses = repository.findAll()
+            .stream()
+            .filter(product -> name == null     || product.getName().equalsIgnoreCase(name.trim()))
+            .filter(product -> stock == null    || product.getStock().equals(stock))
+            .filter(product -> price == null    || product.getPrice().compareTo(price) == 0)
+            .filter(product -> minPrice == null || product.getPrice().compareTo(minPrice) >= 0)
+            .filter(product -> maxPrice == null || product.getPrice().compareTo(maxPrice) <= 0)
+            .map(product -> new ProductResponse(
+                mapper.toResponse(product),
+                "Product found successfully!"
+
+            ))
+            .toList();
+        
+        return new ListProductResponse(responses);
     }
 
     public ProductDataResponse getProductResponse(Long id) { Product53 product = getById(id); return mapper.toResponse(product); }

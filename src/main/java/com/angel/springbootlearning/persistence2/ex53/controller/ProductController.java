@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.angel.springbootlearning.persistence2.ex53.dto.ListProductResponse;
 import com.angel.springbootlearning.persistence2.ex53.dto.ProductRequest;
 import com.angel.springbootlearning.persistence2.ex53.dto.ProductResponse;
+import com.angel.springbootlearning.persistence2.ex53.dto.ProductUpdate;
 import com.angel.springbootlearning.persistence2.ex53.dto.ProductDataResponse;
 import com.angel.springbootlearning.persistence2.ex53.mapper.ProductMapper;
 import com.angel.springbootlearning.persistence2.ex53.model.Product53;
@@ -57,5 +58,17 @@ public class ProductController {
         Product53 product = service.createProduct(request);
         ProductResponse response = new ProductResponse(mapper.toResponse(product), "Product created successfully!");
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PostMapping
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @RequestBody ProductUpdate request) {
+        Product53 product = service.updateProduct(id, request);
+        ProductResponse response = new ProductResponse(
+            mapper.toResponse(product),
+            "Product updated successfully"
+        );
+        return ResponseEntity.ok(response);
+    }
+
 
 }

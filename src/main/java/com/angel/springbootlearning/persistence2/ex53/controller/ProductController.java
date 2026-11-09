@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -52,6 +53,8 @@ public class ProductController {
     @PostMapping                     public ResponseEntity<ProductResponse>     createProduct(@RequestBody ProductRequest request) { return ResponseEntity.status(HttpStatus.CREATED).body( service.createProduct(request)); }
 
     @PutMapping("/{id}")             public ResponseEntity<ProductResponse>     updateProduct(@PathVariable Long id, @RequestBody ProductUpdate request) { return ResponseEntity.ok(service.updateProduct(id, request)); }
+
+    @PatchMapping("/{id}")           public ResponseEntity<ProductResponse> patchProduct(@PathVariable Long id, ProductUpdate request) { return ResponseEntity.ok(service.patchProduct(id, request)); }
 
     @DeleteMapping("/{id}")          public ResponseEntity<ProductResponse>     deleteProductById(@PathVariable Long id) { return ResponseEntity.ok(service.deleteById(id)); }
 

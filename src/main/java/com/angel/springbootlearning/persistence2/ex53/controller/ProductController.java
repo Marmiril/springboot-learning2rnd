@@ -38,7 +38,7 @@ public class ProductController {
 
     public ProductController(ProductService service) { this.service = service; }
 
-    @GetMapping                      public ResponseEntity<ListProductResponse> getAllProducts() { return ResponseEntity.ok(service.getAllProducts()); }
+   // @GetMapping                      public ResponseEntity<ListProductResponse> getAllProducts() { return ResponseEntity.ok(service.getAllProducts()); }
 
     @GetMapping                      public ResponseEntity<ListProductResponse> searchProducts(
         @RequestParam(required = false) String name,
@@ -62,7 +62,7 @@ public class ProductController {
 
     @PutMapping("/{id}")             public ResponseEntity<ProductResponse>     updateProduct(@PathVariable Long id, @RequestBody ProductUpdate request) { return ResponseEntity.ok(service.updateProduct(id, request)); }
 
-    @PatchMapping("/{id}")           public ResponseEntity<ProductResponse>     patchProduct(@PathVariable Long id, ProductUpdate request) { return ResponseEntity.ok(service.patchProduct(id, request)); }
+    @PatchMapping("/{id}")           public ResponseEntity<ProductResponse>     patchProduct(@PathVariable Long id, @RequestBody ProductUpdate request) { return ResponseEntity.ok(service.patchProduct(id, request)); }
 
     @DeleteMapping("/{id}")          public ResponseEntity<ProductResponse>     deleteProductById(@PathVariable Long id) { return ResponseEntity.ok(service.deleteById(id)); }
 

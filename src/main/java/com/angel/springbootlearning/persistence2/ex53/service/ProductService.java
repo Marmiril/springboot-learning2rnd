@@ -48,11 +48,11 @@ public class ProductService {
         BigDecimal minPrice,
         BigDecimal maxPrice
     ) {
-        if (name != null) { validateFields(name, "Name"); }
-        if (price != null) { validateFields(price, "Price"); }
-        if (stock != null) { validateFields(stock, "Stock"); }
-        if (minPrice != null) { validateFields(minPrice, "Minimum price"); }
-        if (maxPrice != null) { validateFields(maxPrice, "Maximum price"); }
+        if (name != null) { validateFields(name, "name"); }
+        if (price != null) { validateFields(price, "price"); }
+        if (stock != null) { validateFields(stock, "stock"); }
+        if (minPrice != null) { validateFields(minPrice, "price"); }
+        if (maxPrice != null) { validateFields(maxPrice, "price"); }
 
         if (minPrice != null && maxPrice != null && minPrice.compareTo(maxPrice) > 0) { throw new InvalidProduct("Invalid price range!"); }
 
@@ -150,18 +150,18 @@ public class ProductService {
         if (request == null || request.name() == null && request.price() == null && request.stock() == null) { throw new InvalidProduct("At least one field is requiered!"); }
 
         if(request.name() != null) {
-            validateFields(request.name(), "Name");
+            validateFields(request.name(), "name");
             validateUniqueName(request.name(), id);
             product.setName(request.name());
         }
 
         if (request.price() != null) {
-            validateFields(request.price(), "Price");
+            validateFields(request.price(), "price");
             product.setPrice(request.price());
         }
 
         if (request.stock() != null) {
-            validateFields(request.stock(), "Stock");
+            validateFields(request.stock(), "stock");
             product.setStock(request.stock());
         }
         

@@ -9,11 +9,15 @@ package com.angel.springbootlearning.persistence2.ex53.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.angel.springbootlearning.persistence2.ex53.dto.ListProductResponse;
+import com.angel.springbootlearning.persistence2.ex53.dto.ProductResponse;
+import com.angel.springbootlearning.persistence2.ex53.mapper.ProductMapper;
 import com.angel.springbootlearning.persistence2.ex53.model.Product53;
 import com.angel.springbootlearning.persistence2.ex53.service.ProductService;
 
@@ -22,12 +26,19 @@ import com.angel.springbootlearning.persistence2.ex53.service.ProductService;
 public class ProductController {
     
     private final ProductService service;
+    private final ProductMapper mapper;
 
-    public ProductController(ProductService service) { this.service = service; }
+    public ProductController(ProductService service, ProductMapper mapper) {
+        this.service = service;
+        this.mapper = mapper;
+    }
 
-    @GetMapping
-    public ListProductResponse getAllProducts() { return service.getAllProducts(); }
+    @GetMapping public ResponseEntity<ListProductResponse> getAllProducts() { return ResponseEntity.ok(service.getAllProducts()); }
 
-    
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponse> getProductById(@PathVariable Long id) { return ResponseEntity.ok(service.getProductById(id)); }
+
+
+
 
 }

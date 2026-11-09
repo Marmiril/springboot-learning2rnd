@@ -41,6 +41,20 @@ public class ProductService {
         
         return new ListProductResponse(responses); }
 
+    public ListProductResponse searchProducts(
+        String name,
+        BigDecimal price, 
+        Integer stock,
+        BigDecimal minPrice,
+        BigDecimal maxPrice
+    ) {
+        if (name != null) { validateFields(name, "Name"); }
+        if (price != null) { validateFields(price, "Price"); }
+        if (stock != null) { validateFields(stock, "Stock"); }
+        if (minPrice != null) { validateFields(minPrice, "Minimum price"); }
+        if (maxPrice != null) { validateFields(maxPrice, "Maximum price"); }
+    }
+
     public ProductDataResponse getProductResponse(Long id) { Product53 product = getById(id); return mapper.toResponse(product); }
 
     public Product53 getById(Long id) { return repository.findById(id).orElseThrow(() -> new ProductNotFound(id)); }

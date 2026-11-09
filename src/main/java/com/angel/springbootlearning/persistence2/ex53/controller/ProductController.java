@@ -71,12 +71,22 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping ("/{id}")
-    public ResponseEntity<ProductResponse> deleteById(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ProductResponse> deleteProductById(@PathVariable Long id) {
         Product53 product = service.deleteById(id);
         ProductResponse response = new ProductResponse(
             mapper.toResponse(product),
             "Product deleted successfully"
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("by-name/{name}")
+    public ResponseEntity<ProductResponse> deleteProductByName(@PathVariable String name) {
+        Product53 product = service.deleteByName(name);
+        ProductResponse response = new ProductResponse(
+            mapper.toResponse(product),
+            "Product deleted successfully!"
         );
         return ResponseEntity.ok(response);
     }

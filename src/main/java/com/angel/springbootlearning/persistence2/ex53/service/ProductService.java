@@ -112,6 +112,34 @@ public class ProductService {
         );
     }
 
+    public ProductResponse patchProduct(Long id, ProductUpdate request) {
+        Product53 product = getById(id);
+
+        if (request == null || request.name() == null && request.price() == null && request.stock() == null) { throw new InvalidProduct("At least one field is requiered!"); }
+
+        if(request.name() != null) {
+            validateFields(request.name(), "Name");
+            validateUniqueName(request.name(), id);
+            product.setName(request.name());
+        }
+
+        if (request.price() != null) {
+            validateFields(request.price(), "Price");
+            product.setPrice(request.price());
+        }
+
+        if (request.stock() != null) {
+            validateFields(request.stock(), "Stock");
+            product.setStock(request.stock());
+        }
+        
+        repository.save(product);
+        return new ProductResponse(
+            mapper.toResponse(product),
+            "Product patched successfully!"
+        );
+    }
+
     public ProductResponse deleteById(Long id) {
         Product53 product = getById(id);
         repository.delete(product);
@@ -175,9 +203,9 @@ public class ProductService {
         if (value == null) { throw new InvalidProduct(field + " is required"); }
  
         switch (field) {
-            case "name" -> { if(!(value instanceof String name) || name.isBlank()) { throw new InvalidProduct("Invalid product name"); } }
+            case "name" ->  { if(!(value instanceof String name)      || name.isBlank())      { throw new InvalidProduct("Invalid product name"); } }
             case "price" -> { if(!(value instanceof BigDecimal price) || price.signum() <= 0) { throw new InvalidProduct("Price cannot be negative or null"); } }
-            case "stock" -> { if(!(value instanceof Integer stock) || stock < 0) { throw new InvalidProduct("Stock cannot be negative"); } }
+            case "stock" -> { if(!(value instanceof Integer stock)    || stock < 0)           { throw new InvalidProduct("Stock cannot be negative"); } }
         }
     }
 

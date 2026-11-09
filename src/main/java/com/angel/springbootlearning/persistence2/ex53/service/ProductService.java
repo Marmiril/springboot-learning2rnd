@@ -87,34 +87,47 @@ public class ProductService {
             return new ListProductResponse(responses);
     }
 
-    public Product53 createProduct(ProductRequest request) {
+    public ProductResponse createProduct(ProductRequest request) {
 
         validateRequest(request);
         validateUniqueName(request.name(), null);
         Product53 product = mapper.toModel(request);
-        return repository.save(product);
+        repository.save(product);
+        return new ProductResponse(
+            mapper.toResponse(product),
+            "Product created successfully!"
+        );
      }
 
-    public Product53 updateProduct(Long id, ProductUpdate request) {
+    public ProductResponse updateProduct(Long id, ProductUpdate request) {
         validateRequest(request);
         validateUniqueName(request.name(), id);
         
         Product53 product =getById(id);
         mapper.toUpdate(product, request);
-        return repository.save(product);
+        return new ProductResponse(
+            mapper.toResponse(product),
+            "Product updated successfully!"
+        );
     }
 
-    public Product53 deleteById(Long id) {
+    public ProductResponse deleteById(Long id) {
         Product53 product = getById(id);
         repository.delete(product);
-        return product;
+        return new ProductResponse(
+            mapper.toResponse(product),
+            "Product deleted successfully"
+        );
     }
 
-    public Product53 deleteByName(String name) {
+    public ProductResponse deleteByName(String name) {
         validateFields(name, "name");
         Product53 product = repository.findByNameIgnoreCase(name).orElseThrow(() -> new ProductNotFound(name));
         repository.delete(product);
-        return product;
+        return new ProductResponse(
+            mapper.toResponse(product),
+            "Product deleted successfully!"
+        );
     }
 
     public ListProductResponse getByPriceBetween(BigDecimal minPrice, BigDecimal maxPrice) {

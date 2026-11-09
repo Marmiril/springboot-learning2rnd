@@ -54,40 +54,11 @@ public class ProductController {
 
     @GetMapping("/price-range")      public ResponseEntity<ListProductResponse> getProductsByPriceRange(@RequestParam BigDecimal minPrice, @RequestParam BigDecimal maxPrice) { return ResponseEntity.ok(service.getByPriceBetween(maxPrice, maxPrice)); }
 
-    @PostMapping 
-    public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest request) {
-        Product53 product = service.createProduct(request);
-        ProductResponse response = new ProductResponse(mapper.toResponse(product), "Product created successfully!");
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
+    @PostMapping                     public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest request) { return ResponseEntity.status(HttpStatus.CREATED).body( service.createProduct(request)); }
 
-    @PostMapping
-    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @RequestBody ProductUpdate request) {
-        Product53 product = service.updateProduct(id, request);
-        ProductResponse response = new ProductResponse(
-            mapper.toResponse(product),
-            "Product updated successfully"
-        );
-        return ResponseEntity.ok(response);
-    }
+    @PostMapping                     public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @RequestBody ProductUpdate request) { return ResponseEntity.ok(service.updateProduct(id, request)); }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ProductResponse> deleteProductById(@PathVariable Long id) {
-        Product53 product = service.deleteById(id);
-        ProductResponse response = new ProductResponse(
-            mapper.toResponse(product),
-            "Product deleted successfully"
-        );
-        return ResponseEntity.ok(response);
-    }
+    @DeleteMapping("/{id}")          public ResponseEntity<ProductResponse> deleteProductById(@PathVariable Long id) { return ResponseEntity.ok(service.deleteById(id)); }
 
-    @DeleteMapping("by-name/{name}")
-    public ResponseEntity<ProductResponse> deleteProductByName(@PathVariable String name) {
-        Product53 product = service.deleteByName(name);
-        ProductResponse response = new ProductResponse(
-            mapper.toResponse(product),
-            "Product deleted successfully!"
-        );
-        return ResponseEntity.ok(response);
-    }
+    @DeleteMapping("by-name/{name}") public ResponseEntity<ProductResponse> deleteProductByName(@PathVariable String name) { return ResponseEntity.ok(service.deleteByName(name)); }
 }

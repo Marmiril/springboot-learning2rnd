@@ -152,7 +152,7 @@ public class ProductService {
         if(request.name() != null) {
             validateFields(request.name(), "name");
             validateUniqueName(request.name(), id);
-            product.setName(request.name());
+            product.setName(request.name().trim());
         }
 
         if (request.price() != null) {

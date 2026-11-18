@@ -1,0 +1,50 @@
+@baseUrl = http://localhost:8080/ex53/products
+
+### Exercise 53 - Create product - 200 OK
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "name": "Keyboard",
+    "price": 49.99,
+    "stock": 10
+}
+
+### CREATE SECOND PRODUCT - 200 OK
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "name": "Mouse",
+    "price": 79.99,
+    "stock": 10
+}
+
+### DUPLICATE PRODUCT NAME - 409 Conflict
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "name": "Mouse",
+    "price": 9.99,
+    "stock": 20
+}
+
+### GET ALL PRODUCTS
+GET {{baseUrl}}
+
+### SEARCH PRODUCTS BY STOCK AND MAXIMUM PRICE
+GET {{baseUrl}}?stock=10&maxPrice=50
+
+### SEARCH PRODUCTS - INVALID PRICE - HTTP 400 Bad Request
+GET {{baseUrl}}?minPrice=1000&maxPrice=20
+
+### UPDATE PRODUCT - PUT
+PUT {{baseUrl}}/2
+Content-Type: application/json
+
+{
+    "name": "Mouse  ",
+    "price": 24.99,
+    "stock": 60
+}

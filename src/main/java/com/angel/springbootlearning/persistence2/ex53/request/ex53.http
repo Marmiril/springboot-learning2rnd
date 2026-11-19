@@ -1,6 +1,12 @@
+
 @baseUrl = http://localhost:8080/ex53/products
 
-### Exercise 53 - Create product - 200 OK
+### Exercise 53 - Persistent REST CRUD
+### Run requests individually. IDs depend on existing H2 data.
+### Adjust /1 and /2 if the generated IDs differ.
+### Tests with the same product name can affect subsequent tests.
+
+### 01 - CREATE Keyboard - 201 Created (or 409 if already exists)
 POST {{baseUrl}}
 Content-Type: application/json
 
@@ -10,7 +16,7 @@ Content-Type: application/json
     "stock": 10
 }
 
-### CREATE SECOND PRODUCT - 200 OK
+### 02 - CREATE Mouse - 201 Created (or 409 if already exists)
 POST {{baseUrl}}
 Content-Type: application/json
 
@@ -20,7 +26,7 @@ Content-Type: application/json
     "stock": 10
 }
 
-### DUPLICATE PRODUCT NAME - 409 Conflict
+### 03 - CREATE duplicate Mouse - 409 Conflict
 POST {{baseUrl}}
 Content-Type: application/json
 
@@ -30,21 +36,240 @@ Content-Type: application/json
     "stock": 20
 }
 
-### GET ALL PRODUCTS
+### 04 - CREATE duplicate with different case - 409 Conflict
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "name": "mouse",
+    "price": 9.99,
+    "stock": 20
+}
+
+### 05 - CREATE with blank name - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "name": "   ",
+    "price": 49.99,
+    "stock": 10
+}
+
+### 06 - CREATE with missing name - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "price": 49.99,
+    "stock": 10
+}
+
+### 07 - CREATE with zero price - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "name": "ZeroPriceTest",
+    "price": 0,
+    "stock": 10
+}
+
+### 08 - CREATE with negative price - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "name": "NegativePriceTest",
+    "price": -5,
+    "stock": 10
+}
+
+### 09 - CREATE with negative stock - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "name": "NegativeStockTest",
+    "price": 10.99,
+    "stock": -1
+}
+
+### 10 - CREATE with invalid JSON syntax - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "name": "MalformedJsonTest",
+    "price": 12.50,
+    "stock": 3,
+}
+
+### 11 - CREATE with invalid stock type - 400 Bad Request
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "name": "InvalidTypeTest",
+    "price": 12.50,
+    "stock": "not-a-number"
+}
+
+### 12 - GET all products - 200 OK
 GET {{baseUrl}}
 
-### SEARCH PRODUCTS BY STOCK AND MAXIMUM PRICE
+### 13 - GET product by ID - 200 OK if ID 1 exists
+GET {{baseUrl}}/1
+
+### 14 - GET missing product by ID - 404 Not Found
+GET {{baseUrl}}/9999
+
+### 15 - GET product by name - 200 OK if Keyboard exists
+GET {{baseUrl}}/by-name/Keyboard
+
+### 16 - GET missing product by name - 404 Not Found
+GET {{baseUrl}}/by-name/NonExistingProduct53
+
+### 17 - GET products by stock - 200 OK if stock 10 exists
+GET {{baseUrl}}/by-stock/10
+
+### 18 - GET products by exact price - 200 OK if 49.99 exists
+GET {{baseUrl}}/by-price/49.99
+
+### 19 - GET products by price range endpoint - 200 OK
+GET {{baseUrl}}/price-range?minPrice=10&maxPrice=60
+
+### 20 - GET invalid price range endpoint - 400 Bad Request
+GET {{baseUrl}}/price-range?minPrice=100&maxPrice=20
+
+### 21 - GET optional filter: name - 200 OK
+GET {{baseUrl}}?name=Keyboard
+
+### 22 - GET optional filter: stock and maximum price - 200 OK
 GET {{baseUrl}}?stock=10&maxPrice=50
 
-### SEARCH PRODUCTS - INVALID PRICE - HTTP 400 Bad Request
-GET {{baseUrl}}?minPrice=1000&maxPrice=20
+### 23 - GET optional filter: price range - 200 OK
+GET {{baseUrl}}?minPrice=10&maxPrice=50
 
-### UPDATE PRODUCT - PUT
+### 24 - GET optional filter: no matches - 200 OK with empty products list
+GET {{baseUrl}}?name=NonExistingProduct53
+
+### 25 - GET optional filter: invalid range - 400 Bad Request
+GET {{baseUrl}}?minPrice=100&maxPrice=20
+
+### 26 - GET optional filter: negative stock - 400 Bad Request
+GET {{baseUrl}}?stock=-1
+
+### 27 - GET optional filter: nonnumeric stock - 400 Bad Request
+GET {{baseUrl}}?stock=invalid
+
+### 28 - PUT update product ID 2 - 200 OK if ID 2 exists
 PUT {{baseUrl}}/2
 Content-Type: application/json
 
 {
-    "name": "Mouse  ",
-    "price": 24.99,
-    "stock": 60
+    "name": "Mouse",
+    "price": 59.99,
+    "stock": 25
 }
+
+### 29 - PUT with incomplete data - 400 Bad Request
+PUT {{baseUrl}}/2
+Content-Type: application/json
+
+{
+    "price": 59.99
+}
+
+### 30 - PUT nonexistent product - 404 Not Found if ID 9999 does not exist
+PUT {{baseUrl}}/9999
+Content-Type: application/json
+
+{
+    "name": "Monitor",
+    "price": 199.99,
+    "stock": 5
+}
+
+### 31 - PUT duplicate name - 409 Conflict if IDs 1 and 2 exist as Keyboard and Mouse
+PUT {{baseUrl}}/2
+Content-Type: application/json
+
+{
+    "name": "Keyboard",
+    "price": 59.99,
+    "stock": 25
+}
+
+### 32 - PATCH stock only - 200 OK if ID 2 exists
+PATCH {{baseUrl}}/2
+Content-Type: application/json
+
+{
+    "stock": 50
+}
+
+### 33 - PATCH all fields - 200 OK if ID 2 exists
+PATCH {{baseUrl}}/2
+Content-Type: application/json
+
+{
+    "name": "Mouse",
+    "price": 59.99,
+    "stock": 50
+}
+
+### 34 - PATCH empty object - 400 Bad Request
+PATCH {{baseUrl}}/2
+Content-Type: application/json
+
+{}
+
+### 35 - PATCH invalid stock - 400 Bad Request
+PATCH {{baseUrl}}/2
+Content-Type: application/json
+
+{
+    "stock": -5
+}
+
+### 36 - PATCH duplicate name - 409 Conflict if Keyboard belongs to ID 1
+PATCH {{baseUrl}}/2
+Content-Type: application/json
+
+{
+    "name": "Keyboard"
+}
+
+### 37 - PATCH nonexistent product - 404 Not Found
+PATCH {{baseUrl}}/9999
+Content-Type: application/json
+
+{
+    "stock": 10
+}
+
+### 38 - DELETE product by ID - 200 OK if ID 2 exists
+### Run after all PUT/PATCH tests for ID 2.
+DELETE {{baseUrl}}/2
+
+### 39 - DELETE same product again - 404 Not Found
+DELETE {{baseUrl}}/2
+
+### 40 - DELETE product by name - 200 OK if Keyboard exists
+### Run after all GET/duplicate-name tests using Keyboard.
+DELETE {{baseUrl}}/by-name/Keyboard
+
+### 41 - DELETE missing product by name - 404 Not Found
+DELETE {{baseUrl}}/by-name/NonExistingProduct53
+
+### 42 - GET after deletion - 200 OK; deleted products must be absent
+GET {{baseUrl}}
+
+### 43 - PERSISTENCE CHECK: stop and restart application with dev profile, then execute
+### Expected: 200 OK and the same remaining records as before restart.
+GET {{baseUrl}}
+
+### 44 - PROFILE ISOLATION CHECK: start application with prod profile, then execute
+### Expected: separate database contents from dev profile (may initially be empty).
+GET {{baseUrl}}

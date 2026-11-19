@@ -2381,3 +2381,53 @@ Not applicable.
 
 **Status:**  
 DONE
+
+## Exercise 53 - Persistent REST CRUD
+
+**Purpose:**
+Implement a persistent product management REST API using Spring Boot, Spring Data JPA and H2, with separate development and production profiles.
+
+**URL:**
+http://localhost:8080/ex53/products
+
+**HTTP methods:**
+GET, POST, PUT, PATCH, DELETE
+
+**Main concepts:**
+
+- Persistent H2 database and Spring profiles (`dev`, `prod`).
+- JPA entities and `JpaRepository`.
+- Derived queries using Spring Data JPA.
+- Layered architecture: Controller, Service, Repository.
+- Request and Response DTOs with a dedicated Mapper.
+- Shared validation interface (`ProductFields`).
+- Full and partial updates (PUT/PATCH).
+- Optional and combined filters using Java Streams.
+- `BigDecimal` and `compareTo()`.
+- Centralized exception handling: HTTP 400, 404 and 409.
+
+**Files:**
+`src/main/java/com/angel/springbootlearning/persistence2/ex53/`
+
+**Request file:**
+`requests/exercise53.http`
+
+**Tested cases:**
+
+- Successful product creation.
+- Product retrieval: HTTP 200 OK.
+- Combined search filters.
+- Full and partial product updates.
+- Invalid price range: HTTP 400 Bad Request.
+- Invalid stock: HTTP 400 Bad Request.
+- Missing product: HTTP 404 Not Found.
+- Product deletion by ID.
+
+**Pending verification:**
+
+- Complete remaining REST Client test cases.
+- Confirm persistence after restarting Spring Boot.
+- Confirm database isolation between `dev` and `prod`.
+
+**Status:**
+DONUT

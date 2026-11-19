@@ -4,7 +4,7 @@
  * Purpose: Define a Movie entity and map it to an H2 database table.
  * URLs: None. REST endpoints are not implemented yet.
  */
-package com.angel.springbootlearning.persistence2.ex54.model;
+package com.angel.springbootlearning.persistance3.ex54.model;
 
 import java.math.BigDecimal;
 

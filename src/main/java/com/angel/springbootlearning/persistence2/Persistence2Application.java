@@ -14,4 +14,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Persistence2Application {
     
     public static void main(String[] args) { SpringApplication.run(Persistence2Application.class, args); }
+    
 }

@@ -132,10 +132,11 @@ public class ProductService {
      }
 
     public ProductResponse updateProduct(Long id, ProductUpdate request) {
+        Product53 product =getById(id);        
+
         validateRequest(request);
         validateUniqueName(request.name(), id);
         
-        Product53 product =getById(id);
         mapper.toUpdate(product, request);
         repository.save(product);
         return new ProductResponse(

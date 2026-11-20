@@ -17,6 +17,11 @@ public class GlobalHandler {
     @ExceptionHandler(MovieNotFound.class)
     public ResponseEntity<MovieErrorResponse> handleMovieNotFound(MovieNotFound exception) { return buildError(HttpStatus.NOT_FOUND, exception.getMessage()); }
 
+    @ExceptionHandler(MovieNotFoundByDirectorOrStock.class)
+    public ResponseEntity<MovieErrorResponse> handleMovieNotFoundByDirectorOrStock(MovieNotFoundByDirectorOrStock exception) {
+        return buildError(HttpStatus.NOT_FOUND, exception.getMessage());
+    }
+
     @ExceptionHandler(DuplicateMovie.class)
     public ResponseEntity<MovieErrorResponse> handleDuplicateMovie(DuplicateMovie exception) { return buildError(HttpStatus.CONFLICT, exception.getMessage());}
 

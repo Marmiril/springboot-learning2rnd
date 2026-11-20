@@ -34,7 +34,7 @@ public class Movie {
 
     private Integer stock;
 
-    @Column(name = "movie-value")
+    @Column(name = "movie_value")
     private BigDecimal value;
 
     // Required by JPA  to instantiate entities.

@@ -7,6 +7,5 @@ public interface MovieFields {
     String director();
     Integer year();
     Integer stock();
-    BigDecimal value();
-    
+    BigDecimal value();    
 }

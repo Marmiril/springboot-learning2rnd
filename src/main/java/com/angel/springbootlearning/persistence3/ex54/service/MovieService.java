@@ -5,12 +5,14 @@ import java.time.LocalDate;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
-import com.angel.springbootlearning.persistence2.ex53.dto.ListProductResponse;
 import com.angel.springbootlearning.persistence3.ex54.dto.ListMovieResponse;
+import com.angel.springbootlearning.persistence3.ex54.dto.MovieDataResponse;
 import com.angel.springbootlearning.persistence3.ex54.dto.MovieFields;
 import com.angel.springbootlearning.persistence3.ex54.dto.MovieResponse;
 import com.angel.springbootlearning.persistence3.ex54.exception.InvalidMovie;
+import com.angel.springbootlearning.persistence3.ex54.exception.MovieNotFound;
 import com.angel.springbootlearning.persistence3.ex54.mapper.MovieMapper;
+import com.angel.springbootlearning.persistence3.ex54.model.Movie;
 import com.angel.springbootlearning.persistence3.ex54.repository.MovieRepository;
 
 @Service 
@@ -35,7 +37,7 @@ public class MovieService {
         return new ListMovieResponse(responses);
     }
 
-    public ListMovieResponse searchProducts(
+    public ListMovieResponse searchMovies(
         String name,
         String director, 
         Integer year,
@@ -74,6 +76,29 @@ public class MovieService {
 
         return new ListMovieResponse(responses);
     }
+
+    public Movie getById(Long id) { return repository.findById(null).orElseThrow(() -> new MovieNotFound(id)); }
+
+    public MovieDataResponse getDataResponse(Long id) { Movie movie = getById(id); return mapper.toResponse(movie); }
+
+    public MovieResponse getMovieById(Long id) {
+        Movie movie = getById(id); 
+        return new MovieResponse(
+            mapper.toResponse(movie),
+            "Movie found successfully!"
+        );
+    }
+
+    public MovieResponse getMovieByName(String name) {
+        Movie movie = repository.findByNameIgnoreCase(name).orElseThrow(() -> new MovieNotFound(name));
+        return new MovieResponse(
+            mapper.toResponse(movie),
+            "Movie found with name: " + name + " successfully!"
+        );
+    }
+
+    public ListMovieResponse getByStock
+
 
     //////////////////////  PRIVATE METHODS //////////////////////
     

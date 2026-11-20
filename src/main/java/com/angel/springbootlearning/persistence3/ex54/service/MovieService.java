@@ -1,6 +1,7 @@
 package com.angel.springbootlearning.persistence3.ex54.service;
 
 import java.math.BigDecimal;
+import java.security.PublicKey;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -98,6 +99,18 @@ public class MovieService {
         );
     }
 
+    public ListMovieResponse getMoviesByDirector(String director) {
+        List<Movie> movies = repository.findByDirectorIgnoreCase(director);
+        if (movies.isEmpty()) { throw new MovieNotFoundByDirectorOrStock(director); }
+        List<MovieResponse> responses = movies.stream()
+            .map(movie -> new MovieResponse(
+                mapper.toResponse(movie),
+                "Movie found successfully from director: " + director
+            ))
+            .toList();
+        return new ListMovieResponse(responses);
+    }
+
     public ListMovieResponse getByYear(Integer year) {
         List<Movie> movies = repository.findByYear(year);
         if(movies.isEmpty()) { throw new MovieNotFound(year); }
@@ -120,10 +133,9 @@ public class MovieService {
                 "Movie found successfully!"
             ))
             .toList();
-        return new ListMovieResponse(responses);
-
-        }
+        return new ListMovieResponse(responses);        
     }
+
 
 
     //////////////////////  PRIVATE METHODS //////////////////////

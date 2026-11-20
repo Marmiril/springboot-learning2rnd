@@ -4,7 +4,7 @@
  * Purpose: Define a Movie entity and map it to an H2 database table.
  * URLs: None. REST endpoints are not implemented yet.
  */
-package com.angel.springbootlearning.persistance3.ex54.model;
+package com.angel.springbootlearning.persistence3.ex54.model;
 
 import java.math.BigDecimal;
 
@@ -29,10 +29,12 @@ public class Movie {
     @Column (nullable  = false, updatable = false)
     private String director;
 
-    @Column (nullable  = false, updatable = false)
+    @Column (name="release_year", nullable  = false, updatable = false)
     private Integer year;
 
     private Integer stock;
+
+    @Column(name = "movie-value")
     private BigDecimal value;
 
     // Required by JPA  to instantiate entities.

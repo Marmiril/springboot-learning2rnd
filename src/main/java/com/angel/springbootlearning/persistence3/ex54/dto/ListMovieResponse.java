@@ -4,6 +4,5 @@ import java.util.List;
 
 
 public record ListMovieResponse(
-    List<MovieResponse> movies,
-    String message
+    List<MovieResponse> movies
 ) {}

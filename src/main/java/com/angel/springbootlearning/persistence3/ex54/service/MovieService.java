@@ -11,6 +11,7 @@ import com.angel.springbootlearning.persistence3.ex54.dto.MovieFields;
 import com.angel.springbootlearning.persistence3.ex54.dto.MovieResponse;
 import com.angel.springbootlearning.persistence3.ex54.exception.InvalidMovie;
 import com.angel.springbootlearning.persistence3.ex54.exception.MovieNotFound;
+import com.angel.springbootlearning.persistence3.ex54.exception.MovieNotFoundByDirectorOrStock;
 import com.angel.springbootlearning.persistence3.ex54.mapper.MovieMapper;
 import com.angel.springbootlearning.persistence3.ex54.model.Movie;
 import com.angel.springbootlearning.persistence3.ex54.repository.MovieRepository;
@@ -108,6 +109,20 @@ public class MovieService {
             .toList();
         return new ListMovieResponse(responses);
 
+    }
+
+    public ListMovieResponse getByStock(Integer stock) {
+        List<Movie> movies = repository.findByStock(stock);
+        if (movies.isEmpty()) { throw new MovieNotFoundByDirectorOrStock(stock); }
+        List<MovieResponse> responses = movies.stream()
+            .map(movie -> new MovieResponse(
+                mapper.toResponse(movie),
+                "Movie found successfully!"
+            ))
+            .toList();
+        return new ListMovieResponse(responses);
+
+        }
     }
 
 

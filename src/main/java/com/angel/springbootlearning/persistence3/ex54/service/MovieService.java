@@ -97,7 +97,18 @@ public class MovieService {
         );
     }
 
-    public ListMovieResponse getByStock
+    public ListMovieResponse getByYear(Integer year) {
+        List<Movie> movies = repository.findByYear(year);
+        if(movies.isEmpty()) { throw new MovieNotFound(year); }
+        List<MovieResponse> responses = movies.stream()
+            .map(movie -> new MovieResponse(
+            mapper.toResponse(movie),
+            "Movie found successfully from year: " + year
+            ))
+            .toList();
+        return new ListMovieResponse(responses);
+
+    }
 
 
     //////////////////////  PRIVATE METHODS //////////////////////

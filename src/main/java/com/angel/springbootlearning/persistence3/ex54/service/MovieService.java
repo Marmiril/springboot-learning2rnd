@@ -280,7 +280,18 @@ public class MovieService {
         return new ListMovieResponse(responses);
     }
 
-    
+    public ListMovieResponse deleteByYear(Integer year) {
+        List<Movie> movies = repository.findByYear(year);
+        repository.deleteAll(movies);
+
+        List<MovieResponse> responses = movies.stream()
+            .map(movie -> new MovieResponse(
+                mapper.toResponse(movie),
+                "Movies from year" + year + " deleted successfully!"
+            ))
+            .toList();
+        return new ListMovieResponse(responses);
+    }
 
     //////////////////////  PRIVATE METHODS //////////////////////
     

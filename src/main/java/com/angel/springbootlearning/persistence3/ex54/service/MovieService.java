@@ -235,9 +235,28 @@ public class MovieService {
 
         if (request.value() != null) {
             validateFields(request.value(), "value");
+            movie.setValue(request.value());
         }
+        if (request.stock() != null) {
+            validateFields(request.stock(), "stock");
+            movie.setValue(request.value());
+        }
+
+        repository.save(movie);
+        return new MovieResponse(
+            mapper.toResponse(movie),
+            "Movie patched successfully"
+        );
     }
 
+    public MovieResponse deleteById(Long id) {
+        Movie movie = getById(id);
+        repository.delete(movie);
+        return new MovieResponse(
+            mapper.toResponse(movie),
+            "Movie: " + movie.getName() + " deleted successfully!"
+        );
+    }
 
     //////////////////////  PRIVATE METHODS //////////////////////
     

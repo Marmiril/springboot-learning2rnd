@@ -329,6 +329,19 @@ public class MovieService {
         return new ListMovieResponse(responses);
     }
 
+    public ListMovieResponse deleteByValueRange(BigDecimal minValue, BigDecimal maxValue){
+        List<Movie> movies = repository.findByValueBetween(minValue, maxValue);
+        repository.deleteAll(movies);
+        List<MovieResponse> responses = movies.stream()
+            .map(movie -> new MovieResponse(
+                mapper.toResponse(movie),
+                "Movies from value: " + minValue + " to value: " + " have been deleted successfully!"
+            ))
+            .toList();
+        return new ListMovieResponse(responses);
+    }
+
+
     //////////////////////  PRIVATE METHODS //////////////////////
     
     private void validateFields(Object value, String field) { if (value == null) { throw new InvalidMovie("field" + " is required"); }

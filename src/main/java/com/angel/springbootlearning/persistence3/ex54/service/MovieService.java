@@ -267,6 +267,19 @@ public class MovieService {
         );
     }
 
+    public ListMovieResponse deleteByDirector(String director) {
+        List<Movie> movies = repository.findByDirectorIgnoreCase(director);
+        repository.deleteAll(movies);
+
+        List<MovieResponse> responses = movies.stream()
+            .map(movie -> new MovieResponse(
+                mapper.toResponse(movie),
+                "Movie from director: " + director + " deleted successfully!"
+            ))
+            .toList();        
+        return new ListMovieResponse(responses);
+    }
+
     
 
     //////////////////////  PRIVATE METHODS //////////////////////

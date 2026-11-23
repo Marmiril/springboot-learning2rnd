@@ -166,15 +166,46 @@ public class MovieService {
         return new ListMovieResponse(responses);
     }
 
-    publis ListMovieResponse getByStockBetween(Integer minStock, Integer maxStock) {
+    public ListMovieResponse getByStockBetween(Integer minStock, Integer maxStock) {
+        
         validateFields(minStock, "stock");
         validateFields(maxStock, "stock");
 
         if (minStock > maxStock) { throw new InvalidMovie("Invalid stock range!"); }
 
         List<Movie> movies = repository.findByStockBetween(minStock, maxStock);
+
+        List<MovieResponse> responses = movies.stream()
+            .map(movie -> new MovieResponse(
+                mapper.toResponse(movie),
+                "Movie found successfully"                
+            ))
+            .toList();
+        return new ListMovieResponse(responses);
+        
+
         
     }
+
+    public ListMovieResponse getByValueBetween(BigDecimal minValue, BigDecimal maxValue) {
+        validateFields(minValue, "value");
+        validateFields(maxValue, "value");
+
+        if (minValue.signum() < 0 || maxValue.compareTo(minValue) < 0) {
+            throw new InvalidMovie("Invalid value range");
+        }
+
+        List<Movie> movies = repository.findByValueBetween(minValue, maxValue);
+        List<MovieResponse> responses = movies.stream()
+            .map(movie -> new MovieResponse(
+                mapper.toResponse(movie),
+                "Movie found successfully!"
+            ))
+            .toList();
+        return new ListMovieResponse(responses);
+    }
+
+
 
     //////////////////////  PRIVATE METHODS //////////////////////
     

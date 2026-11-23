@@ -150,6 +150,23 @@ public class MovieService {
         return new ListMovieResponse(responses);
     }
 
+    public ListMovieResponse getByYearBetween(Integer minYear, Integer maxYear) {
+        validateFields(minYear, "year");
+        validateFields(maxYear, "year");
+        if (minYear >= maxYear) { throw new InvalidMovie("Invalid year range"); }
+
+        List<Movie> movies = repository.findByYearBetween(minYear, maxYear);
+       // if (movies.isEmpty()) { throw new MovieNotFound("There are no movies from " + minYear + " to " + maxYear); }
+        List<MovieResponse> responses = movies.stream()
+            .map(movie -> new MovieResponse(
+                mapper.toResponse(movie),
+                "Movie found successfully"
+            ))
+            .toList();
+        return new ListMovieResponse(responses);
+    }
+
+
     //////////////////////  PRIVATE METHODS //////////////////////
     
     private void validateFields(Object value, String field) { if (value == null) { throw new InvalidMovie("field" + " is required"); }
@@ -181,5 +198,6 @@ public class MovieService {
         validateFields(request.stock(), "stock");
         validateFields(request.value(), "value");
     }
+
 
 }

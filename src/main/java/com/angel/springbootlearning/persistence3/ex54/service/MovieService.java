@@ -11,6 +11,7 @@ import com.angel.springbootlearning.persistence3.ex54.dto.MovieDataResponse;
 import com.angel.springbootlearning.persistence3.ex54.dto.MovieFields;
 import com.angel.springbootlearning.persistence3.ex54.dto.MovieRequest;
 import com.angel.springbootlearning.persistence3.ex54.dto.MovieResponse;
+import com.angel.springbootlearning.persistence3.ex54.dto.MovieUpdate;
 import com.angel.springbootlearning.persistence3.ex54.exception.DuplicateMovie;
 import com.angel.springbootlearning.persistence3.ex54.exception.InvalidMovie;
 import com.angel.springbootlearning.persistence3.ex54.exception.MovieNotFound;
@@ -217,6 +218,13 @@ public class MovieService {
         );
     }
 
+    public MovieResponse updateMovie (Long id, MovieUpdate request) {
+        Movie movie = getById(id);
+        validateRequest(request);
+        //validateUniqueMovie(id, request.name(), request.director());
+
+    }
+
 
     //////////////////////  PRIVATE METHODS //////////////////////
     
@@ -241,7 +249,7 @@ public class MovieService {
         });
     }
 
-    private void validateRequest(MovieRequest request) {
+    private void validateRequest(MovieFields request) {
         if (request == null) { throw new InvalidMovie("Request cannot be empty!"); }
         validateFields(request.name(), "name");
         validateFields(request.director(), "director");
@@ -250,5 +258,10 @@ public class MovieService {
         validateFields(request.value(), "value");
     }
 
+    private void validateRequest(MovieUpdate request) {
+        if(request == null) { throw new InvalidMovie("Movie update data is required."); }
+        validateFields(request.stock(), "stock");
+        validateFields(request.value(), "value");
+    }
 
 }

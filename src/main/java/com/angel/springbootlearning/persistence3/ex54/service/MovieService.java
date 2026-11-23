@@ -205,6 +205,17 @@ public class MovieService {
         return new ListMovieResponse(responses);
     }
 
+    public MovieResponse createMovie (MovieRequest request) {
+        validateRequest(request);
+        validateUniqueMovie(null, request.name(), request.director());
+
+        Movie movie = mapper.toModel(request);
+        repository.save(movie);
+        return new MovieResponse(
+                mapper.toResponse(movie),
+        "Movie created successfully!"
+        );
+    }
 
 
     //////////////////////  PRIVATE METHODS //////////////////////

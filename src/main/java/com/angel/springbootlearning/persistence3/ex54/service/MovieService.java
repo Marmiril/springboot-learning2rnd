@@ -206,7 +206,7 @@ public class MovieService {
         return new ListMovieResponse(responses);
     }
 
-    public MovieResponse createMovie (MovieRequest request) {
+    public MovieResponse createMovie(MovieRequest request) {
         validateRequest(request);
         validateUniqueMovie(null, request.name(), request.director());
 
@@ -221,8 +221,21 @@ public class MovieService {
     public MovieResponse updateMovie (Long id, MovieUpdate request) {
         Movie movie = getById(id);
         validateRequest(request);
-        //validateUniqueMovie(id, request.name(), request.director());
+        mapper.toUpdate(movie, request);
+        repository.save(movie);
+        return new MovieResponse(
+            mapper.toResponse(movie),
+            "Movie updated successfully!"
+        );
+    }
 
+    public MovieResponse patchMovie(Long id, MovieUpdate request) {
+        Movie movie = getById(id);
+        if (request == null || request.stock() == null && request.value() == null) { throw new InvalidMovie("At least one field is required!"); }
+
+        if (request.value() != null) {
+            validateFields(request.value(), "value");
+        }
     }
 
 

@@ -305,6 +305,30 @@ public class MovieService {
             return new ListMovieResponse(responses);
     }
 
+    public ListMovieResponse deleteByStock (Integer stock) {
+        List<Movie> movies = repository.findByStock(stock);
+        repository.deleteAll(movies);
+        List<MovieResponse> responses =  movies.stream()
+            .map(movie -> new MovieResponse(
+                mapper.toResponse(movie),
+                "Movies with stock: " + stock + " has been deleted successfully!"
+            ))
+            .toList();
+        return new ListMovieResponse(responses);
+    }
+
+    public ListMovieResponse deleteByValue(BigDecimal value) {
+        List<Movie> movies = repository.findByValue(value);
+        repository.deleteAll(movies);
+        List<MovieResponse> responses = movies.stream()
+            .map(movie -> new MovieResponse(
+                mapper.toResponse(movie),
+                "Movies with value: " + value + " have been deleted successfully!"
+            ))
+            .toList();
+        return new ListMovieResponse(responses);
+    }
+
     //////////////////////  PRIVATE METHODS //////////////////////
     
     private void validateFields(Object value, String field) { if (value == null) { throw new InvalidMovie("field" + " is required"); }

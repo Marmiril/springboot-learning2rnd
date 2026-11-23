@@ -136,21 +136,31 @@ public class MovieService {
         return new ListMovieResponse(responses);        
     }
 
-
+    public ListMovieResponse getByValue(BigDecimal value) {
+        List<Movie> movies = repository.findByValue(value);
+        if (movies.isEmpty()) { throw new MovieNotFound(value); }
+        List<MovieResponse> responses = movies.stream()
+            .map(movie -> new MovieResponse(
+                mapper.toResponse(movie),
+                "Movie found successfully!"
+            ))
+            .toList();
+        return new ListMovieResponse(responses);
+    }
 
     //////////////////////  PRIVATE METHODS //////////////////////
     
     private void validateFields(Object value, String field) { if (value == null) { throw new InvalidMovie("field" + " is required"); }
 
         switch (field) {
-            case "name" -> { if (!(value instanceof String name) || name.isBlank()) { throw new InvalidMovie("Invalid movie name");}}
-            case "director" -> { if(!(value instanceof String director) || director.isBlank()) { throw new InvalidMovie("Invalid director name");}}
-            case "year" -> { if(!(value instanceof Integer year) || year < 1895 || year > LocalDate.now().getYear()) { throw new InvalidMovie("First movie was in 1895");}}
-            case "stock" -> { if(!(value instanceof Integer stock) || stock < 0) { throw new InvalidMovie("Stock cannot be negative!"); }}
-            case "value" -> { if(!(value instanceof BigDecimal movie_value) || movie_value.compareTo(BigDecimal.ZERO) < 0) { throw new InvalidMovie("Value cannot be negative"); }}
+            case "name"     -> { if (!(value instanceof String name)           || name.isBlank()) { throw new InvalidMovie("Invalid movie name");}}
+            case "director" -> { if(!(value instanceof String director)        || director.isBlank()) { throw new InvalidMovie("Invalid director name");}}
+            case "year"     -> { if(!(value instanceof Integer year)           || year < 1895 || year > LocalDate.now().getYear()) { throw new InvalidMovie("First movie was in 1895");}}
+            case "stock"    -> { if(!(value instanceof Integer stock)          || stock < 0) { throw new InvalidMovie("Stock cannot be negative!"); }}
+            case "value"    -> { if(!(value instanceof BigDecimal movie_value) || movie_value.compareTo(BigDecimal.ZERO) < 0) { throw new InvalidMovie("Value cannot be negative"); }}
         }
-
     }
+
 
 
 }

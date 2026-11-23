@@ -82,7 +82,7 @@ public class MovieService {
         return new ListMovieResponse(responses);
     }
 
-    public Movie getById(Long id) { return repository.findById(null).orElseThrow(() -> new MovieNotFound(id)); }
+    public Movie getById(Long id) { return repository.findById(id).orElseThrow(() -> new MovieNotFound(id)); }
 
     public MovieDataResponse getDataResponse(Long id) { Movie movie = getById(id); return mapper.toResponse(movie); }
 
@@ -154,7 +154,7 @@ public class MovieService {
     public ListMovieResponse getByYearBetween(Integer minYear, Integer maxYear) {
         validateFields(minYear, "year");
         validateFields(maxYear, "year");
-        if (minYear >= maxYear) { throw new InvalidMovie("Invalid year range"); }
+        if (minYear > maxYear) { throw new InvalidMovie("Invalid year range"); }
 
         List<Movie> movies = repository.findByYearBetween(minYear, maxYear);
        // if (movies.isEmpty()) { throw new MovieNotFound("There are no movies from " + minYear + " to " + maxYear); }
@@ -239,7 +239,7 @@ public class MovieService {
         }
         if (request.stock() != null) {
             validateFields(request.stock(), "stock");
-            movie.setValue(request.value());
+            movie.setStock(request.stock());
         }
 
         repository.save(movie);
@@ -294,6 +294,9 @@ public class MovieService {
     }
 
     public ListMovieResponse deleteByYearRange(Integer minYear, Integer maxYear) {
+        validateFields(minYear, "year");
+        validateFields(maxYear, "year");
+        if(minYear > maxYear) { throw new InvalidMovie("Min year is bigger than max year"); }
         List<Movie> movies = repository.findByYearBetween(minYear, maxYear);
         repository.deleteAll(movies);
         List<MovieResponse> responses = movies.stream()
@@ -356,10 +359,9 @@ public class MovieService {
     }
 
     private void validateUniqueMovie(Long currentId, String name, String director) {
-        repository.findByNameIgnoreCase(name.trim())
+        repository.findByNameIgnoreCaseAndDirectorIgnoreCase(name.trim(), director.trim())
             .ifPresent(movie -> {
-                if (movie.getDirector().equalsIgnoreCase(director.trim())
-                    && !movie.getId().equals(currentId)) {
+                if (!movie.getId().equals(currentId)) {
                         throw new DuplicateMovie("Movie already exists");
                 }
         });

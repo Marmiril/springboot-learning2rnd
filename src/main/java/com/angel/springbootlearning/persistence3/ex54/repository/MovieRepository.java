@@ -26,5 +26,5 @@ public interface MovieRepository extends JpaRepository <Movie, Long> {
 
     List<Movie>findByStockBetween(Integer minStock, Integer maxStock);
 
-
+    Optional<Movie>findByNameIgnoreCaseAndDirectorIgnoreCase(String name, String director); 
 }

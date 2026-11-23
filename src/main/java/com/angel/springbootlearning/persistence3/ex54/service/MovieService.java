@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import com.angel.springbootlearning.persistence3.ex54.dto.ListMovieResponse;
 import com.angel.springbootlearning.persistence3.ex54.dto.MovieDataResponse;
 import com.angel.springbootlearning.persistence3.ex54.dto.MovieFields;
+import com.angel.springbootlearning.persistence3.ex54.dto.MovieRequest;
 import com.angel.springbootlearning.persistence3.ex54.dto.MovieResponse;
+import com.angel.springbootlearning.persistence3.ex54.exception.DuplicateMovie;
 import com.angel.springbootlearning.persistence3.ex54.exception.InvalidMovie;
 import com.angel.springbootlearning.persistence3.ex54.exception.MovieNotFound;
 import com.angel.springbootlearning.persistence3.ex54.exception.MovieNotFoundByDirectorOrStock;
@@ -161,6 +163,23 @@ public class MovieService {
         }
     }
 
+    private void validateUniqueMovie(Long currentId, String name, String director) {
+        repository.findByNameIgnoreCase(name.trim())
+            .ifPresent(movie -> {
+                if (movie.getDirector().equalsIgnoreCase(director.trim())
+                    && !movie.getId().equals(currentId)) {
+                        throw new DuplicateMovie("Movie already exists");
+                }
+        });
+    }
 
+    private void validateRequest(MovieRequest request) {
+        if (request == null) { throw new InvalidMovie("Request cannot be empty!"); }
+        validateFields(request.name(), "name");
+        validateFields(request.director(), "director");
+        validateFields(request.year(), "year");
+        validateFields(request.stock(), "stock");
+        validateFields(request.value(), "value");
+    }
 
 }

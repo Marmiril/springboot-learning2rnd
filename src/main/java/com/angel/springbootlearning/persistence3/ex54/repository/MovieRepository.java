@@ -24,7 +24,7 @@ public interface MovieRepository extends JpaRepository <Movie, Long> {
 
     List<Movie>findByValueBetween(BigDecimal minValue, BigDecimal maxValue);
 
-
+    List<Movie>findByStockBetween(Integer minStock, Integer maxStock);
 
 
 }

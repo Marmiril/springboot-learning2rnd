@@ -166,6 +166,15 @@ public class MovieService {
         return new ListMovieResponse(responses);
     }
 
+    publis ListMovieResponse getByStockBetween(Integer minStock, Integer maxStock) {
+        validateFields(minStock, "stock");
+        validateFields(maxStock, "stock");
+
+        if (minStock > maxStock) { throw new InvalidMovie("Invalid stock range!"); }
+
+        List<Movie> movies = repository.findByStockBetween(minStock, maxStock);
+        
+    }
 
     //////////////////////  PRIVATE METHODS //////////////////////
     

@@ -254,9 +254,20 @@ public class MovieService {
         repository.delete(movie);
         return new MovieResponse(
             mapper.toResponse(movie),
+            "Movie: " + movie.getName() + " - ID: " + movie.getId() +  " deleted successfully!"
+        );
+    }
+
+    public MovieResponse deleteByName(String name) {
+        Movie movie = repository.findByNameIgnoreCase(name).orElseThrow(() -> new MovieNotFound(name));
+        repository.delete(movie);
+        return new MovieResponse(
+            mapper.toResponse(movie),
             "Movie: " + movie.getName() + " deleted successfully!"
         );
     }
+
+    
 
     //////////////////////  PRIVATE METHODS //////////////////////
     

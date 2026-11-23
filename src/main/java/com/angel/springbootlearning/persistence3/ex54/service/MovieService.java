@@ -293,6 +293,18 @@ public class MovieService {
         return new ListMovieResponse(responses);
     }
 
+    public ListMovieResponse deleteByYearRange(Integer minYear, Integer maxYear) {
+        List<Movie> movies = repository.findByYearBetween(minYear, maxYear);
+        repository.deleteAll(movies);
+        List<MovieResponse> responses = movies.stream()
+            .map(movie -> new MovieResponse(
+                mapper.toResponse(movie),
+                "Movies from year " + minYear + " to " + maxYear + " deleted successfully"
+            ))
+            .toList();
+            return new ListMovieResponse(responses);
+    }
+
     //////////////////////  PRIVATE METHODS //////////////////////
     
     private void validateFields(Object value, String field) { if (value == null) { throw new InvalidMovie("field" + " is required"); }
